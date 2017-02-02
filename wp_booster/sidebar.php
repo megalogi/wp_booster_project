@@ -39,19 +39,27 @@ if (!empty($td_post_theme_settings['td_sidebar'])) {
     } elseif (td_global::$current_template == 'bbpress') {
         td_util::show_sidebar('bbpress');
     } elseif (is_tax()) {
-        // custom taxonomies
-        $current_term_obj = get_queried_object();
-        $tds_taxonomy_sidebar = td_util::get_taxonomy_option($current_term_obj->taxonomy, 'tds_taxonomy_sidebar');
-        if (!empty($tds_taxonomy_sidebar)) {
-            dynamic_sidebar($tds_taxonomy_sidebar);
+
+        if (is_tax( 'post_format' )){
+            //the archive page for any Post Format term is being displayed.
+            //custom sidebars for archives
+            td_util::show_sidebar('taxonomy_post_format');
         } else {
-            //show default if available
-            if (!dynamic_sidebar(TD_THEME_NAME . ' default')) {
-                ?>
-                <!-- no sidebar -->
-                <?php
+            // custom taxonomies
+            $current_term_obj = get_queried_object();
+            $tds_taxonomy_sidebar = td_util::get_taxonomy_option($current_term_obj->taxonomy, 'tds_taxonomy_sidebar');
+            if (!empty($tds_taxonomy_sidebar)) {
+                dynamic_sidebar($tds_taxonomy_sidebar);
+            } else {
+                //show default if available
+                if (!dynamic_sidebar(TD_THEME_NAME . ' default')) {
+                    ?>
+                    <!-- no sidebar -->
+                    <?php
+                }
             }
         }
+
     } elseif (is_category()) {
         // sidebar from category on category page
         $curCategoryID = get_query_var('cat');
