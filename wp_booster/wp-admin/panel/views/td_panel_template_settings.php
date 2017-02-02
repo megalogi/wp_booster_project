@@ -874,3 +874,71 @@
     </div>
 
 <?php echo td_panel_generator::box_end();?>
+
+
+<!-- Taxonomy + post format page template -->
+<?php echo td_panel_generator::box_start('Post formats archive template', false); ?>
+<div class="td-box-description td-box-full">
+    <p>These settings help you configure the archive page which lists all posts in one specific post format.</p>
+    <p>Select the layout for theme's video <a href="https://codex.wordpress.org/Taxonomies#Post_Formats">post format taxonomy</a> pages.</p>
+
+    <ul>
+        <li>Check a <a href="<?php echo get_post_format_link('video') ?>" target="_blank">sample post format archive page</a> from your site.</li>
+        <li>This template is located in <strong>taxonomy-post_format.php</strong> file.</li>
+    </ul>
+</div>
+
+
+<!-- Articles DISPLAY VIEW -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">ARTICLE DISPLAY VIEW</span>
+        <p>Select a module type, this is how your article list will be displayed.</p>
+    </div>
+    <div class="td-box-control-full td-panel-module">
+        <?php
+        echo td_panel_generator::visual_select_o(array(
+            'ds' => 'td_option',
+            'option_id' => 'tds_taxonomy_post_format_page_layout',
+            'values' => td_panel_generator::helper_display_modules('enabled_on_loops')
+        ));
+        ?>
+    </div>
+</div>
+
+
+<!-- Custom Sidebar + position -->
+<div class="td-box-row">
+    <div class="td-box-description">
+        <span class="td-box-title">CUSTOM SIDEBAR + POSITION</span>
+        <p>Sidebar position and custom sidebars</p>
+    </div>
+    <div class="td-box-control-full td-panel-sidebar-pos">
+        <div class="td-display-inline-block">
+            <?php
+            echo td_panel_generator::visual_select_o(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_taxonomy_post_format_sidebar_pos',
+                'values' => array(
+                    array('text' => '', 'title' => '', 'val' => 'sidebar_left', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-left.png'),
+                    array('text' => '', 'title' => '', 'val' => 'no_sidebar', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-full.png'),
+                    array('text' => '', 'title' => '', 'val' => '', 'img' => get_template_directory_uri() . '/images/panel/sidebar/sidebar-right.png')
+                )
+            ));
+            ?>
+            <div class="td-panel-control-comment td-text-align-right">Select sidebar position</div>
+        </div>
+        <div class="td-display-inline-block td_sidebars_pulldown_align">
+            <?php
+            echo td_panel_generator::sidebar_pulldown(array(
+                'ds' => 'td_option',
+                'option_id' => 'tds_taxonomy_post_format_sidebar'
+            ));
+            ?>
+            <div class="td-panel-control-comment td-text-align-right">Create or select an existing sidebar</div>
+        </div>
+    </div>
+</div>
+
+
+<?php echo td_panel_generator::box_end();?>
