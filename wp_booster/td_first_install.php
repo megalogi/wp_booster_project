@@ -176,7 +176,7 @@ function td_check_install_plugins() {
 		$timestamp = $settings[0];
 
 
-		if (time() < intval($timestamp) + 1 * MINUTE_IN_SECONDS) {
+		if (time() < intval($timestamp) + 3 * MINUTE_IN_SECONDS) {
 			// 180 seconds not elapsed
 			return;
 		}
@@ -203,6 +203,11 @@ td_check_install_plugins();
 
 
 function td_auto_install_plugins() {
+
+	if ( ! current_user_can('install_plugins')) {
+		return;
+	}
+
 	global $wp_filesystem;
 
 	require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -210,11 +215,11 @@ function td_auto_install_plugins() {
 	require_once(ABSPATH . 'wp-admin/includes/class-wp-upgrader.php');
 	require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
+
 	$instance = call_user_func(array(get_class( $GLOBALS['tgmpa']), 'get_instance'));
 
-	if ( ! current_user_can('install_plugins')) {
-		return;
-	}
+	// Add props like 'file_path' to registered plugins
+	$instance->populate_file_path();
 
 
 
@@ -233,9 +238,10 @@ function td_auto_install_plugins() {
 
 	foreach ($instance->plugins as $plugin) {
 
-		if (!isset($plugin['force_install']) || !$plugin['force_install']) {
+		if (!isset($plugin['td_install']) || !$plugin['td_install']) {
 			continue;
 		}
+
 
 		// Delete existing plugin
 
@@ -247,8 +253,6 @@ function td_auto_install_plugins() {
 			// error message must be registered somewhere
 			continue;
 		}
-
-
 
 
 		// Install plugin
@@ -270,7 +274,7 @@ function td_auto_install_plugins() {
 			continue;
 		}
 
-		$result = $upgrader->install_package(array(
+		$install_result = $upgrader->install_package(array(
 			'source'                      => $working_dir,
 			'destination'                 => WP_PLUGIN_DIR,
 			'clear_destination'           => false,
@@ -282,10 +286,37 @@ function td_auto_install_plugins() {
 			),
 		) );
 
-		if (is_wp_error($result)) {
-			// $result->get_error_message();
+		if (is_wp_error($install_result)) {
+			// $install_result->get_error_message();
 			// error message must be registered somewhere
 			continue;
+		}
+	}
+
+	// Force refresh of plugin update information
+	wp_clean_plugins_cache();
+
+	//var_dump(get_plugins());
+
+	foreach ($instance->plugins as $plugin) {
+
+		// Activate plugin
+
+		if (isset($plugin['td_activate']) && $plugin['td_activate']) {
+
+			// Important! For the new installed plugins the 'file_path' is just the plugin name, but for the already existing plugins the 'file_path' is something like "PLUGIN NAME / PLUGIN NAME . PHP"
+			$plugin_file_path = $plugin['file_path'];
+			if ( ! strpos( $plugin_file_path, '.php') ) {
+				$plugin_file_path = $plugin['file_path'] . '/' . $plugin['file_path'] . '.php';
+			}
+
+			$activate_result = activate_plugin( $plugin_file_path , '', false, true );
+
+			if (is_wp_error($activate_result)) {
+				//echo $activate_result->get_error_message();
+				// error message must be registered somewhere
+				continue;
+			}
 		}
 	}
 
