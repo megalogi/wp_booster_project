@@ -291,16 +291,29 @@ function td_auto_install_plugins() {
 			// error message must be registered somewhere
 			continue;
 		}
+	}
 
+	// Force refresh of plugin update information
+	wp_clean_plugins_cache();
 
+	//var_dump(get_plugins());
+
+	foreach ($instance->plugins as $plugin) {
 
 		// Activate plugin
 
 		if (isset($plugin['td_activate']) && $plugin['td_activate']) {
-			$activate_result = activate_plugin( $plugin['file_path'] );
+
+			// Important! For the new installed plugins the 'file_path' is just the plugin name, but for the already existing plugins the 'file_path' is something like "PLUGIN NAME / PLUGIN NAME . PHP"
+			$plugin_file_path = $plugin['file_path'];
+			if ( ! strpos( $plugin_file_path, '.php') ) {
+				$plugin_file_path = $plugin['file_path'] . '/' . $plugin['file_path'] . '.php';
+			}
+
+			$activate_result = activate_plugin( $plugin_file_path , '', false, true );
 
 			if (is_wp_error($activate_result)) {
-				// $activate_result->get_error_message();
+				//echo $activate_result->get_error_message();
 				// error message must be registered somewhere
 				continue;
 			}
