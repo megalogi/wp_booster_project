@@ -376,6 +376,9 @@ function load_wp_admin_css() {
 
 	//load the colorpicker
 	wp_enqueue_style( 'wp-color-picker' );
+
+	// load the media library - necessary for block widgets with image params
+	wp_enqueue_media();
 }
 
 
