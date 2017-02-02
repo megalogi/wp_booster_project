@@ -879,8 +879,8 @@
 <!-- Taxonomy + post format page template -->
 <?php echo td_panel_generator::box_start('Post formats archive template', false); ?>
 <div class="td-box-description td-box-full">
-    <p>These settings help you configure the archive page which lists all posts in one specific post format.</p>
-    <p>Select the layout for theme's video <a href="https://codex.wordpress.org/Taxonomies#Post_Formats">post format taxonomy</a> pages.</p>
+    <p>These settings help you configure the archive page which lists all posts in one specific <a href="https://codex.wordpress.org/Post_Formats" target="_blank">post format</a>.</p>
+    <p>Select the layout for theme's video <a href="https://codex.wordpress.org/Taxonomies#Post_Formats" target="_blank">post format taxonomy</a> pages.</p>
 
     <ul>
         <li>Check a <a href="<?php echo get_post_format_link('video') ?>" target="_blank">sample post format archive page</a> from your site.</li>
