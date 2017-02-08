@@ -63,6 +63,16 @@ jQuery( window ).ready(function() {
             //increment the counter
             iCont++;
         });
+
+        /**
+         * if an item does not have posts no animation is required so no item is created
+         * because the tdTrendingNow library for animations is not needed
+         * @see tdTrendingNow.addItem
+         */
+
+        if (typeof item.trendingNowPosts === 'undefined' || item.trendingNowPosts.length < 1) {
+            return;
+        }
         //add the item
         tdTrendingNow.addItem(item);
 

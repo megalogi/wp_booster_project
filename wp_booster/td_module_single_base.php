@@ -401,6 +401,9 @@ class td_module_single_base extends td_module {
         $tds_bottom_ad_title = td_util::get_option('tds_content_bottom_title');
         $tds_top_ad_title = td_util::get_option('tds_content_top_title');
 
+        //show the inline ad at the last paragraph ( replacing the bottom ad ) whenever there are not as many paragraphs mentioned in After Paragraph field
+        // ..and the article bottom ad is not active
+        $show_inline_ad_at_bottom = false;
 
         //add the inline ad
         if (td_util::is_ad_spot_enabled('content_inline') and is_single()) {
@@ -425,6 +428,7 @@ class td_module_single_base extends td_module {
                                 // and prevent cases like <p> ~ad~ content</p>
                                 if (preg_match('/(<p.*>)/U', $section_part_value) === 1) {
                                     if ($tds_inline_ad_paragraph == $p_open_tag_count) {
+                                        $show_inline_ad_at_bottom = true;
                                         switch ($tds_inline_ad_align) {
                                             case 'left':
                                                 $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
@@ -443,22 +447,6 @@ class td_module_single_base extends td_module {
                                 }
                                 //add section to buffer
                                 $content_buffer .= $section_part_value;
-                            }
-                        }
-
-                        if ( $tds_inline_ad_paragraph > $p_open_tag_count && td_util::is_ad_spot_enabled('content_bottom') === false ) {
-                            switch ($tds_inline_ad_align) {
-                                case 'left':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
-                                    break;
-
-                                case 'right':
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
-                                    break;
-
-                                default:
-                                    $content_buffer .= td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
-                                    break;
                             }
                         }
 
@@ -499,8 +487,23 @@ class td_module_single_base extends td_module {
         //add bottom ad
         if (td_util::is_ad_spot_enabled('content_bottom') && is_single()) {
             $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_bottom', 'spot_title' => $tds_bottom_ad_title));
-        }
+        } else {
+            if ( $show_inline_ad_at_bottom !== true ) {
+                switch ($tds_inline_ad_align) {
+                    case 'left':
+                        $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'left', 'spot_title' => $tds_inline_ad_title ));
+                        break;
 
+                    case 'right':
+                        $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'align' => 'right', 'spot_title' => $tds_inline_ad_title));
+                        break;
+
+                    default:
+                        $content = $content . td_global_blocks::get_instance('td_block_ad_box')->render(array('spot_id' => 'content_inline', 'spot_title' => $tds_inline_ad_title));
+                        break;
+                }
+            }
+        }
 
         return $content;
     }
