@@ -260,6 +260,16 @@ if (class_exists('SitePress')) {
 	//read the user translations
 	$td_translation_map_user = array();
 
+	function td_on_translate_admin_notices() {
+		?>
+		<div class="notice notice-success is-dismissible">
+			<p><?php _e('WPML Plugin is active! When the plugin is active, the *.po - *.mo files are used instead of Theme Panel Translation.', TD_THEME_NAME); ?></p>
+		</div>
+	<?php
+	}
+
+	add_action('admin_notices', 'td_on_translate_admin_notices');
+
 } else {
 	//read the user translations
 	$td_translation_map_user = td_util::get_option('td_translation_map_user');
