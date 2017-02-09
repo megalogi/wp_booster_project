@@ -208,8 +208,7 @@ class td_block {
 
 
 		if (!empty($buffy)) {
-			/** scoped - @link http://www.w3schools.com/tags/att_style_scoped.asp */
-			$buffy = PHP_EOL . '<style scoped>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
+			$buffy = PHP_EOL . '<style>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
 			return $buffy;
 		}
 
