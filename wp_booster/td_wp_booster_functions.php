@@ -376,6 +376,9 @@ function load_wp_admin_css() {
 
 	//load the colorpicker
 	wp_enqueue_style( 'wp-color-picker' );
+
+	// load the media library - necessary for block widgets with image params
+	wp_enqueue_media();
 }
 
 
@@ -576,10 +579,12 @@ function hook_wp_head() {
 			}
 		}
 
-		// show author meta tag on sigle pages
-		$td_post_author = get_the_author_meta('display_name', $post->post_author);
-		if ($td_post_author) {
-			echo '<meta name="author" content="'.$td_post_author.'">'."\n";
+		// show author meta tag on single pages if it's not disabled from theme's panel
+		if (td_util::get_option('tds_p_show_author_name') != 'hide') {
+			$td_post_author = get_the_author_meta('display_name', $post->post_author);
+			if ($td_post_author) {
+				echo '<meta name="author" content="' . $td_post_author . '">' . "\n";
+			}
 		}
 	}
 
@@ -1707,7 +1712,7 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 			         $slide_images_thumbs_css . '
                 </style>
 
-                <div id="' . $gallery_slider_unique_id . '" class="' . $td_nr_columns_slide . '">
+                <div id="' . $gallery_slider_unique_id . '" class="td-gallery ' . $td_nr_columns_slide . '">
                     <div class="post_td_gallery">
                         <div class="td-gallery-slide-top">
                            <div class="td-gallery-title">' . $title_slide . '</div>
@@ -2471,27 +2476,36 @@ function td_vc_edit_form_fields_after_render() {
  * @see 'widget_display_callback' hook on 'class-wp-widget.php'
  */
 add_filter('widget_display_callback', 'on_widget_display_callback', 10, 3);
-function on_widget_display_callback($instance, $this, $args) {
+function on_widget_display_callback($currentWidgetInstanceSettings, $currentWidgetInstance, $widgetArgs) {
 
-	if (strpos($args['widget_id'], 'td_block') !== 0) {
-//		var_dump($args);
-//		var_dump($this);
+	if (strpos($widgetArgs['widget_id'], 'td_block') !== 0) {
+//		var_dump($widgetArgs);
+//		var_dump($currentWidgetInstance);
 		$global_block_template_id = td_options::get('tds_global_block_template', 'td_block_template_1');
-		$args['before_widget'] = str_replace(' class="', " class=\"$global_block_template_id ", $args['before_widget']);
+		$widgetArgs['before_widget'] = str_replace(' class="', " class=\"$global_block_template_id ", $widgetArgs['before_widget']);
 
 		$block_title_class = 'td-block-title';
 		if ($global_block_template_id === 'td_block_template_1') {
 			$block_title_class = 'block-title';
 		}
-		$args['before_title'] = '<h4 class="' . $block_title_class . '"><span>';
-		$args['after_title'] = '</span></h4>';
+		$widgetArgs['before_title'] = '<h4 class="' . $block_title_class . '"><span>';
+		$widgetArgs['after_title'] = '</span></h4>';
 
-		call_user_func_array(array($this, 'widget'), array($args, $instance));
+		call_user_func_array(array($currentWidgetInstance, 'widget'), array($widgetArgs, $currentWidgetInstanceSettings));
 
 		// Returning false will effectively short-circuit display of the widget.
 		return false;
 	}
 
-	// Returning $instance, as the apply_filters of this hook require
-	return $instance;
+	// Returning $currentWidgetInstanceSettings, as the apply_filters of this hook require
+	return $currentWidgetInstanceSettings;
+}
+
+
+/**
+ * Reset the 'td_timestamp_install_plugins' option - the registered plugins are checked again in td_first_install.php
+ */
+add_action('switch_theme', 'on_switch_theme_reset_install_plugin');
+function on_switch_theme_reset_install_plugin() {
+	td_util::update_option('td_timestamp_install_plugins', '');
 }

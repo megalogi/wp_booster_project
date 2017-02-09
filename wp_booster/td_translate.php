@@ -254,9 +254,28 @@ $td_translation_map = array(
 );
 
 
+// The 'SitePress' class is defined by WPML plugin. It's better using it instead of is_active_plugin( $plugin_file_path ) because the $plugin_file_path can vary (maybe the user changes the name of the plugin folder)
+if (class_exists('SitePress')) {
 
-//read the user translations
-$td_translation_map_user = td_util::get_option('td_translation_map_user');
+	//read the user translations
+	$td_translation_map_user = array();
+
+	function td_on_translate_admin_notices() {
+		?>
+		<div class="notice notice-success is-dismissible">
+			<p><?php _e('WPML Plugin is active! When the plugin is active, the *.po - *.mo files are used instead of Theme Panel Translation.', TD_THEME_NAME); ?></p>
+		</div>
+	<?php
+	}
+
+	add_action('admin_notices', 'td_on_translate_admin_notices');
+
+} else {
+	//read the user translations
+	$td_translation_map_user = td_util::get_option('td_translation_map_user');
+}
+
+
 
 
 //the custom translation function
