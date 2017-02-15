@@ -28,7 +28,14 @@ jQuery().ready(function() {
     if ( ( 'undefined' !== typeof window.tds_general_modal_image ) && ( '' !== window.tds_general_modal_image ) ) {
         jQuery( '.single .td-post-content a > img' ).filter(function( index, element ) {
             if ( -1 !== element.className.indexOf( 'wp-image' ) ) {
-                jQuery( element ).parent().addClass( 'td-modal-image' );
+
+                var image_link = jQuery( element ).parent();
+                var href = image_link.attr("href");
+
+                //add the modal class only on post image links that do not link to attachment pages or custom URLs ( for media linking images only )
+                if ((-1 !== href.indexOf(document.domain)) && (-1 !== href.indexOf('uploads'))) {
+                    image_link.addClass( 'td-modal-image' );
+                }
             }
         });
     }
