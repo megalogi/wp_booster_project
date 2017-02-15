@@ -4121,10 +4121,14 @@ title one row controls
   font-size: 13px;
   line-height: 17px;
   display: block;
-  margin: 12px 30px 18px;
+  margin: 12px 30px 8px;
   color: #999;
-  height: 51px;
+  height: 61px;
   overflow: hidden;
+}
+.td-plugin-meta p a {
+  display: inline-block;
+  margin: 6px 6px 0;
 }
 .td-plugin-meta p strong {
   color: #888;
