@@ -228,6 +228,8 @@
     width: 392px !important;
     height: 110px;
     margin: 0 0 20px 20px !important;
+    box-shadow: none;
+    border: 1px solid #dedede;
 
     @media (max-width: 1300px) {
       margin: 0 0 20px 0 !important;
@@ -262,8 +264,10 @@
     .theme-screenshot {
       height: 100%;
 
+
       img {
         .transition(transform 0.3s ease);
+        border: none;
       }
     }
 
@@ -276,6 +280,29 @@
       .transition(transform 0.3s ease);
     }
   }
+
+  .td-demo-free:before,
+  .td-demo-premium:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: "Roboto";
+    font-size: 10px;
+    line-height: 1;
+    padding: 4px 8px;
+    color: #fff;
+  }
+
+  .td-demo-free:before {
+    content:'FREE';
+    background-color: #66bb6a;
+  }
+
+  .td-demo-premium:before {
+    content:'PREMIUM';
+    background-color: #fbc53b;
+  }
+
 
   .td-admin-title {
     display: block;
