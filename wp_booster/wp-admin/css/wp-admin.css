@@ -3636,6 +3636,7 @@ title one row controls
   -moz-transition: transform 0.3s ease;
   -o-transition: transform 0.3s ease;
   transition: transform 0.3s ease;
+  border: none;
 }
 .td-demo-page-content .td-wp-admin-demo .td-demo-meta {
   position: absolute;
