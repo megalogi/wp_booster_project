@@ -179,10 +179,10 @@ die;
                     }
                 }
 
-                if (!empty ($stack_params['premium_demo']) == 'premium') {
+                if (!empty($stack_params['premium_demo']) && $stack_params['premium_demo'] == 'premium') {
                     $td_demo_premium = ' td-demo-premium';
                 }
-                if (!empty ($stack_params['premium_demo']) == 'free') {
+                if (!empty($stack_params['premium_demo']) && $stack_params['premium_demo'] == 'free') {
                     $td_demo_premium = ' td-demo-free';
                 }
 
