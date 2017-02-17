@@ -4318,10 +4318,6 @@ title one row controls
 .td-remote-header-value {
   min-width: 200px;
 }
-.td-log-header_file,
-.td-log-header_function {
-  min-width: 150px;
-}
 .td-log-header-timestamp,
 .td-remote-header-expires,
 .td-remote-header-timestamp {
@@ -4383,6 +4379,12 @@ title one row controls
 }
 .td-debug-area-reveal {
   display: block;
+}
+.widefat.td-cache-reset-table {
+  width: auto;
+}
+.widefat.td-cache-reset-table .td-remote-cache-reset {
+  margin-left: 0;
 }
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox

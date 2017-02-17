@@ -576,15 +576,14 @@ require_once "td_view_header.php";
         $cache_content = td_remote_cache::get('td_social_api', 'td_social_api_v3_last_val');
         td_system_status::render_social_cache($cache_content);
 
-        // td log panel
-        $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
-        td_system_status::render_td_log($td_log_content);
-
-
         // remote cache panel
         // td_remote_cache::set('group1', '1', array(0 => 'parameter1', 1 => 'parameter2'), time() - 10);
         $td_remote_cache_content = get_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
         td_system_status::render_td_remote_cache($td_remote_cache_content);
+
+        // td log panel
+        $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
+        td_system_status::render_td_log($td_log_content);
         ?>
     </div>
 
@@ -920,17 +919,27 @@ require_once "td_view_header.php";
                        </tr>
                    <?php
                    } ?>
-
-                   <tr> <!-- Remote cache reset button -->
-                       <td colspan="5">
-                           <a class="td-remote-cache-reset" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_remote_cache=1">Clear the Remote cache</a>
-                       </td>
-                   </tr>
-
                    </tbody>
                </table>
-           <?php
-           }
+           <?php } ?>
+
+           <!-- Remote cache reset button -->
+           <table class="widefat td-system-status-table td-cache-reset-table" cellspacing="0">
+               <thead>
+               <tr>
+                   <th colspan="1">Remote cache reset</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                   <td><a class="td-remote-cache-reset td-button-system-status td-action-alert td-reset-channel" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_remote_cache=1">Clear the Remote cache</a></td>
+               </tr>
+               </tbody>
+           </table>
+
+
+
+<?php
        }
 
 
