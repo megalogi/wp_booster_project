@@ -1053,7 +1053,8 @@ require_once "td_view_header.php";
 
            $args = array(
                'numberposts' => 500,
-               'post_type' => array( 'post', 'page')
+               'post_type' => array( 'post', 'page'),
+               'meta_key' => 'td_playlist_video'
            );
 
            $posts = get_posts($args);
