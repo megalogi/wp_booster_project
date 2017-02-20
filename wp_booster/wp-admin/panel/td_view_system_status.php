@@ -65,7 +65,7 @@ require_once "td_view_header.php";
 
     // Theme remote http channel used by the theme
     $td_remote_http = td_util::get_option('td_remote_http');
-    $http_reset_button = ' <a class="td-button-system-status td-action-alert td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
+    $http_reset_button = ' <a class="td-button-system-status td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
 
     if (empty($td_remote_http['test_status'])) {
 //	    // not runned yet - DO NOTHING BECAUSE IT CREATES PANIC if not runned yet is shown
@@ -531,6 +531,18 @@ require_once "td_view_header.php";
     <?php
     }
 
+    // Clear the Video playlists cache - only if the reset button is used
+    if(!empty($_REQUEST['clear_video_cache']) && $_REQUEST['clear_video_cache'] == 1) {
+        foreach (td_system_status::get_video_playlists_meta('video_playlists_posts_ids') as $post_ID) {
+            update_post_meta($post_ID, 'td_playlist_video', '');
+        }
+        ?>
+        <!-- redirect page -->
+        <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>
+
+    <?php
+    }
+
     //Remove the registration key
     if(!empty($_REQUEST['reset_registration']) && $_REQUEST['reset_registration'] == 1) {
         td_util::update_option('td_cake_status_time', 0);
@@ -574,6 +586,9 @@ require_once "td_view_header.php";
         // td_remote_cache::set('group1', '1', array(0 => 'parameter1', 1 => 'parameter2'), time() - 10);
         $td_remote_cache_content = get_option(TD_THEME_OPTIONS_NAME . '_remote_cache');
         td_system_status::render_td_remote_cache($td_remote_cache_content);
+
+        //td video playlist data
+        td_system_status::render_td_video_playlists();
 
         // td log panel
         $td_log_content = get_option(TD_THEME_OPTIONS_NAME . '_log');
@@ -926,7 +941,7 @@ require_once "td_view_header.php";
                </thead>
                <tbody>
                <tr>
-                   <td><a class="td-remote-cache-reset td-button-system-status td-action-alert td-reset-channel" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_remote_cache=1">Clear the Remote cache</a></td>
+                   <td><a class="td-remote-cache-reset td-button-system-status td-reset-channel" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_remote_cache=1">Clear the Remote cache</a></td>
                </tr>
                </tbody>
            </table>
@@ -936,6 +951,132 @@ require_once "td_view_header.php";
 <?php
        }
 
+       static function render_td_video_playlists () {
+
+           $td_playlist_videos = td_system_status::get_video_playlists_meta();
+           /*
+           echo '<pre>';
+           print_r($td_playlist_videos);
+           echo '</pre>';
+           */
+
+           ?>
+
+           <!-- Video playlist cached youtube and vimeo ids from the DB -->
+           <table class="widefat td-system-status-table td-video-table" cellspacing="0">
+               <?php if (!empty($td_playlist_videos)) {?>
+               <thead>
+               <tr>
+                   <th colspan="3">Video playlist cached youtube and vimeo ids</th>
+               </tr>
+               <tr>
+                   <th>Item ID:</th>
+                   <th>Youtube ids:</th>
+                   <th>Vimeo ids:</th>
+               </tr>
+               </thead>
+               <tbody>
+               <?php foreach ($td_playlist_videos as $post_id => $post_video_data) { ?>
+                   <tr>
+                       <td><?php echo $post_id; ?></td>
+
+                       <?php
+                       foreach ( $post_video_data as $video_service => $video_service_ids ) {
+                           if ( $video_service === "youtube_ids" ) {
+                               echo "<td>";
+                               foreach ($video_service_ids as $video_service_id => $data ) {
+                                   echo '<div class="td-remote-value-data-container">';
+                                   // the youtube video ID
+                                   echo '<div class="td-video-id-container">' . $video_service_id . '</div>';
+                                   // details button
+                                   echo '<div class="td-video-id-details"><a class="td-button-system-status-details">View Details</a></div>';
+                                   // array data container
+                                   echo '<div class="td-array-viewer"><pre>';
+                                   print_r($data);
+                                   echo '</pre></div>';
+                                   echo '</div>';
+                               }
+                               echo "</td>";
+                           }
+
+                           if ( $video_service === "vimeo_ids" ) {
+                               echo "<td>";
+                               foreach ($video_service_ids as $video_service_id => $data ) {
+                                   echo '<div class="td-remote-value-data-container">';
+                                   // the vimeo video ID
+                                   echo '<div class="td-video-id-container">' . $video_service_id . '</div>';
+                                   // details button
+                                   echo '<div class="td-video-id-details"><a class="td-button-system-status-details">View Details</a></div>';
+                                   // array data container
+                                   echo '<div class="td-array-viewer"><pre>';
+                                   print_r($data);
+                                   echo '</pre></div>';
+                                   echo '</div>';
+                               }
+                               echo "</td>";
+                           }
+                       }
+                       ?>
+                   </tr>
+               <?php } ?>
+               </tbody>
+               <?php } else {
+               echo '<tr><td>There is no cached data for youtube and/or vimeo video playlists!</td></tr>';
+               }
+               ?>
+           </table>
+
+           <!-- Video playlist cache reset button -->
+           <table class="widefat td-system-status-table td-video-reset-table" cellspacing="0">
+               <thead>
+               <tr>
+                   <th colspan="1">Video playlist cache reset</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                   <td><a class="td-video-cache-reset td-button-system-status td-reset-channel" href="<?php admin_url(); ?>admin.php?page=td_system_status&clear_video_cache=1">Clear the Video playlist cache</a></td>
+               </tr>
+               </tbody>
+           </table>
+
+           <?php
+       }
+
+       /**
+        * @param string $return_type
+        * @return array|string - the posts ids for posts that use video playlists or the posts video playlists meta
+        */
+       static function get_video_playlists_meta($return_type = 'video_playlists_meta') {
+           $posts_video_playlist_meta_array = array();
+           $posts_with_video_playlists_array = array();
+
+           $args = array(
+               'numberposts' => 500,
+               'post_type' => array( 'post', 'page')
+           );
+
+           $posts = get_posts($args);
+
+           foreach ( $posts as $post) {
+               $post_video_playlist_meta = get_post_meta($post->ID, 'td_playlist_video' , true);
+
+               if ( !empty ($post_video_playlist_meta)) {
+                   $posts_video_playlist_meta_array[$post->ID]=$post_video_playlist_meta;
+
+                   //update the video playlists posts array with the post id
+                   $posts_with_video_playlists_array[]=$post->ID;
+               }
+           }
+
+           if (!empty($posts_video_playlist_meta_array) && $return_type === "video_playlists_meta"){
+               return $posts_video_playlist_meta_array;
+           } elseif ( !empty($posts_with_video_playlists_array) && $return_type === "video_playlists_posts_ids") {
+               return $posts_with_video_playlists_array;
+           } else {
+               return array();
+           }
+       }
 
        static function render_diagnostics() {
 

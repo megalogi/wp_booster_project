@@ -149,10 +149,34 @@
   display: block;
 }
 
-.widefat.td-cache-reset-table {
+.widefat.td-cache-reset-table,
+.widefat.td-video-reset-table {
   width: auto;
 
-  .td-remote-cache-reset {
+  .td-remote-cache-reset,
+  .td-video-cache-reset{
     margin-left: 0;
+  }
+}
+
+.td-video-table {
+  .td-remote-value-data-container {
+    padding: 10px;
+  }
+
+  .td-array-viewer {
+    width: auto;
+    height: auto;
+    left: 200px;
+    top: -150px;
+  }
+
+  .td-video-id-container,
+  .td-video-id-details {
+    display: inline-block;
+  }
+
+  .td-video-id-container {
+    min-width: 100px;
   }
 }
