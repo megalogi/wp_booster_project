@@ -40,6 +40,12 @@ class td_ajax {
 			}
 			//read the id for this specific filter type
 			if (!empty($_POST['td_filter_value'])) {
+
+				//this removes the block offset for blocks pull down filter items
+				//..it excepts the "All" filter tab which will load posts with the set offset
+				if (!empty($ajax_parameters['td_atts']['offset'])){
+					unset($ajax_parameters['td_atts']['offset']);
+				}
 				$ajax_parameters['td_filter_value']  = $_POST['td_filter_value']; //the new id filter
 			}
 		}
@@ -123,9 +129,9 @@ class td_ajax {
 			$td_hide_next = true; //hide link on last page
 		}
 
-//    if ($td_current_page >= $td_query->max_num_pages ) {
-//	    $td_hide_next = true; //hide link on last page
-//    }
+		//    if ($td_current_page >= $td_query->max_num_pages ) {
+		//	    $td_hide_next = true; //hide link on last page
+		//    }
 
 		$buffyArray = array(
 			'td_data' => $buffy,

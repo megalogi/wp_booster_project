@@ -3752,6 +3752,8 @@ title one row controls
   width: 392px !important;
   height: 110px;
   margin: 0 0 20px 20px !important;
+  box-shadow: none;
+  border: 1px solid #dedede;
 }
 @media (max-width: 1300px) {
   .td-demo-page-content .theme {
@@ -3796,6 +3798,7 @@ title one row controls
   -moz-transition: transform 0.3s ease;
   -o-transition: transform 0.3s ease;
   transition: transform 0.3s ease;
+  border: none;
 }
 .td-demo-page-content .td-wp-admin-demo .td-demo-meta {
   position: absolute;
@@ -3811,6 +3814,25 @@ title one row controls
   -moz-transition: transform 0.3s ease;
   -o-transition: transform 0.3s ease;
   transition: transform 0.3s ease;
+}
+.td-demo-page-content .td-demo-free:before,
+.td-demo-page-content .td-demo-premium:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: "Roboto";
+  font-size: 10px;
+  line-height: 1;
+  padding: 4px 8px;
+  color: #fff;
+}
+.td-demo-page-content .td-demo-free:before {
+  content: 'FREE';
+  background-color: #66bb6a;
+}
+.td-demo-page-content .td-demo-premium:before {
+  content: 'PREMIUM';
+  background-color: #fbc53b;
 }
 .td-demo-page-content .td-admin-title {
   display: block;
@@ -4099,10 +4121,14 @@ title one row controls
   font-size: 13px;
   line-height: 17px;
   display: block;
-  margin: 12px 30px 18px;
+  margin: 12px 30px 8px;
   color: #999;
-  height: 51px;
+  height: 61px;
   overflow: hidden;
+}
+.td-plugin-meta p a {
+  display: inline-block;
+  margin: 6px 6px 0;
 }
 .td-plugin-meta p strong {
   color: #888;
@@ -4292,10 +4318,6 @@ title one row controls
 .td-remote-header-value {
   min-width: 200px;
 }
-.td-log-header_file,
-.td-log-header_function {
-  min-width: 150px;
-}
 .td-log-header-timestamp,
 .td-remote-header-expires,
 .td-remote-header-timestamp {
@@ -4357,6 +4379,12 @@ title one row controls
 }
 .td-debug-area-reveal {
   display: block;
+}
+.widefat.td-cache-reset-table {
+  width: auto;
+}
+.widefat.td-cache-reset-table .td-remote-cache-reset {
+  margin-left: 0;
 }
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox

@@ -154,6 +154,7 @@ die;
             $td_demo_names_with_req_plugins = array();
 
             foreach (td_global::$demo_list as $demo_id => $stack_params) {
+                $td_demo_premium = '';
                 $td_demo_names[$stack_params['text']] = $demo_id;
 
                 $tmp_class = '';
@@ -178,9 +179,16 @@ die;
                     }
                 }
 
+                if (!empty($stack_params['premium_demo']) && $stack_params['premium_demo'] == 'premium') {
+                    $td_demo_premium = ' td-demo-premium';
+                }
+                if (!empty($stack_params['premium_demo']) && $stack_params['premium_demo'] == 'free') {
+                    $td_demo_premium = ' td-demo-free';
+                }
+
                 ?>
 
-                <div class="td-demo-<?php echo $demo_id ?> td-wp-admin-demo theme <?php echo $tmp_class . ' ' . $demo_req_plugin_class ?>">
+                <div class="td-demo-<?php echo $demo_id . $td_demo_premium ?> td-wp-admin-demo theme <?php echo $tmp_class . ' ' . $demo_req_plugin_class ?>">
 
                     <!-- Import content -->
 
