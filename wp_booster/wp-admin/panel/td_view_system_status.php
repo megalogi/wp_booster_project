@@ -60,13 +60,7 @@ require_once "td_view_header.php";
         'status' => 'info'
     ));
 
-    // Theme aurora version
-    td_system_status::add('Theme config', array(
-	    'check_name' => 'Theme aurora version',
-	    'tooltip' => 'Aurora is our plugins framework',
-	    'value' =>  TD_AURORA_VERSION,
-	    'status' => 'info'
-    ));
+
 
 
     // Theme remote http channel used by the theme

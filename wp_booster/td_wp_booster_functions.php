@@ -860,7 +860,7 @@ function td_bottom_code() {
 
     <!--
 
-        Theme: ' . TD_THEME_NAME .' by tagDiv 2016
+        Theme: ' . TD_THEME_NAME .' by tagDiv.com 2017
         Version: ' . TD_THEME_VERSION . ' (rara)
         Deploy mode: ' . TD_DEPLOY_MODE . '
         ' . $speed_booster . '
