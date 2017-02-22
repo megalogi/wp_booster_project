@@ -777,7 +777,7 @@ require_once "td_view_header.php";
        static function render_td_log($td_log_content) {
            if (!empty($td_log_content) and is_array($td_log_content)) {
                ?>
-               <table class="widefat td-system-status-table" cellspacing="0">
+               <table class="widefat td-system-status-table td-log-table" cellspacing="0">
                    <thead>
                    <tr>
                        <th colspan="5">TD Log</th>
@@ -824,7 +824,7 @@ require_once "td_view_header.php";
                            </td>
                            <td><?php echo $td_log_params['function']; ?></td>
                            <td><?php echo $td_log_params['msg']; ?></td>
-                           <td>
+                           <td class="td_log_more_data">
                                <div class="td_log_more_data_container">
                                    <?php
                                    //array or object display it in a container
