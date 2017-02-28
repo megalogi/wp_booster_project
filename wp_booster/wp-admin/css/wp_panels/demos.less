@@ -286,7 +286,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    font-family: "Roboto";
+    font-family: @font_ubuntu;
     font-size: 10px;
     line-height: 1;
     padding: 4px 8px;
@@ -303,6 +303,12 @@
     background-color: #fbc53b;
   }
 
+  .td-demo-installing.td-demo-free.theme:before,
+  .td-demo-installing.td-demo-premium.theme:before,
+  .td-demo-uninstalling.td-demo-free.theme:before,
+  .td-demo-uninstalling.td-demo-premium.theme:before {
+    display: none;
+  }
 
   .td-admin-title {
     display: block;
