@@ -2366,6 +2366,7 @@ title one row controls
 .icon-pagebuilder-title .wpb_element_wrapper div,
 .wpb_td_block_weather .wpb_element_wrapper div,
 .wpb_td_block_instagram .wpb_element_wrapper div,
+.wpb_td_block_pinterest .wpb_element_wrapper div,
 .wpb_td_block_exchange .wpb_element_wrapper div,
 .wpb_td_block_ad_box .wpb_element_wrapper div,
 .wpb_td_block_list_menu .wpb_element_wrapper div {
@@ -2428,6 +2429,7 @@ title one row controls
 .icon-pagebuilder-title .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_weather .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_instagram .wpb_element_wrapper div[name="custom_title"],
+.wpb_td_block_pinterest .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_exchange .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_ad_box .wpb_element_wrapper div[name="custom_title"],
 .wpb_td_block_list_menu .wpb_element_wrapper div[name="custom_title"] {
@@ -2613,6 +2615,9 @@ title one row controls
 }
 .icon-pagebuilder-td-instagram {
   background-image: url('../../../../images/pagebuilder/instagram.png') !important;
+}
+.icon-pagebuilder-td-pinterest {
+  background-image: url('../../../../images/pagebuilder/photo.jpg') !important;
 }
 .icon-pagebuilder-td_block_list_menu {
   background-image: url('../../../../images/pagebuilder/list-menu.png') !important;
@@ -4328,6 +4333,9 @@ title one row controls
 .td_log_more_data_container {
   position: relative;
 }
+.td_log_more_data {
+  max-width: 500px;
+}
 .td-array-viewer {
   width: 450px;
   height: 300px;
@@ -4388,7 +4396,7 @@ title one row controls
 .widefat.td-video-reset-table .td-remote-cache-reset,
 .widefat.td-cache-reset-table .td-video-cache-reset,
 .widefat.td-video-reset-table .td-video-cache-reset {
-  margin-left: 0;
+  margin: 0;
 }
 .td-video-table .td-remote-value-data-container {
   padding: 10px;
