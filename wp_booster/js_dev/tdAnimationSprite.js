@@ -167,39 +167,42 @@ var tdAnimationSprite = {};
             // get all strings containing 'td_animation_sprite'
             var regex = /(td_animation_sprite\S*)/gi;
 
-            // resultMatch is an array of matches, or null if there's no matching
-            var resultMatch = item.jqueryObj.attr( 'class' ).match( regex );
+            if ( 'undefined' !== typeof item.jqueryObj.attr( 'class' ) ) {
 
-            if ( null !== resultMatch ) {
+                // resultMatch is an array of matches, or null if there's no matching
+                var resultMatch = item.jqueryObj.attr( 'class' ).match( regex );
 
-                item.offsetTop = item.jqueryObj.offset().top;
-                item.offsetBottomToTop = item.offsetTop + item.jqueryObj.height();
+                if (null !== resultMatch) {
 
-                // the last matching is considered, because new css classes that matches, can be added before recomputing an item
-                item.animationSpriteClass = resultMatch[ resultMatch.length - 1 ];
+                    item.offsetTop = item.jqueryObj.offset().top;
+                    item.offsetBottomToTop = item.offsetTop + item.jqueryObj.height();
 
-                var sceneParams = item.animationSpriteClass.split( '-' );
+                    // the last matching is considered, because new css classes that matches, can be added before recomputing an item
+                    item.animationSpriteClass = resultMatch[resultMatch.length - 1];
 
-                if ( 7 === sceneParams.length ) {
+                    var sceneParams = item.animationSpriteClass.split('-');
 
-                    item.frames = parseInt( sceneParams[1] );
-                    item.frameWidth = parseInt( sceneParams[2] );
-                    item.velocity = parseInt( sceneParams[3] );
-                    item.loops = parseInt( sceneParams[4] );
+                    if (7 === sceneParams.length) {
 
-                    if ( 1 === parseInt( sceneParams[5] ) ) {
-                        item.reverse = true;
-                    } else {
-                        item.reverse = false;
+                        item.frames = parseInt(sceneParams[1]);
+                        item.frameWidth = parseInt(sceneParams[2]);
+                        item.velocity = parseInt(sceneParams[3]);
+                        item.loops = parseInt(sceneParams[4]);
+
+                        if (1 === parseInt(sceneParams[5])) {
+                            item.reverse = true;
+                        } else {
+                            item.reverse = false;
+                        }
+
+                        if (1 === parseInt(sceneParams[6])) {
+                            item.automatStart = true;
+                        } else {
+                            item.automatStart = false;
+                        }
+
+                        item._isInitialized = true;
                     }
-
-                    if ( 1 === parseInt( sceneParams[6] ) ) {
-                        item.automatStart = true;
-                    } else {
-                        item.automatStart = false;
-                    }
-
-                    item._isInitialized = true;
                 }
             }
         },
@@ -365,7 +368,6 @@ var tdAnimationSprite = {};
 
     for ( var i = 0; i < tdAnimationSpriteElements.length; i++ ) {
         var tdAnimationSpriteItem = new tdAnimationSprite.item();
-
 
         tdAnimationSpriteItem.jqueryObj = jQuery( tdAnimationSpriteElements[i] );
         tdAnimationSpriteItem.blockUid = tdAnimationSpriteItem.jqueryObj.data('td-block-uid');   // the block uid is used on the front end editor when we want to delete this item via it's blockuid
