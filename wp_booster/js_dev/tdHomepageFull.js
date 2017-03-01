@@ -88,6 +88,14 @@ var tdHomepageFull = {};
 
                         item.backstrItem = undefined;
                     }
+
+                    var existingClassName = document.body.className;
+
+                    existingClassName = existingClassName.replace(/td-boxed-layout/g, '');
+                    existingClassName = existingClassName.replace(/single_template_8/g, '');
+                    existingClassName = existingClassName.replace(/homepage-post/g, '');
+
+                    document.body.className = existingClassName;
                 }
             }
             return false;
