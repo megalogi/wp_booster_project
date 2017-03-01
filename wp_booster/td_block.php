@@ -1188,6 +1188,12 @@ class td_block {
                 tdLocalCache.set(currentBlockObjSignature, JSON.stringify(<?php echo json_encode($buffyArray) ?>));
                 <?php
                     foreach ($this->td_block_template_data['td_pull_down_items'] as $count => $item) {
+
+                     	//removes the offset on preloading for blocks pull down filter items excepting the "All" filter tab which will load posts with the offset
+						if (!empty($this->atts['offset'])){
+							unset($this->atts['offset']);
+						}
+
                         if (empty($item['id'])) {
                             continue;
                         }

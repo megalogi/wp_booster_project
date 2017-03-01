@@ -74,6 +74,7 @@ td_api_autoload::add('td_remote_http', td_global::$get_template_directory . '/in
 td_api_autoload::add('td_weather', td_global::$get_template_directory . '/includes/wp_booster/td_weather.php');
 td_api_autoload::add('td_exchange', td_global::$get_template_directory . '/includes/wp_booster/td_exchange.php');
 td_api_autoload::add('td_instagram', td_global::$get_template_directory . '/includes/wp_booster/td_instagram.php');
+td_api_autoload::add('td_pinterest', td_global::$get_template_directory . '/includes/wp_booster/td_pinterest.php');
 td_api_autoload::add('td_remote_video', td_global::$get_template_directory . '/includes/wp_booster/td_remote_video.php');
 td_api_autoload::add('td_css_buffer', td_global::$get_template_directory . '/includes/wp_booster/td_css_buffer.php');
 td_api_autoload::add('td_data_source', td_global::$get_template_directory . '/includes/wp_booster/td_data_source.php');
@@ -860,7 +861,7 @@ function td_bottom_code() {
 
     <!--
 
-        Theme: ' . TD_THEME_NAME .' by tagDiv 2016
+        Theme: ' . TD_THEME_NAME .' by tagDiv.com 2017
         Version: ' . TD_THEME_VERSION . ' (rara)
         Deploy mode: ' . TD_DEPLOY_MODE . '
         ' . $speed_booster . '

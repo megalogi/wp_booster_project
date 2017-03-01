@@ -57,8 +57,6 @@ $td_translation_map = array(
 
 
     //comments
-
-
     'Name:' => __('Name:', TD_THEME_NAME),
     'Email:' => __('Email:', TD_THEME_NAME),
     'Website:' => __('Website:', TD_THEME_NAME),
@@ -76,6 +74,10 @@ $td_translation_map = array(
     'Please enter your email address here' => __('Please enter your email address here', TD_THEME_NAME),
     'You have entered an incorrect email address!' => __('You have entered an incorrect email address!', TD_THEME_NAME),
     'Please enter your comment!' => __('Please enter your comment!', TD_THEME_NAME),
+    'Logged in as'                        => __('Logged in as', TD_THEME_NAME),
+    'Log out?'                            => __('Log out?', TD_THEME_NAME),
+    'Logged in as %s. Edit your profile.' => __('Logged in as %s. Edit your profile.', TD_THEME_NAME),
+
 
     //review
     'REVIEW OVERVIEW' => __('REVIEW OVERVIEW', TD_THEME_NAME),  //on Newspaper4 it was lowercase

@@ -118,7 +118,7 @@
 
 // uninstalling?
 .td-demo-uninstalling {
-  .td-button-uninstalling-demo,
+  .td-button-uninstalling-demo
   {
     display: inline-block;
   }
@@ -228,6 +228,8 @@
     width: 392px !important;
     height: 110px;
     margin: 0 0 20px 20px !important;
+    box-shadow: none;
+    border: 1px solid #dedede;
 
     @media (max-width: 1300px) {
       margin: 0 0 20px 0 !important;
@@ -262,8 +264,10 @@
     .theme-screenshot {
       height: 100%;
 
+
       img {
         .transition(transform 0.3s ease);
+        border: none;
       }
     }
 
@@ -275,6 +279,35 @@
       .transform(translateY(-25px));
       .transition(transform 0.3s ease);
     }
+  }
+
+  .td-demo-free.theme:before,
+  .td-demo-premium.theme:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: @font_ubuntu;
+    font-size: 10px;
+    line-height: 1;
+    padding: 4px 8px;
+    color: #fff;
+  }
+
+  .td-demo-free.theme:before {
+    content:'FREE';
+    background-color: #66bb6a;
+  }
+
+  .td-demo-premium.theme:before {
+    content:'PREMIUM';
+    background-color: #fbc53b;
+  }
+
+  .td-demo-installing.td-demo-free.theme:before,
+  .td-demo-installing.td-demo-premium.theme:before,
+  .td-demo-uninstalling.td-demo-free.theme:before,
+  .td-demo-uninstalling.td-demo-premium.theme:before {
+    display: none;
   }
 
   .td-admin-title {

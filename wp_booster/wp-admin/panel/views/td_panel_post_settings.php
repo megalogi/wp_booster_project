@@ -692,7 +692,7 @@
     <div class="td-box-row">
         <div class="td-box-description td-no-short-description">
             <span class="td-box-title">ENABLE / DISABLE AJAX POST VIEW COUNT</span>
-            <p>Usefull if you are using a caching plugin</p>
+            <p>Useful if you are using a caching plugin</p>
         </div>
         <div class="td-box-control-full">
             <?php

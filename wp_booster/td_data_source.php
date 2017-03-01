@@ -49,12 +49,24 @@ class td_data_source {
 			    // the damn jetpack api cannot return only posts so it may return pages. That's why we query with a bigger + 5 limit
 			    // so that if the api returns also 5 pages mixed with the post we will still have the desired number of posts
 			    // NOTE: stats_get_csv has a cache built in!
+
 			    $jetpack_api_posts = stats_get_csv('postviews', array(
 				    'days' => 2,
 				    'limit' => $limit + 5
 			    ));
+
 			    if (!empty($jetpack_api_posts) and is_array($jetpack_api_posts)) {
-				    $wp_query_args['post__in'] = wp_list_pluck($jetpack_api_posts, 'post_id');
+                    $jetpack_api_posts_ids = wp_list_pluck($jetpack_api_posts, 'post_id');
+
+                        // Filter the returned posts. Remove all posts that do not match the default 'post' Post Type.
+                        foreach ( $jetpack_api_posts_ids as $k => $post_id ) {
+                            if ( get_post_type($post_id) != 'post' ) {
+                                unset( $jetpack_api_posts_ids[$k] );
+                            }
+                        }
+
+				    $wp_query_args['post__in'] = $jetpack_api_posts_ids;
+                    $wp_query_args['orderby'] = 'post__in';
 				    $wp_query_args['posts_per_page'] = $limit;
 
 				    return $wp_query_args;
