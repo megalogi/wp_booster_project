@@ -379,7 +379,6 @@ var tdPullDown = {};
             }
 
 
-
             // the horizontal header margin is set 0 and the horizontal space is computing without its margin
             // @see tdPullDown._prepare_horizontal_header
             tdPullDown._prepare_horizontal_header( item, true );
@@ -429,7 +428,6 @@ var tdPullDown = {};
 
                     // all elements are moved to the vertical list
                     tdPullDown._make_all_elements_vertical( item );
-
 
 
 
@@ -500,7 +498,6 @@ var tdPullDown = {};
                 }
                 space_for_horizontal_elements -= local_space;
             }
-
 
 
             // It's the case when there isn't specified a no. of minimum horizontal elements or it is specified and the
@@ -713,10 +710,3 @@ var tdPullDown = {};
     tdPullDown.init();
 
 })();
-
-
-
-
-
-
-
