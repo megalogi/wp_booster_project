@@ -2074,6 +2074,15 @@ title one row controls
 #td-panel-block-style .td-small-wrapper-o-separator {
   margin-bottom: 27px;
 }
+.td_panel_box_force_full_width .td-box-description .td-box-title {
+  top: 8px;
+}
+.td_panel_box_force_full_width .td-select-style-overwrite {
+  margin-bottom: 15px;
+}
+.td_panel_box_force_full_width .td-box-content {
+  padding-bottom: 17px;
+}
 /*  ----------------------------------------------------------------------------
     pagebuilder
 */
@@ -2244,6 +2253,7 @@ title one row controls
 .icon-pagebuilder-td-vimeo,
 .icon-pagebuilder-title,
 .icon-pagebuilder-td-instagram,
+.icon-pagebuilder-td-pinterest,
 .icon-pagebuilder-td-exchange,
 .icon-pagebuilder-td-weather,
 .icon-pagebuilder-td_block_list_menu {
@@ -2306,6 +2316,7 @@ title one row controls
 .wpb_element_title .icon-pagebuilder-td-vimeo,
 .wpb_element_title .icon-pagebuilder-title,
 .wpb_element_title .icon-pagebuilder-td-instagram,
+.wpb_element_title .icon-pagebuilder-td-pinterest,
 .wpb_element_title .icon-pagebuilder-td-exchange,
 .wpb_element_title .icon-pagebuilder-td-weather,
 .wpb_element_title .icon-pagebuilder-td_block_list_menu {
@@ -2617,7 +2628,7 @@ title one row controls
   background-image: url('../../../../images/pagebuilder/instagram.png') !important;
 }
 .icon-pagebuilder-td-pinterest {
-  background-image: url('../../../../images/pagebuilder/photo.jpg') !important;
+  background-image: url('../../../../images/pagebuilder/pinterest.png') !important;
 }
 .icon-pagebuilder-td_block_list_menu {
   background-image: url('../../../../images/pagebuilder/list-menu.png') !important;
@@ -3021,6 +3032,41 @@ title one row controls
 }
 .tdc-ico-td_block_list_menu {
   background-position: -55px -207px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_wp_recentcomments {
+  background-position: -305px -141px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_separator {
+  background-position: -305px -175px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_single_image {
+  background-position: -305px -209px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_list_menu {
+  background-position: -305px -243px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_author {
+  background-position: -305px -277px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_image_box {
+  background-position: -355px -5px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_pinterest {
+  background-position: -355px -39px;
   width: 40px;
   height: 24px;
 }
@@ -3665,6 +3711,7 @@ title one row controls
   position: absolute;
   top: 0;
   left: 0;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 10px;
   line-height: 1;
   padding: 4px 8px;

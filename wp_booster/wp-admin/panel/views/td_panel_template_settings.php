@@ -210,6 +210,110 @@
 <?php echo td_panel_generator::box_end();?>
 
 
+<?php if ('Newspaper' == TD_THEME_NAME) { ?>
+    <!-- Force full width -->
+    <?php echo td_panel_generator::box_start('Force full width', false); ?>
+    <!-- text -->
+    <div class="td-box-row">
+        <div class="td-box-description td-box-full">
+            <p>From here you can stretch the container or the content for different sections like header, menu or footer.</p>
+        </div>
+        <div class="td-box-row-margin-bottom"></div>
+    </div>
+
+    <div class="td-box-row">
+        <div class="td-box-description">
+            <span class="td-box-title">Header ⇢ Top bar</span>
+            <p></p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_option',
+                'option_id' => 'td_full_top_bar',
+                'values' => array(
+                    array('text' => 'No stretch' , 'val' => ''),
+                    array('text' => 'Stretch container' , 'val' => 'td_stretch_container'), // .td_stretch_container
+                    array('text' => 'Stretch container and content' , 'val' => 'td_stretch_content') // .td_stretch_content
+                )
+            ));
+            ?>
+        </div>
+
+        <div class="td-box-description">
+            <span class="td-box-title">Header ⇢ Logo and ad space</span>
+            <p></p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_option',
+                'option_id' => 'td_full_header',
+                'values' => array(
+                    array('text' => 'No stretch' , 'val' => ''),
+                    array('text' => 'Stretch container' , 'val' => 'td_stretch_container'), // stretch_container
+                    array('text' => 'Stretch container and content' , 'val' => 'td_stretch_content') // stretch_content
+                )
+            ));
+            ?>
+        </div>
+
+        <div class="td-box-description">
+            <span class="td-box-title">Header ⇢ Menu</span>
+            <p></p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_option',
+                'option_id' => 'td_full_menu',
+                'values' => array(
+                    array('text' => 'No stretch' , 'val' => ''),
+                    array('text' => 'Stretch container' , 'val' => 'td_stretch_container'), // stretch_container
+                    array('text' => 'Stretch container and content' , 'val' => 'td_stretch_content') // stretch_content
+                )
+            ));
+            ?>
+        </div>
+
+        <div class="td-box-description">
+            <span class="td-box-title">Footer ⇢ Instagram</span>
+            <p></p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_option',
+                'option_id' => 'td_full_footer_instagram',
+                'values' => array(
+                    array('text' => 'No stretch' , 'val' => ''),
+                    array('text' => 'Stretch container and content' , 'val' => 'td_stretch_content') // stretch_content
+                )
+            ));
+            ?>
+        </div>
+
+        <div class="td-box-description">
+            <span class="td-box-title">Footer</span>
+            <p></p>
+        </div>
+        <div class="td-box-control-full">
+            <?php
+            echo td_panel_generator::dropdown(array(
+                'ds' => 'td_option',
+                'option_id' => 'td_full_footer',
+                'values' => array(
+                    array('text' => 'No stretch' , 'val' => ''),
+                    array('text' => 'Stretch container' , 'val' => 'td_stretch_container') // stretch_container
+                )
+            ));
+            ?>
+        </div>
+    </div>
+    <?php echo td_panel_generator::box_end();?>
+<?php } ?>
+
+
 
 
 <hr>
