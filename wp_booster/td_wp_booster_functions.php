@@ -431,7 +431,6 @@ function load_wp_admin_js() {
 		$last_js_file_id = $js_file_id;
 	}
 
-	wp_enqueue_script('thickbox');
 	add_thickbox();
 
 }

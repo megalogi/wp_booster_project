@@ -343,6 +343,10 @@ class td_global {
 	        'url' => '/includes/wp_booster/wp-admin/js/tooltip.js',
 	        'show_only_on_page_slugs' => ''
         ),
+	    'td_confirm' => array(
+		    'url' => '/includes/wp_booster/wp-admin/js/tdConfirm.js',
+		    'show_only_on_page_slugs' => ''
+	    ),
 
 		// ace code editor
 	    'td_ace' => array (

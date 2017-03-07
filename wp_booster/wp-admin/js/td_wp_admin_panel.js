@@ -283,13 +283,24 @@ function td_add_events_to_option_list_sidebar_pulldown() {
 function td_add_events_to_delete_option_sidebar_pulldown() {
     jQuery(document).on('click', '.td-delete-sidebar-option', function(event) {
 
-        if(confirm("Delete Sidebar?")) {
-            var sidebar_key_to_del = jQuery(this).data('sidebar-key');
-            td_ajax_panel_sidebar_pulldown('td_ajax_delete_sidebar', sidebar_key_to_del, '');
-        }
+        var sidebar_key_to_del = jQuery(this).data('sidebar-key');
 
-        //hide pulldown sidebar options lists
-        td_hide_pulldown_sidebar_options();
+        tdConfirm.showModal( 'Delete Sidebar?',
+
+            window,
+
+            function(sidebar_key_to_del) {
+
+                td_ajax_panel_sidebar_pulldown('td_ajax_delete_sidebar', sidebar_key_to_del, '');
+
+                //hide pulldown sidebar options lists
+                td_hide_pulldown_sidebar_options();
+
+                tb_remove();
+            },
+
+            [sidebar_key_to_del]
+        );
 
         //stop propagation
         event.stopImmediatePropagation();
@@ -488,33 +499,53 @@ function td_upload_image_font(id_upload_field) {
 function td_delete_uploaded_font_image() {
     jQuery(document).on('click', '.td_delete_image_button', function() {
 
-        if(confirm("Delete Image?")) {
-            //take control id
-            var control_id = jQuery(this).data('control-id');
+        tdConfirm.showModal( 'Delete Image?',
 
-            //hide the delete button
-            jQuery(this).addClass('td-class-hidden');//.hide();
+            window,
 
-            //remove the link from image tag
-            jQuery('#upd_img_id_' + control_id).attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/no_img_upload.png');
+            function( $this ) {
 
-            //empty the control input box
-            jQuery('#' + control_id).val('');
-        }
+                //take control id
+                var controlId = $this.data('control-id');
+
+                //hide the delete button
+                $this.addClass('td-class-hidden');//.hide();
+
+                //remove the link from image tag
+                jQuery('#upd_img_id_' + controlId).attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/no_img_upload.png');
+
+                //empty the control input box
+                jQuery('#' + controlId).val('');
+
+                tb_remove();
+            },
+
+            [jQuery(this)]
+        );
     });
 
     jQuery(document).on('click', '.td_delete_font_button', function() {
 
-        if(confirm("Delete Font?")) {
-            //take control id
-            var control_id = jQuery(this).data('control-id');
+        tdConfirm.showModal( 'Delete Font?',
 
-            //hide the delete button
-            jQuery(this).addClass('td-class-hidden');//.hide();
+            window,
 
-            //empty the control input box
-            jQuery('#' + control_id).val('');
-        }
+            function( $this ) {
+
+                //take controlId
+                var controlId = $this.data('control-id');
+
+                //hide the delete button
+                $this.addClass('td-class-hidden');//.hide();
+
+                //empty the control input box
+                jQuery('#' + controlId).val('');
+
+                tb_remove();
+            },
+
+            [jQuery(this)]
+        );
     });
 }
 
@@ -904,12 +935,20 @@ function td_resize_tiny_mce_for_sidebar() {
 function tdButtonSystemStatus() {
     jQuery('.td-action-alert').on('click', function(event){
         event.preventDefault();
-        var curentElement = jQuery(this),
-            currentElementHref = curentElement.attr('href'),
-            alertMessage = curentElement.data('action');
-        if(confirm('Are you sure you want to ' + alertMessage)) {
-            window.location.replace(currentElementHref);
-        }
+        var $this = jQuery(this),
+            thisHref = $this.attr('href'),
+            thisAction = $this.data('action');
+
+        tdConfirm.showModal( 'Question',
+            window,
+            function( thisHref ) {
+
+                window.location.replace(thisHref);
+                tb_remove();
+            },
+            [thisHref],
+            'Are you sure you want to ' + thisAction + ' ?'
+        );
     })
 }
 

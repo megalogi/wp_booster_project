@@ -54,15 +54,18 @@ var td_wp_admin_demos = {};
                         return;
                     }
 
-                    var td_confirm = confirm('' +
-                        'Install demo without content:\n' +
-                        '-----------------------------------------\n' +
-                        'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...) \n\n' +
-                        'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n');
+                    tdConfirm.showModal( 'Install demo without content',
+                        td_wp_admin_demos,
+                        function(demoId) {
 
-                    if (td_confirm === true) {
-                        td_wp_admin_demos._install_full(jQuery(this).data('demo-id'));
-                    }
+                            td_wp_admin_demos._install_full(demoId);
+
+                            tb_remove();
+                        },
+                        [jQuery(this).data('demo-id')],
+                        'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...)<br>' +
+                        'Please backup your settings to be sure that you don\'t lose them by accident.<br><br>'
+                    );
                 });
 
 
@@ -78,28 +81,35 @@ var td_wp_admin_demos = {};
 
 
                     if (include_demo_content_check.val() === 'no') {
-                        // install no content
-                        td_confirm = confirm('' +
-                            'Install demo without content:\n' +
-                            '-----------------------------------------\n' +
-                            'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...) \n\n' +
-                            'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n');
-                        if (td_confirm === true) {
-                            td_wp_admin_demos._install_no_content(demo_id);
-                        }
-                    } else {
-                        // install with content
-                        td_confirm = confirm('' +
-                            'Install the full demo:\n' +
-                            '-----------------------------------------\n' +
-                            'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...) and our sample content. \n\n' +
-                            'Please backup your settings to be sure that you don\'t lose them by accident.\n\n\n' +
-                            '-----------------------------------------\n' +
-                            'Uninstall: The demo can be fully uninstalled and the system will attempt to rollback to your previous state. Any content, menus and attachment created by the demo are removable via the uninstall button.');
 
-                        if (td_confirm === true) {
-                            td_wp_admin_demos._install_full(demo_id);
-                        }
+                        // install no content
+                        tdConfirm.showModal( 'Install demo without content',
+                            td_wp_admin_demos,
+                            function(demoId) {
+
+                                td_wp_admin_demos._install_full(demoId);
+                                tb_remove();
+                            },
+                            [demo_id],
+                            'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...)<br>' +
+                            'Please backup your settings to be sure that you don\'t lose them by accident.<br><br>'
+                        );
+
+                    } else {
+
+                        // install with content
+                        tdConfirm.showModal( 'Install the full demo',
+                            td_wp_admin_demos,
+                            function(demoId) {
+
+                                td_wp_admin_demos._install_full(demoId);
+                                tb_remove();
+                            },
+                            [demo_id],
+                            'Are you sure? This will import our predefined settings for the demo (background, template layouts, fonts, colors etc...)<br>' +
+                            'Please backup your settings to be sure that you don\'t lose them by accident.<br><br>' +
+                            'Uninstall: The demo can be fully uninstalled and the system will attempt to rollback to your previous state. Any content, menus and attachment created by the demo are removable via the uninstall button.'
+                        );
                     }
 
                 });
@@ -108,14 +118,17 @@ var td_wp_admin_demos = {};
                 jQuery('.td-wp-admin-demo .td-button-uninstall-demo').click(function(event) {
                     event.preventDefault();
 
-                    var td_confirm = confirm('' +
-                        'Uninstall demo:\n' +
-                        '-----------------------------------------\n' +
-                        'Are you sure? The theme will remove all the installed content and settings and it will try to reverte your site to the previous state');
-                    if (td_confirm === true) {
-                        var demo_id = jQuery(this).data('demo-id');
-                        td_wp_admin_demos._uninstall(demo_id);
-                    }
+                    // install with content
+                    tdConfirm.showModal( 'Uninstall demo',
+                        td_wp_admin_demos,
+                        function(demoId) {
+
+                            td_wp_admin_demos._uninstall(demoId);
+                            tb_remove();
+                        },
+                        [jQuery(this).data('demo-id')],
+                        'Are you sure? The theme will remove all the installed content and settings and it will try to reverte your site to the previous state.'
+                    );
                 });
 
 

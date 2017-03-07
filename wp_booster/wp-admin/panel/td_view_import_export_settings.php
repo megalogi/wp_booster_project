@@ -119,7 +119,19 @@ if(!empty($_REQUEST['action_reset']) && $_REQUEST['action_reset'] == 'reset_them
                 <?php echo td_panel_generator::box_start('Importing / exporting theme settings'); ?>
 
                 <!-- Import/Export theme settings -->
-                <form id="td_panel_import_export_settings" name="td_panel_import_export_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_import=import_theme_settings" method="post" onsubmit="return confirm('Are you sure you want to import this settings?\nIt will overwrite the one that you have now!');">
+                <form id="td_panel_import_export_settings" name="td_panel_import_export_settings" action="?page=td_theme_panel&td_page=td_view_import_export_settings&action_import=import_theme_settings" method="post" onsubmit="tdConfirm.showModal( 'Are you sure you want to import this settings?',
+
+		                window,
+
+		                function( formObject ) {
+		                    formObject.submit();
+		                    tb_remove();
+		                },
+
+		                [this],
+
+                        'It will overwrite the one that you have now!'); return false">
+
 	                <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-import-panel") ?>"/>
                     <input type="hidden" name="action" value="td_ajax_update_panel">
 

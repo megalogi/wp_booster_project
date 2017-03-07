@@ -65,7 +65,7 @@
 
             // if it's a valuable selection in the loaded language list, the same value is set in the modal popup
             if (loaded_language_code != undefined && loaded_language_code != '') {
-                jQuery("#modal_window_send_tranlation_language").find('select[name="td_option[tds_language]"]:first').val(loaded_language_code);
+                jQuery("#modal_window_send_translation_language").find('select[name="td_option[tds_language]"]:first').val(loaded_language_code);
             }
 
             // prepare the modal interface to be redrawn
@@ -168,53 +168,59 @@
                 return;
             }
 
-            if (!confirm("Are you sure?\n\nLoading a language settings will overwrite your custom translation in the 'Translations' panel.\nYou have to Save Settings for keeping the loaded translation in your theme.")) {
-                return false;
-            }
+	        tdConfirm.showModal( 'Load translated language',
+                window,
+                function() {
 
-            // we clear the translation for english language, english being the default translation
-            if (selected_language_code == 'en') {
-                td_translation.clear_translation();
-                return;
-            }
+                    // we clear the translation for english language, english being the default translation
+		            if (selected_language_code == 'en') {
+		                td_translation.clear_translation();
+		                return;
+		            }
 
-            if (selected_language_code != undefined && selected_language_code != '') {
-                jQuery.ajax({
-                    crossDomain: true,
+		            if (selected_language_code != undefined && selected_language_code != '') {
+		                jQuery.ajax({
+		                    crossDomain: true,
 
-                    // jsonp parameter is used for crossdomain requests. It's used for response type. It must be jsonp and not json.
-                    dataType: 'jsonp',
-                    // jsonpCallback parameter is used for crossdomain requests. It's used for response type. (must be wrapped in 'jsonpCallback')
-                    jsonpCallback: 'jsonpCallback',
+		                    // jsonp parameter is used for crossdomain requests. It's used for response type. It must be jsonp and not json.
+		                    dataType: 'jsonp',
+		                    // jsonpCallback parameter is used for crossdomain requests. It's used for response type. (must be wrapped in 'jsonpCallback')
+		                    jsonpCallback: 'jsonpCallback',
 
-                    url: 'http://api.tagdiv.com/user_translations/get_translation',
+		                    url: 'http://api.tagdiv.com/user_translations/get_translation',
 
-                    data: {
-                        'language_code': selected_language_code
-                    },
-                    complete: function (jqXHR, textStatus) {
-                        if (textStatus == 'success') {
-                            if (jqXHR.responseJSON.constructor === Object) {
+		                    data: {
+		                        'language_code': selected_language_code
+		                    },
+		                    complete: function (jqXHR, textStatus) {
+		                        if (textStatus == 'success') {
+		                            if (jqXHR.responseJSON.constructor === Object) {
 
-                                // show the content panel updated with response values
-                                show_content_panel(
+		                                // show the content panel updated with response values
+		                                show_content_panel(
 
-                                    // this is the jquery object to be loaded
-                                    jQuery('#panel_translation_custom_id'),
+		                                    // this is the jquery object to be loaded
+		                                    jQuery('#panel_translation_custom_id'),
 
-                                    // this parameter keep the open position
-                                    true,
+		                                    // this parameter keep the open position
+		                                    true,
 
-                                    // this is callback function. It completes the fields
-                                    function () {
-                                        td_translation.completeTranslation(jqXHR.responseJSON)
-                                    }
-                                );
-                            }
-                        }
-                    }
-                });
-            }
+		                                    // this is callback function. It completes the fields
+		                                    function () {
+		                                        td_translation.completeTranslation(jqXHR.responseJSON)
+		                                    }
+		                                );
+		                            }
+		                        }
+		                    }
+		                });
+		            }
+
+                    tb_remove();
+                },
+		        [],
+		        "Are you sure? Loading a language settings will overwrite your custom translation in the 'Translations' panel.\nYou have to Save Settings for saving the loaded translation in your theme."
+            );
         });
 
     });
