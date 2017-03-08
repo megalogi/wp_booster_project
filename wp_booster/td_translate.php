@@ -272,6 +272,13 @@ if (class_exists('SitePress')) {
 
 	add_action('admin_notices', 'td_on_translate_admin_notices');
 
+	function td_on_add_wpml_class($classes) {
+		$classes[] = 'td-wpml';
+		return $classes;
+	}
+
+	add_filter('body_class','td_on_add_wpml_class');
+
 } else {
 	//read the user translations
 	$td_translation_map_user = td_util::get_option('td_translation_map_user');
