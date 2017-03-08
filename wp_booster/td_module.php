@@ -240,7 +240,6 @@ abstract class td_module {
 
                     //retina image
                     //don't display srcset_sizes on DEMO - it messes up Pagespeed score (8 March 2017)
-                    $srcset_sizes = '';
                     if (TD_DEPLOY_MODE != 'demo') {
                         $srcset_sizes = td_util::get_srcset_sizes($this->post_thumb_id, $thumbType, $td_temp_image_url[1], $td_temp_image_url[0]);
                     }
