@@ -96,6 +96,9 @@ var tdConfirm;
                     return false;
                 });
             } else {
+                if ( 'undefined' === typeof argsNo ) {
+                    argsNo = [];
+                }
                 tdConfirm._$confirmNo.click( function() {
                     callbackNo.apply( objectContext, argsNo );
                 });
