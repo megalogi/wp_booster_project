@@ -101,7 +101,14 @@ var tdConfirm;
                 });
             }
 
+            var $body = jQuery( 'body' );
+
+            $body.addClass( 'td-thickbox-loading' );
+
             tb_show( caption, url );
+
+            jQuery( '#TB_window' ).addClass( 'td-thickbox' );
+            $body.removeClass( 'td-thickbox-loading' );
         }
     };
 
