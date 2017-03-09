@@ -247,7 +247,15 @@ class td_menu {
 
 	        if (isset($item->menu_item_parent) && 0 !== intval($item->menu_item_parent) && array_key_exists(intval($item->menu_item_parent), $_items_ref)) {
 		        $_items_ref[intval($item->menu_item_parent)]->td_is_parent = true;
-	        }
+
+
+	        // WPML FIX!
+	        // When WPML language switcher is set in menu, on mobile it didn't render right (the first level element did not allow to open its submenu)
+	        } else if (strpos( $item->ID, 'wpml') === 0 && in_array('menu-item-has-children', $item->classes )) {
+                if (array_key_exists($item->ID, $_items_ref)) {
+                    $_items_ref[$item->ID]->td_is_parent = true;
+                }
+            }
 
 
         } //end foreach
