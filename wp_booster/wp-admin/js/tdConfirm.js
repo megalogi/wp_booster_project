@@ -21,22 +21,29 @@ var tdConfirm;
 
         _$infoContent: undefined,
 
+        _$body: undefined,
+
         init: function() {
 
             if ( tdConfirm._isInitialized ) {
                 return;
             }
 
-            tdConfirm._$content = jQuery( '<div id="td-confirm" style="display: none;"></div>' );
-            tdConfirm._$confirmYes = jQuery( '<button type="button" class="td-confirm-yes">Yes</button>' );
-            tdConfirm._$confirmNo = jQuery( '<button type="button" class="td-confirm-no">No</button>' );
-            tdConfirm._$infoContent = jQuery( '<div class="td-confirm-info"></div>' );
+            tdConfirm._$body = jQuery( 'body' );
 
-            jQuery( 'body' ).append( tdConfirm._$content );
+            tdConfirm._$content = jQuery( '<div id="td-confirm" style="display: none;">' +
+                '<div class="td-confirm-info"></div>' +
+                '<div class="td-confirm-buttons">' +
+                    '<button type="button" class="td-confirm-yes">Yes</button>' +
+                    '<button type="button" class="td-confirm-no">No</button>' +
+                '</div>' +
+            '</div>' );
 
-            tdConfirm._$content.append( tdConfirm._$infoContent );
-            tdConfirm._$content.append( tdConfirm._$confirmYes );
-            tdConfirm._$content.append( tdConfirm._$confirmNo );
+            tdConfirm._$infoContent = tdConfirm._$content.find( '.td-confirm-info' );
+            tdConfirm._$confirmYes = tdConfirm._$content.find( 'button.td-confirm-yes' );
+            tdConfirm._$confirmNo = tdConfirm._$content.find( 'button.td-confirm-no' );
+
+            tdConfirm._$body.append( tdConfirm._$content );
 
             tdConfirm._isInitialized = true;
         },
@@ -104,14 +111,13 @@ var tdConfirm;
                 });
             }
 
-            var $body = jQuery( 'body' );
-
-            $body.addClass( 'td-thickbox-loading' );
+            tdConfirm._$body.addClass( 'td-thickbox-loading' );
 
             tb_show( caption, url );
 
             jQuery( '#TB_window' ).addClass( 'td-thickbox' );
-            $body.removeClass( 'td-thickbox-loading' );
+
+            tdConfirm._$body.removeClass( 'td-thickbox-loading' );
         }
     };
 
