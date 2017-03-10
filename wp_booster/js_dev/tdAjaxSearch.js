@@ -196,7 +196,7 @@ jQuery().ready(function() {
         /**
          * moves the select up
          */
-        td_aj_search_move_prompt_up: function() {
+        move_prompt_up: function() {
             if (tdAjaxSearch._first_down_up === true) {
                 tdAjaxSearch._first_down_up = false;
                 if (tdAjaxSearch._current_selection_index === 0) {
