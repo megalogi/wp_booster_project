@@ -226,7 +226,7 @@ var tdDemoMenu;
                     var cssSettings = {
                             'top': topValue,
                             'right': rightValue,
-                            'padding-right': paddingRightValue,
+                            //'padding-right': paddingRightValue,
                             'width': ''
                         },
                         dataWidthPreview = jQueryDisplayEl.data('width-preview');
@@ -381,40 +381,40 @@ var tdDemoMenu;
                 tdDemoMenu._moveScreenDemo( event );
             });
 
-            jQuery('.td-screen-demo').hover(
-                function (event) {
-                    //jQuery(this).show();
-                    jQuery(this).css('visibility', 'visible');
-
-                    tdDemoMenu._resetTdScreeDemoExtendWidth();
-                },
-                function (event) {
-
-                    // We are on mouseleave event, and because of this, if the main counters (the timer and the interval) are not finished, it means we
-                    // don't have any extended demo element, so it's okay to set its flag to false and hide the extended demo element and the previewer demo element (this element)
-
-                    // The main counters (the timer and the interval) are cleared immediately, because their final step can make extend demo visible
-
-                    // Clear any timeout, and we should have one, because we finished
-                    if (undefined !== tdDemoMenu.startTimeout) {
-                        window.clearTimeout(tdDemoMenu.startTimeout);
-                        tdDemoMenu.startTimeout = undefined;
-                    }
-
-                    // Clear any interval, and we should have one, because we finished
-                    if (undefined !== tdDemoMenu.startInterval) {
-                        window.clearInterval(tdDemoMenu.startInterval);
-                        tdDemoMenu.startInterval = undefined;
-                    }
-
-                    //jQuery(this).hide();
-                    jQuery(this).css('visibility', 'hidden');
-                    jQuery('.td-screen-demo-extend:first').hide();
-                }
-
-            ).mousemove(function(event) {
-                //tdDemoMenu._moveScreenDemo( event );
-            });
+            //jQuery('.td-screen-demo').hover(
+            //    function (event) {
+            //        //jQuery(this).show();
+            //        jQuery(this).css('visibility', 'visible');
+            //
+            //        tdDemoMenu._resetTdScreeDemoExtendWidth();
+            //    },
+            //    function (event) {
+            //
+            //        // We are on mouseleave event, and because of this, if the main counters (the timer and the interval) are not finished, it means we
+            //        // don't have any extended demo element, so it's okay to set its flag to false and hide the extended demo element and the previewer demo element (this element)
+            //
+            //        // The main counters (the timer and the interval) are cleared immediately, because their final step can make extend demo visible
+            //
+            //        // Clear any timeout, and we should have one, because we finished
+            //        if (undefined !== tdDemoMenu.startTimeout) {
+            //            window.clearTimeout(tdDemoMenu.startTimeout);
+            //            tdDemoMenu.startTimeout = undefined;
+            //        }
+            //
+            //        // Clear any interval, and we should have one, because we finished
+            //        if (undefined !== tdDemoMenu.startInterval) {
+            //            window.clearInterval(tdDemoMenu.startInterval);
+            //            tdDemoMenu.startInterval = undefined;
+            //        }
+            //
+            //        //jQuery(this).hide();
+            //        jQuery(this).css('visibility', 'hidden');
+            //        jQuery('.td-screen-demo-extend:first').hide();
+            //    }
+            //
+            //).mousemove(function(event) {
+            //    //tdDemoMenu._moveScreenDemo( event );
+            //});
 
             jQuery('.td-screen-demo-extend').hover(
                 function (event) {
