@@ -285,7 +285,7 @@ function td_add_events_to_delete_option_sidebar_pulldown() {
 
         var sidebar_key_to_del = jQuery(this).data('sidebar-key');
 
-        tdConfirm.showModal( 'Delete Sidebar?',
+        tdConfirm.showModal( 'Delete Sidebar',
 
             window,
 
@@ -299,7 +299,8 @@ function td_add_events_to_delete_option_sidebar_pulldown() {
                 tb_remove();
             },
 
-            [sidebar_key_to_del]
+            [sidebar_key_to_del],
+            'Are you sure you want to delete this sidebar?'
         );
 
         //stop propagation
@@ -499,7 +500,7 @@ function td_upload_image_font(id_upload_field) {
 function td_delete_uploaded_font_image() {
     jQuery(document).on('click', '.td_delete_image_button', function() {
 
-        tdConfirm.showModal( 'Delete Image?',
+        tdConfirm.showModal( 'Delete Image',
 
             window,
 
@@ -520,13 +521,14 @@ function td_delete_uploaded_font_image() {
                 tb_remove();
             },
 
-            [jQuery(this)]
+            [jQuery(this)],
+            'Are you sure you want to delete this image?'
         );
     });
 
     jQuery(document).on('click', '.td_delete_font_button', function() {
 
-        tdConfirm.showModal( 'Delete Font?',
+        tdConfirm.showModal( 'Delete Font',
 
             window,
 
@@ -544,7 +546,8 @@ function td_delete_uploaded_font_image() {
                 tb_remove();
             },
 
-            [jQuery(this)]
+            [jQuery(this)],
+            'Are you sure you want to delete this font?'
         );
     });
 }

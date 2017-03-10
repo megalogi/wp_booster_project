@@ -64,7 +64,7 @@ var tdConfirm;
             tdConfirm.init();
 
             if ( 'undefined' === typeof url ) {
-                url = '#TB_inline?inlineId=td-confirm';
+                url = '#TB_inline?inlineId=td-confirm&width=480';
             }
 
             if ( 'undefined' === typeof objectContext ) {
