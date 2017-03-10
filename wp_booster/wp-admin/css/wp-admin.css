@@ -1033,7 +1033,7 @@ a.td-tooltip {
   border-top: 1px solid #e6e6e6;
   border-right: 1px solid #e6e6e6;
   border-bottom: 1px solid #e6e6e6;
-  background: #ffffff url("../images/panel/arrow-sidebar.png") repeat-y 0px -1px;
+  background: #fff url("../images/panel/arrow-sidebar.png") repeat-y 0px -1px;
   width: 38px;
   height: 38px;
   cursor: pointer;
@@ -4782,4 +4782,10 @@ a:focus {
 }
 .td-widget-attach-image-wrap .td-hidden-button {
   display: none;
+}
+.td-thickbox-loading #TB_window {
+  display: none;
+}
+.td-thickbox {
+  height: 100px !important;
 }
