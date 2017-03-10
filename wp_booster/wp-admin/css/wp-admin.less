@@ -378,7 +378,7 @@ a:focus {
 // custom td thickbox css
 .td-thickbox-loading {
   #TB_window {
-    display: none;
+    visibility: hidden;
   }
 }
 
@@ -403,6 +403,7 @@ a:focus {
 
   #TB_ajaxContent {
     padding: 18px;
+    height: auto !important;
   }
 
 
@@ -455,4 +456,17 @@ a:focus {
     margin-right: 5px;
   }
 
+}
+
+.td-thickbox-fixed {
+  height: 400px !important;
+
+  #TB_ajaxContent {
+    height: auto !important;
+  }
+
+  .td-confirm-info{
+    height: 288px !important;
+    overflow-y: scroll;
+  }
 }

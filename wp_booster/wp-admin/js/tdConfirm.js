@@ -119,7 +119,7 @@ var tdConfirm;
 
             $TBWindow.addClass( 'td-thickbox' );
 
-            if (tdConfirm._$infoContent.height() > 1) {
+            if (tdConfirm._$infoContent.height() > 400) {
                 $TBWindow.addClass( 'td-thickbox-fixed' );
             }
 
