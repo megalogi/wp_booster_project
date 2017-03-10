@@ -1033,7 +1033,7 @@ a.td-tooltip {
   border-top: 1px solid #e6e6e6;
   border-right: 1px solid #e6e6e6;
   border-bottom: 1px solid #e6e6e6;
-  background: #fff url("../images/panel/arrow-sidebar.png") repeat-y 0px -1px;
+  background: #ffffff url("../images/panel/arrow-sidebar.png") repeat-y 0px -1px;
   width: 38px;
   height: 38px;
   cursor: pointer;
@@ -4787,5 +4787,49 @@ a:focus {
   display: none;
 }
 .td-thickbox {
-  height: 100px !important;
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 6px 2px;
+}
+.td-thickbox #TB_title {
+  font-size: 13px;
+  height: 32px;
+  border-bottom: 1px solid #eeeeee;
+}
+.td-thickbox #TB_ajaxWindowTitle {
+  line-height: 32px;
+  padding-left: 18px;
+}
+.td-thickbox #TB_ajaxContent {
+  padding: 18px;
+}
+.td-thickbox .tb-close-icon {
+  margin-right: 5px;
+  margin-top: 3px;
+}
+.td-thickbox .tb-close-icon::before {
+  font-size: 15px !important;
+  line-height: 28px;
+}
+.td-confirm-buttons {
+  text-align: right;
+  padding-top: 18px;
+}
+.td-confirm-buttons button {
+  min-width: 100px;
+  background-color: white;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 14px;
+  height: 32px;
+  cursor: pointer;
+  color: #555;
+}
+.td-confirm-buttons button:hover {
+  border-color: #999;
+  color: #23282d;
+}
+.td-confirm-buttons .td-confirm-yes {
+  margin-right: 18px;
+}
+.td-confirm-buttons .td-confirm-no {
+  margin-right: 5px;
 }

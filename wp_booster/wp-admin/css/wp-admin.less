@@ -373,16 +373,86 @@ a:focus {
   }
 }
 
+
+
+// custom td thickbox css
 .td-thickbox-loading {
   #TB_window {
-    visibility: hidden;
+    display: none;
   }
 }
 
 .td-thickbox {
-  height: 100px !important;
+  //height: 100px !important;
+
+  box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 6px 2px;
+
+
+  #TB_title {
+    font-size: 13px;
+    height: 32px;
+
+    border-bottom: 1px solid rgb(238, 238, 238);
+
+  }
+
+  #TB_ajaxWindowTitle {
+    line-height: 32px;
+    padding-left: 18px;
+  }
+
+  #TB_ajaxContent {
+    padding: 18px;
+  }
+
+
+
+
+
+  .tb-close-icon {
+
+    margin-right: 5px;
+    margin-top: 3px;
+
+    &::before {
+      font-size:15px !important;
+      line-height: 28px;
+
+    }
+  }
+
 }
 
-.td-thickbox-fixed{
-  height: 500px !important;
+
+
+
+.td-confirm-buttons {
+  text-align: right;
+  padding-top: 18px;
+  button {
+    min-width: 100px;
+    background-color: white;
+    border: 1px solid #ccc;
+    font-size:13px;
+    line-height: 14px;
+    height: 32px;
+    cursor:pointer;
+    color: #555;
+
+
+    &:hover {
+      border-color: #999;
+      color: #23282d;
+    }
+
+  }
+
+  .td-confirm-yes {
+    margin-right: 18px;
+  }
+
+  .td-confirm-no {
+    margin-right: 5px;
+  }
+
 }
