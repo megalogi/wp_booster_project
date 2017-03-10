@@ -115,7 +115,13 @@ var tdConfirm;
 
             tb_show( caption, url );
 
-            jQuery( '#TB_window' ).addClass( 'td-thickbox' );
+            var $TBWindow = jQuery( '#TB_window' );
+
+            $TBWindow.addClass( 'td-thickbox' );
+
+            if (tdConfirm._$infoContent.height() > 1) {
+                $TBWindow.addClass( 'td-thickbox-fixed' );
+            }
 
             tdConfirm._$body.removeClass( 'td-thickbox-loading' );
         }
