@@ -59,7 +59,7 @@ var tdConfirm;
          * @param callbackNo - optional
          * @param argsNo - optional
          */
-        showModal: function( caption, objectContext, callbackYes, argsYes, htmlInfoContent, url, callbackNo, argsNo ) {
+        showModal: function( caption, objectContext, callbackYes, argsYes, htmlInfoContent, url) {
 
             tdConfirm.init();
 
@@ -97,19 +97,11 @@ var tdConfirm;
 
             // Remove any bound callback
             tdConfirm._$confirmNo.unbind();
-            if ( 'undefined' === typeof callbackNo ) {
-                tdConfirm._$confirmNo.click( function() {
-                    tb_remove();
-                    return false;
-                });
-            } else {
-                if ( 'undefined' === typeof argsNo ) {
-                    argsNo = [];
-                }
-                tdConfirm._$confirmNo.click( function() {
-                    callbackNo.apply( objectContext, argsNo );
-                });
-            }
+            tdConfirm._$confirmNo.click( function() {
+                tb_remove();
+                return false;
+            });
+
 
             tdConfirm._$body.addClass( 'td-thickbox-loading' );
 
