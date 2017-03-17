@@ -127,7 +127,7 @@ var td_wp_admin_demos = {};
                             tb_remove();
                         },
                         [jQuery(this).data('demo-id')],
-                        'Are you sure? The theme will remove all the installed content and settings and it will try to reverte your site to the previous state.'
+                        'Are you sure? The theme will remove all the installed content and settings and it will try to revert your site to the previous state.'
                     );
                 });
 

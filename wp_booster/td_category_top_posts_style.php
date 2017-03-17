@@ -54,7 +54,8 @@ abstract class td_category_top_posts_style {
             'limit' => $limit,
             'category_id' => td_global::$current_category_obj->cat_ID,
             'sort' => $filter_by,
-            'td_grid_style' => $td_grid_style
+            'td_grid_style' => $td_grid_style,
+            'td_column_number' => 3 // we use only big grids - force 3 column
         );
 
 

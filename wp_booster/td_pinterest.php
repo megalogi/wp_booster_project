@@ -92,11 +92,17 @@ class td_pinterest {
             //print_r($pinterest_data['user_page_json']);
             //echo '</pre>';
 
-            $pinterest_profile_picture = $pinterest_data['user_page_json']['data']['owner']['image_medium_url'];
-            $pinterest_username        = $pinterest_data['user_page_json']['data']['owner']['username'];
-            $pinterest_profile         = $pinterest_data['user_page_json']['data']['owner']['full_name'];
-            $pinterest_board           = $pinterest_data['user_page_json']['data']['name'];
-            $pinterest_board_url       = $pinterest_data['user_page_json']['data']['url'];
+            $pinterest_profile_picture = $pinterest_username = $pinterest_profile = $pinterest_board = $pinterest_board_url = '';
+
+            if ( isset ($pinterest_data['user_page_json']['data']['owner']) &&
+                 isset ($pinterest_data['user_page_json']['data']['name']) &&
+                 isset ($pinterest_data['user_page_json']['data']['url']) ) {
+                $pinterest_profile_picture = $pinterest_data['user_page_json']['data']['owner']['image_medium_url'];
+                $pinterest_username        = $pinterest_data['user_page_json']['data']['owner']['username'];
+                $pinterest_profile         = $pinterest_data['user_page_json']['data']['owner']['full_name'];
+                $pinterest_board           = $pinterest_data['user_page_json']['data']['name'];
+                $pinterest_board_url       = $pinterest_data['user_page_json']['data']['url'];
+            }
 
             // pinterest followers
             $pinterest_followers = 0;
@@ -160,39 +166,42 @@ class td_pinterest {
             <div class="td-pinterest-main-wrap" <?php echo $board_inline_height ?>>
                 <div class="td-pinterest-main <?php echo $board_columns_gap ?>" <?php echo $board_columns_number ?>>
                     <?php
-                    //get the board pins feeds
-                    $pinterest_board_feeds = $pinterest_data['user_page_json']['children'][0]['children'][0]['data']['board_feed'];
 
-                    if(!empty($pinterest_board_feeds) && is_array($pinterest_board_feeds)) {
+                    if ( isset ($pinterest_data['user_page_json']['children'][0]['children'][0]['data']['board_feed']) ) {
+                        //get the board pins feeds
+                        $pinterest_board_feeds = $pinterest_data['user_page_json']['children'][0]['children'][0]['data']['board_feed'];
 
-                        //sort the feeds by date
-                        usort($pinterest_board_feeds, 'self::sort_pins_by_date');
+                        if(!empty($pinterest_board_feeds) && is_array($pinterest_board_feeds)) {
 
-                        //reverse feeds array
-                        $pinterest_board_feeds = array_reverse($pinterest_board_feeds);
+                            //sort the feeds by date
+                            usort($pinterest_board_feeds, 'self::sort_pins_by_date');
 
-                        //pins counter
-                        $pins_count = 0;
+                            //reverse feeds array
+                            $pinterest_board_feeds = array_reverse($pinterest_board_feeds);
 
-                        foreach ($pinterest_board_feeds as $pin_data) {
-                            if (isset($pin_data['images']) && isset($pin_data['id'])) {
-                                ?>
-                                <!-- pin no. <?php echo $pins_count+1; ?> -->
-                                <a class="td-pinterest-element" href="https://www.pinterest.com/pin/<?php echo $pin_data['id'] ?>/" target="_blank">
-                                    <img class="td-pinterest-image" src="<?php echo $pin_data['images']['736x']['url'] ?>" height="<?php echo $pin_data['images']['736x']['height'] ?>" width="<?php echo $pin_data['images']['736x']['width'] ?>" />
-                                </a>
-                                <?php
+                            //pins counter
+                            $pins_count = 0;
 
-                                //number of pins to display
-                                $pins_count++;
-                                if ($pins_count == $board_pins_total_number) {
-                                    break;
+                            foreach ($pinterest_board_feeds as $pin_data) {
+                                if (isset($pin_data['images']) && isset($pin_data['id'])) {
+                                    ?>
+                                    <!-- pin no. <?php echo $pins_count+1; ?> -->
+                                    <a class="td-pinterest-element" href="https://www.pinterest.com/pin/<?php echo $pin_data['id'] ?>/" target="_blank">
+                                        <img class="td-pinterest-image" src="<?php echo $pin_data['images']['736x']['url'] ?>" height="<?php echo $pin_data['images']['736x']['height'] ?>" width="<?php echo $pin_data['images']['736x']['width'] ?>" />
+                                    </a>
+                                    <?php
+
+                                    //number of pins to display
+                                    $pins_count++;
+                                    if ($pins_count == $board_pins_total_number) {
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
-                    } else {
-                        return 'pinterest: no pins data or invalid data format';
+                        } else {
+                            return 'pinterest: no pins data or invalid data format';
+                        }
                     }
                     ?>
                     <div class="clearfix"></div>
@@ -242,8 +251,8 @@ class td_pinterest {
      */
     private static function get_pinterest_data($atts, &$pinterest_data) {
 
-        $cache_key = 'td_pinterest_' . strtolower($atts['pinterest_id']);
-        if (td_remote_cache::is_expired(__CLASS__, $cache_key) === true) {
+        $cache_key = 'td_pinterest_' . strtolower( $atts['pinterest_id'] );
+        if ( td_remote_cache::is_expired(__CLASS__, $cache_key) === true ) {
             // cache is expired - do a request
             $pinterest_get_data = self::pinterest_get_html_data($atts, $pinterest_data);
 
@@ -287,13 +296,17 @@ class td_pinterest {
 
         $pinterest_json = json_decode($pinterest_html_data, true );
         if ($pinterest_json === null and json_last_error() !== JSON_ERROR_NONE) {
-            td_log::log(__FILE__, __FUNCTION__, 'Error decoding the instagram json', $pinterest_json);
-            return 'Error decoding the instagram json';
+            td_log::log(__FILE__, __FUNCTION__, 'Error decoding the pinterest json', $pinterest_json);
+            return 'Error decoding the pinterest json';
         }
 
-        // current pinterest data is not set
-        if (!isset($pinterest_json['tree'])) {
+        // pinterest data is not set
+        if (!isset($pinterest_json['tree']['data'])) {
             return 'pinterest data is not set, please check the ID';
+        }
+
+        if ($pinterest_json['tree']['data']['type'] !== 'board') {
+            return 'Invalid pinterest data for  <code>' . $atts['pinterest_id'] . '</code> please check the <em>user/board_id</em>';
         }
 
         $pinterest_data['user_page_json'] = $pinterest_json['tree'];
