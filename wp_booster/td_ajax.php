@@ -472,7 +472,7 @@ class td_ajax {
 		//option for default sidebar
 		$list_current_sidebars .= '<div class="td-option-sidebar-wrapper"><a class="td-option-sidebar" data-area-dsp-id="xxx_replace_xxx" title="Default Sidebar">Default Sidebar</a></div>';
 
-		if(!empty($theme_sidebars)) {
+		if(!empty($theme_sidebars) && is_array($theme_sidebars)) {
 			foreach($theme_sidebars as $key_sidebar_option => $sidebar_option){
 				if($key_sidebar_option == $sidebar_key_in_array) {
 
