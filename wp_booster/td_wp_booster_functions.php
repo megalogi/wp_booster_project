@@ -307,7 +307,7 @@ function td_load_css_fonts() {
 	 * this section will appear in the header of the source of the page
 	 */
 	if(!empty($td_fonts_css_files)) {
-		wp_enqueue_style('google-fonts-style', td_global::$http_or_https . $td_fonts_css_files);
+		wp_enqueue_style( 'google-fonts-style', td_global::$http_or_https . $td_fonts_css_files, array(), TD_THEME_VERSION );
 	}
 }
 
