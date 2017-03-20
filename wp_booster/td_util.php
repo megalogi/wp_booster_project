@@ -862,6 +862,13 @@ class td_util {
     }
 
 
+    static function get_block_error($block_name, $message) {
+        if (is_user_logged_in()){
+            return '<div class="td-block-missing-settings"><span>' . $block_name . '</span>' . $message . '</div>';
+        };
+    }
+
+
     /**
      * makes sure that we return something even if the $_POST of that value is not defined
      * @param $post_variable
