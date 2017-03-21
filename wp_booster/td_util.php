@@ -604,12 +604,6 @@ class td_util {
 	}
 
 
-    //generates one breadcrumb
-    static function get_html5_breadcrumb($display_name, $title_attribute, $url) {
-        return '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a title="' . $title_attribute . '" class="entry-crumb" itemprop="url" href="' . $url . '"><span itemprop="title">' . $display_name . '</span></a></span>';
-    }
-
-
 	/**
 	 * safe way to call the tdc_state::is_live_editor_iframe() function
 	 * @return bool  Note that ajax requests do not toggle this to true
