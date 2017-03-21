@@ -383,6 +383,19 @@ a:focus {
 }
 
 .td-thickbox {
+  #TB_closeWindowButton:focus {
+    .tb-close-icon {
+      box-shadow: none !important;
+      color: #666;
+    }
+  }
+
+  #TB_closeWindowButton:hover {
+    .tb-close-icon {
+      color: #00a0d2;
+    }
+  }
+
   height: auto !important;
 
   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 6px 2px;
@@ -412,7 +425,7 @@ a:focus {
 
   .tb-close-icon {
 
-    margin-right: 5px;
+    margin-right: 3px;
     margin-top: 3px;
     &:focus {
       outline:0 !important;
