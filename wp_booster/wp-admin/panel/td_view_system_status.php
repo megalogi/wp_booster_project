@@ -64,7 +64,7 @@ require_once "td_view_header.php";
 
 
     // Theme remote http channel used by the theme
-    $td_remote_http = td_util::get_option('td_remote_http');
+    $td_remote_http = td_options::get_array('td_remote_http');
     $http_reset_button = ' <a class="td-button-system-status td-reset-channel" href="admin.php?page=td_system_status&reset_http_channel=1" data-action="reset the theme http channel and remote cache?">Reset channel</a>';
 
     if (empty($td_remote_http['test_status'])) {
@@ -559,7 +559,7 @@ require_once "td_view_header.php";
     //Remove the registration key
     if(!empty($_REQUEST['reset_http_channel']) && $_REQUEST['reset_http_channel'] == 1) {
         //reset http channel
-        td_util::update_option('td_remote_http', array());
+        td_options::update_array('td_remote_http', array());
         //reset cache
         update_option(TD_THEME_OPTIONS_NAME . '_remote_cache', array());
         ?>
