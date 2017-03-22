@@ -91,7 +91,7 @@ class td_panel_data_source {
 
             //social networks
             case 'td_social_networks':
-                $social_array = td_util::get_option('td_social_networks');
+                $social_array = td_options::get_array('td_social_networks');
                 if (!empty($social_array[$read_array['option_id']])) {
                     return $social_array[$read_array['option_id']];
                 } else {
@@ -604,7 +604,7 @@ class td_panel_data_source {
             }
         }
 
-        td_options::update('td_social_networks', $save_social_networks);
+        td_options::update_array('td_social_networks', $save_social_networks);
         //td_global::$td_options['td_social_networks'] = $save_social_networks;
     }
 

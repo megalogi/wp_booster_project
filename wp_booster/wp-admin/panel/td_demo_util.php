@@ -254,7 +254,7 @@ class td_demo_misc extends td_demo_base {
 	 * @param $social_icons
 	 */
     static function add_social_buttons($social_icons) {
-        td_util::update_option('td_social_networks', $social_icons);
+        td_options::update_array('td_social_networks', $social_icons);
     }
 
 
@@ -262,7 +262,7 @@ class td_demo_misc extends td_demo_base {
 	 * remove all the ads from the theme options. Must be called before adding custom ads
 	 */
     static function clear_all_ads() {
-        td_options::update_array('td_ads', array());
+        td_util::update_option('td_ads', array());
     }
 
 
@@ -272,11 +272,15 @@ class td_demo_misc extends td_demo_base {
 	 * @param $td_image_id
 	 */
     static function add_ad_image($ad_spot_name, $td_image_id) {
-        $td_ad_spots = td_options::get_array('td_ads');
+        $td_ad_spots = td_util::get_option('td_ads');
+        //php 7.1.1 fix
+        if(!is_array($td_ad_spots)) {
+            $td_ad_spots = array();
+        }
         $new_ad_spot['ad_code']= '<div class="td-all-devices"><a href="#"><img src="' . td_demo_media::get_image_url_by_td_id($td_image_id) . '"/></a></div>';
         $new_ad_spot['current_ad_type']= 'other';
         $td_ad_spots[strtolower($ad_spot_name)] = $new_ad_spot;
-        td_options::update_array('td_ads', $td_ad_spots);
+        td_util::update_option('td_ads', $td_ad_spots);
     }
 
 
@@ -721,9 +725,9 @@ class td_demo_widgets extends td_demo_base {
         if (substr($sidebar_name, 0, 8) != 'td_demo_') {
 	        self::kill(__CLASS__, __FUNCTION__, 'All sidebars used in the demo must begin with td_demo_');
         }
-        $tmp_sidebars = td_options::get_array('sidebars');
+        $tmp_sidebars = td_util::get_option('sidebars');
         $tmp_sidebars[]= $sidebar_name;
-        td_options::update_array('sidebars', $tmp_sidebars);
+        td_util::update_option('sidebars', $tmp_sidebars);
     }
 
 
@@ -741,7 +745,7 @@ class td_demo_widgets extends td_demo_base {
 	 */
     static function add_widget_to_sidebar($sidebar_id, $widget_name, $atts) {
 
-        $tmp_sidebars = td_options::get_array('sidebars');
+        $tmp_sidebars = td_util::get_option('sidebars');
 	    if (empty($tmp_sidebars)) {
 		    $tmp_sidebars = array();
 	    }
@@ -802,14 +806,14 @@ class td_demo_widgets extends td_demo_base {
      * remove the sidebars that begin with td_demo_
      */
     static function remove() {
-        $tmp_sidebars = td_options::get_array('sidebars');
+        $tmp_sidebars = td_util::get_option('sidebars');
         if (!empty($tmp_sidebars)) {
             foreach ($tmp_sidebars as $index => $sidebar) {
                 if (substr($sidebar, 0, 8) == 'td_demo_') {
                     unset($tmp_sidebars[$index]);
                 }
             }
-	        td_options::update_array('sidebars', $tmp_sidebars);
+	        td_util::update_option('sidebars', $tmp_sidebars);
         }
 
     }
