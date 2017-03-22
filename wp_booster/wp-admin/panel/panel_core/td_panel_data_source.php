@@ -66,11 +66,11 @@ class td_panel_data_source {
             //translation data source
             case 'td_translate':
                 //get all the translations (they are stored in the td_008 variable)
-                $translations = td_util::get_option('td_translation_map_user');
+                $translations = td_options::get_array('td_translation_map_user');
                 if (!empty($translations[$read_array['option_id']])) {
                     return $translations[$read_array['option_id']];//htmlspecialchars()
                 } else {
-                    return '';
+                    return array();
                 }
                 //return td_util::get_option($read_array['option_id']);
                 break;
@@ -419,7 +419,7 @@ class td_panel_data_source {
      * @param $wp_option_array
      */
     private static function update_td_translate($wp_option_array) {
-    	td_options::update('td_translation_map_user', $wp_option_array);
+    	td_options::update_array('td_translation_map_user', $wp_option_array);
         //td_global::$td_options['td_translation_map_user'] = $wp_option_array;
     }
 
