@@ -70,7 +70,7 @@ class td_panel_data_source {
                 if (!empty($translations[$read_array['option_id']])) {
                     return $translations[$read_array['option_id']];//htmlspecialchars()
                 } else {
-                    return array();
+                    return '';
                 }
                 //return td_util::get_option($read_array['option_id']);
                 break;
@@ -80,7 +80,7 @@ class td_panel_data_source {
             //[ds] => td_ads [option_id] => current_ad_type [item_id] => header - has to become [item_id][option_id]
             case 'td_ads':
                 //get all the ad spots (they are stored in the td_008 variable)
-                $ads = td_util::get_option('td_ads');
+                $ads = td_options::get_array('td_ads');
                 if (!empty($ads[$read_array['item_id']]) and !empty($ads[$read_array['item_id']][$read_array['option_id']])) {
                     return htmlspecialchars($ads[$read_array['item_id']][$read_array['option_id']]);
                 } else {
