@@ -2111,8 +2111,21 @@ function td_init_booster() {
 	global $content_width;
 
 	// content width - this is overwritten in post
-	if (!isset($content_width)) {
-		$content_width = 640;
+	if ( !isset($content_width) ) {
+
+		switch (TD_THEME_NAME) {
+			case 'Newspaper' :
+				$content_width = 696;
+				break;
+
+			case 'Newsmag' :
+				$content_width = 640;
+				break;
+
+			case 'ionMag' :
+				$content_width = 640;
+				break;
+		}
 	}
 
 	/* ----------------------------------------------------------------------------
