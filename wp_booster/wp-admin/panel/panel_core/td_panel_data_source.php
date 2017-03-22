@@ -108,7 +108,7 @@ class td_panel_data_source {
 
 
             case 'td_fonts':
-                $fonts_user_inserted = td_util::get_option('td_fonts');
+                $fonts_user_inserted = td_options::get_array('td_fonts');
                 if(!empty($fonts_user_inserted[$read_array['item_id']][$read_array['option_id']])) {
                     return $fonts_user_inserted[$read_array['item_id']][$read_array['option_id']];
                 }
@@ -702,7 +702,7 @@ class td_panel_data_source {
         }
 
         //check sections from db and add them to the saving array if ar not set to empty by the user
-        $font_sections_from_db = td_util::get_option('td_fonts');//get the fonts from db
+        $font_sections_from_db = td_options::get_array('td_fonts');//get the fonts from db
 
         foreach (td_global::$typography_settings_list as $panel_section => $font_settings_array) {
             foreach ($font_settings_array as $font_setting_id => $font_setting_name) {
@@ -728,7 +728,7 @@ class td_panel_data_source {
 
 
         //add the user font settings to the option string that going to the database
-	    td_options::update('td_fonts', $td_fonts_save);
+	    td_options::update_array('td_fonts', $td_fonts_save);
 
     }
 

@@ -279,7 +279,7 @@ add_action('wp_head', 'td_include_user_compiled_css', 10);
 add_action('wp_enqueue_scripts', 'td_load_css_fonts');
 function td_load_css_fonts() {
 
-	$cur_td_fonts = td_util::get_option('td_fonts'); // get the google fonts used by user
+	$cur_td_fonts = td_options::get_array('td_fonts'); // get the google fonts used by user
 
 	$unique_google_fonts_ids = array();
 
