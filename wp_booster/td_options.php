@@ -71,6 +71,11 @@ class td_options {
             return self::$td_options[$option_name];
         }
 
+        // log strings
+        if (!empty(self::$td_options[$option_name]) && !is_array(self::$td_options[$option_name])) {
+            td_log::log(__FILE__, __FUNCTION__, 'td_options::get_array - option is not an array!', self::$td_options[$option_name]);
+        }
+
         // no setting or the setting is stored as a string
         return $default_value;
     }
