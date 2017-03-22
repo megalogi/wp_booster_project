@@ -100,7 +100,7 @@ class td_panel_data_source {
                 break;
 
             case 'td_fonts_user_insert':
-                $fonts_user_inserted = td_util::get_option('td_fonts_user_inserted');
+                $fonts_user_inserted = td_options::get_array('td_fonts_user_inserted');
                 if(!empty($fonts_user_inserted[$read_array['option_id']])) {
                     return $fonts_user_inserted[$read_array['option_id']];
                 }
