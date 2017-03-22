@@ -117,7 +117,7 @@ class td_panel_data_source {
 
             case 'td_block_styles':
                 //get the hole block style array
-                $td_block_styles = td_util::get_option('td_block_styles');
+                $td_block_styles = td_options::get_array('td_block_styles');
 
                 if(!empty($td_block_styles) and !empty($td_block_styles[$read_array['item_id']][$read_array['option_id']])) {
                     return $td_block_styles[$read_array['item_id']][$read_array['option_id']];
