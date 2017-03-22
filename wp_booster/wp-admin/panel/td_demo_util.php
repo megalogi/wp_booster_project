@@ -254,7 +254,7 @@ class td_demo_misc extends td_demo_base {
 	 * @param $social_icons
 	 */
     static function add_social_buttons($social_icons) {
-        td_util::update_option('td_social_networks', $social_icons);
+        td_options::update_array('td_social_networks', $social_icons);
     }
 
 
