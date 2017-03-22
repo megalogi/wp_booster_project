@@ -401,7 +401,7 @@ class td_ajax {
 
 
 
-		$theme_sidebars = td_util::get_option('sidebars');
+		$theme_sidebars = td_options::get_array('sidebars');
 
 		//default sidebar
 		$list_current_sidebars .= '<div class="td-option-sidebar-wrapper"><a class="td-option-sidebar" data-area-dsp-id="xxx_replace_xxx" title="Default Sidebar">Default Sidebar</a></div>';
@@ -433,7 +433,7 @@ class td_ajax {
 
 
 
-			td_util::update_option('sidebars', $theme_sidebars);
+			td_options::update_array('sidebars', $theme_sidebars);
 
 
 			//add the new sidebar to the existing list
@@ -467,7 +467,7 @@ class td_ajax {
 			$sidebar_key_in_array = trim($_POST['sidebar']);
 		}
 
-		$theme_sidebars = td_util::get_option('sidebars');
+		$theme_sidebars = td_options::get_array('sidebars');
 
 		//option for default sidebar
 		$list_current_sidebars .= '<div class="td-option-sidebar-wrapper"><a class="td-option-sidebar" data-area-dsp-id="xxx_replace_xxx" title="Default Sidebar">Default Sidebar</a></div>';
@@ -488,7 +488,7 @@ class td_ajax {
 			}
 
 
-			td_util::update_option('sidebars', $theme_sidebars);
+			td_options::update_array('sidebars', $theme_sidebars);
 
 			die(json_encode(array('td_bool_value' => '1', 'td_msg' => 'Succes', 'value_insert' => $list_current_sidebars, 'value_to_march_del' => $value_deleted_sidebar)));
 		}

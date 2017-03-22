@@ -2205,7 +2205,7 @@ function td_init_booster() {
 	));
 
 	//get our custom dynamic sidebars
-	$currentSidebars = td_util::get_option('sidebars');
+	$currentSidebars = td_options::get_array('sidebars');
 
 	//if we have user made sidebars, register them in wp
 	if (!empty($currentSidebars)) {
