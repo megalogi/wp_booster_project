@@ -72,11 +72,7 @@ class td_options {
         }
 
         // no setting or the setting is stored as a string
-        if (!empty($default_value)) {
-            return $default_value;
-        } else {
-            return array();
-        }
+        return $default_value;
     }
 
 
