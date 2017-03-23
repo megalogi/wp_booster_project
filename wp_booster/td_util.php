@@ -407,7 +407,18 @@ class td_util {
         return array( round( $h, 2 ), round( $s, 2 ), round( $l, 2 ) );
     }
 
-
+    /**
+     * checks for rgba color values
+     * @param $rgba
+     *
+     * @return bool
+     */
+    static function is_rgba ( $rgba ) {
+        if ( strpos($rgba, 'rgba') !== false ) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * calculate the contrast of a color and return. Used by 011

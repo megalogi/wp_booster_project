@@ -408,7 +408,7 @@ if(!tdDetect.isTouchDevice && tdUtil.getBackendVar('td_ad_background_click_link'
         var target_jquery_obj = jQuery(target);
 
         // td-outer-container for NEWSMAG and td-boxex-layout for NEWSPAPER
-        if (target_jquery_obj.hasClass('td-outer-container') || target_jquery_obj.hasClass('td-boxed-layout')) {
+        if (target_jquery_obj.hasClass('td-outer-container') || target_jquery_obj.hasClass('td-theme-wrap') || target_jquery_obj.hasClass('td-header-wrap')) {
 
             //open the link ad page
             if(td_ad_background_click_target == '_blank') {
