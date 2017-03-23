@@ -851,20 +851,4 @@ class td_page_generator {
         return $buffy;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
