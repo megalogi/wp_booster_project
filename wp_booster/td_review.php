@@ -83,8 +83,11 @@ class td_review {
     }
 
 
-
-    // converts the rating to 0-5 to be used with stars
+    /**
+     * converts the rating to 0-5 to be used with stars
+     * @param $td_review
+     * @return float
+     */
     private static function calculate_total_key_value($td_review) {
         if (!empty($td_review['has_review'])) {
             switch ($td_review['has_review']) {
