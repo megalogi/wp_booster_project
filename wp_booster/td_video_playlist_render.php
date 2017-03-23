@@ -53,7 +53,7 @@ class td_video_playlist_render {
 		}
 
 		// read the youtube and vimeo ids from the DB
-		$td_playlist_videos = get_post_meta($postId, 'td_playlist_video', true);
+		$td_playlist_videos = get_post_meta($postId, 'td_playlist_video');
 
 		//print_r($td_playlist_videos);
 

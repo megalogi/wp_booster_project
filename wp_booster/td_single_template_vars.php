@@ -50,7 +50,7 @@ if ($post->post_type != 'post') {
 }
 
 //read the custom single post settings - this setting overids all of them
-$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings');
 if (!empty($td_post_theme_settings['td_sidebar_position'])) {
 	$loop_sidebar_position = $td_post_theme_settings['td_sidebar_position'];
 }

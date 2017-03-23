@@ -446,7 +446,7 @@ function load_wp_admin_js() {
 function td_on_wp_head_canonical(){
 
 	global $post;
-	$td_smart_list = get_post_meta($post->ID, 'td_post_theme_settings', true);
+	$td_smart_list = get_post_meta($post->ID, 'td_post_theme_settings');
 
 	/** ----------------------------------------------------------------------------
 	 * Smart list support. class_exists and new object WORK VIA AUTOLOAD
@@ -535,7 +535,7 @@ function td_on_wp_head_canonical(){
 
 		global $wp_query;
 
-		$td_homepage_loop = get_post_meta($post->ID, 'td_homepage_loop', true);
+		$td_homepage_loop = get_post_meta($post->ID, 'td_homepage_loop');
 		query_posts(td_data_source::metabox_to_args($td_homepage_loop, $paged));
 
 		$max_page = $wp_query->max_num_pages;
@@ -749,7 +749,7 @@ function td_wpseo_title($seo_title) {
 	if (is_singular('post')) {
 		global $post;
 
-		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings');
 		if (is_array($td_post_theme_settings) && array_key_exists('smart_list_template', $td_post_theme_settings)) {
 			$is_smart_list = true;
 		}
@@ -1935,7 +1935,7 @@ function td_add_single_template_class($classes) {
 		global $post;
 
 		$active_single_template = '';
-		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings');
 
 		if (!empty($td_post_theme_settings['td_post_template'])) {
 			// we have a post template set in the post
@@ -2387,7 +2387,7 @@ function td_template_include_filter( $wordpress_template_path ) {
 		$single_template_id = td_util::get_option('td_default_site_post_template');
 
 		// check if we have a specific template
-		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings', true);
+		$td_post_theme_settings = get_post_meta($post->ID, 'td_post_theme_settings');
 		if (!empty($td_post_theme_settings['td_post_template'])) {
 			$single_template_id = $td_post_theme_settings['td_post_template'];
 		}
