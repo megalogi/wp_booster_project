@@ -1036,6 +1036,22 @@ class td_util {
 
         return $td_theme_version;
     }
+
+
+    /**
+     * return post meta array
+     * @param $post_id
+     * @param $key
+     * @return mixed
+     */
+    static function get_post_meta_array($post_id, $key) {
+        $meta_array = get_post_meta($post_id, $key);
+        if (isset($meta_array[0])) {
+            return $meta_array[0];
+        }
+        return $meta_array;
+    }
+
 }//end class td_util
 
 
