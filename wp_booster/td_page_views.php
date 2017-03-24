@@ -53,7 +53,7 @@ class td_page_views {
 
 
             //check if the first entry is an array (used to detect and reset the older themes array)
-            if (is_array($count_7_day_array) && is_array($count_7_day_array[0])) {
+            if (isset($count_7_day_array[0]) && is_array($count_7_day_array[0])) {
 
 
                 if (isset($count_7_day_array[$current_day])) { // check to see if the current day is defined - if it's not defined it's not ok.

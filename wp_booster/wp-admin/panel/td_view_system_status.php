@@ -1060,7 +1060,7 @@ require_once "td_view_header.php";
            $posts = get_posts($args);
 
            foreach ( $posts as $post) {
-               $post_video_playlist_meta = get_post_meta($post->ID, 'td_playlist_video');
+               $post_video_playlist_meta = td_util::get_post_meta_array($post->ID, 'td_playlist_video');
 
                if ( !empty ($post_video_playlist_meta)) {
                    $posts_video_playlist_meta_array[$post->ID]=$post_video_playlist_meta;
