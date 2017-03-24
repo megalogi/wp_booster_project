@@ -312,7 +312,7 @@ class td_review {
 
     static function on_save_post_update_review($post_id) {
         //$td_review = get_post_meta($post_id, 'td_review', true);
-	    $td_review = get_post_meta($post_id, 'td_post_theme_settings');
+	    $td_review = td_util::get_post_meta_array($post_id, 'td_post_theme_settings');
         if (self::has_review($td_review)) {
             update_post_meta($post_id, 'td_review_key', self::calculate_total_key_value($td_review));
             /*
