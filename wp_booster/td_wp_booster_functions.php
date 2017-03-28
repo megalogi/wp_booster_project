@@ -106,6 +106,11 @@ add_filter('manage_posts_columns', array('td_page_views', 'on_manage_posts_colum
 add_action('manage_posts_custom_column', array('td_page_views', 'on_manage_posts_custom_column'), 5, 2);
 
 
+/* ----------------------------------------------------------------------------
+ * JSON LD Breadcrumbs
+ */
+add_action('wp_head', array('td_page_generator', 'get_breadcrumbs_json_ld'), 45);
+
 
 /* ----------------------------------------------------------------------------
  * Review support
