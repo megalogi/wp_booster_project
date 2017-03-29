@@ -1040,16 +1040,17 @@ class td_util {
 
     /**
      * return post meta array
+     * if post meta doesn't contain an array return an empty array
      * @param $post_id
      * @param $key
-     * @return mixed
+     * @return array|mixed
      */
     static function get_post_meta_array($post_id, $key) {
-        $meta_array = get_post_meta($post_id, $key);
-        if (isset($meta_array[0])) {
-            return $meta_array[0];
+        $post_meta = get_post_meta($post_id, $key, true);
+        if (!is_array($post_meta)) {
+            return array();
         }
-        return $meta_array;
+        return $post_meta;
     }
 
 }//end class td_util
