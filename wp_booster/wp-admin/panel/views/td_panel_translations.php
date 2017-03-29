@@ -175,6 +175,7 @@
                     // we clear the translation for english language, english being the default translation
 		            if (selected_language_code == 'en') {
 		                td_translation.clear_translation();
+			            tb_remove();
 		                return;
 		            }
 
