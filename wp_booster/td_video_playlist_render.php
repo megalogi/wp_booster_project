@@ -19,8 +19,10 @@ class td_video_playlist_render {
         $buffy = ''; //output buffer
         $buffy .= '<div class="td_block_wrap td_block_video_playlist">';
 	        $buffy .= '<div id=' . $block_uid . ' class="td_block_inner">';
-	            if ( is_user_logged_in() && empty($atts['playlist_v']) && empty($atts['playlist_yt']) ) {
-		            $buffy .= '<div class="td-block-missing-settings"><span>Video playlist</span> <strong>Video id field</strong> is empty. Configure this block/widget and enter a list of video id\'s</div>';
+
+	            if (empty($atts['playlist_v']) && empty($atts['playlist_yt']) ) {
+                    $buffy .= td_util::get_block_error('Video playlist', '<strong>Video id field</strong> is empty. Configure this block/widget and enter a list of video id\'s');
+		            //$buffy .= '<div class="td-block-missing-settings"><span>Video playlist</span> <strong>Video id field</strong> is empty. Configure this block/widget and enter a list of video id\'s</div>';
 	            }
 		        //inner content of the block
 		        $buffy .= self::inner($atts, $list_type);
@@ -51,7 +53,7 @@ class td_video_playlist_render {
 		}
 
 		// read the youtube and vimeo ids from the DB
-		$td_playlist_videos = get_post_meta($postId, 'td_playlist_video', true);
+		$td_playlist_videos = td_util::get_post_meta_array($postId, 'td_playlist_video');
 
 		//print_r($td_playlist_videos);
 

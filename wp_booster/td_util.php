@@ -407,7 +407,18 @@ class td_util {
         return array( round( $h, 2 ), round( $s, 2 ), round( $l, 2 ) );
     }
 
-
+    /**
+     * checks for rgba color values
+     * @param $rgba
+     *
+     * @return bool
+     */
+    static function is_rgba ( $rgba ) {
+        if ( strpos($rgba, 'rgba') !== false ) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * calculate the contrast of a color and return. Used by 011
@@ -602,12 +613,6 @@ class td_util {
 
 		return array_merge( array( '- Global Header -' => ''), $block_template_ids );
 	}
-
-
-    //generates one breadcrumb
-    static function get_html5_breadcrumb($display_name, $title_attribute, $url) {
-        return '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a title="' . $title_attribute . '" class="entry-crumb" itemprop="url" href="' . $url . '"><span itemprop="title">' . $display_name . '</span></a></span>';
-    }
 
 
 	/**
@@ -862,6 +867,13 @@ class td_util {
     }
 
 
+    static function get_block_error($block_name, $message) {
+        if (is_user_logged_in()){
+            return '<div class="td-block-missing-settings"><span>' . $block_name . '</span>' . $message . '</div>';
+        };
+    }
+
+
     /**
      * makes sure that we return something even if the $_POST of that value is not defined
      * @param $post_variable
@@ -1024,6 +1036,23 @@ class td_util {
 
         return $td_theme_version;
     }
+
+
+    /**
+     * return post meta array
+     * if post meta doesn't contain an array return an empty array
+     * @param $post_id
+     * @param $key
+     * @return array|mixed
+     */
+    static function get_post_meta_array($post_id, $key) {
+        $post_meta = get_post_meta($post_id, $key, true);
+        if (!is_array($post_meta)) {
+            return array();
+        }
+        return $post_meta;
+    }
+
 }//end class td_util
 
 

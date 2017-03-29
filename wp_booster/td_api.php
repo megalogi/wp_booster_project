@@ -18,4 +18,5 @@ require_once('td_api_tinymce_formats.php');
 require_once('td_api_text.php');
 require_once('td_api_features.php');
 require_once('td_api_autoload.php');
+require_once('td_api_css_generator.php');
 /* @td_end_get_inline */

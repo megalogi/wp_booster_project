@@ -68,10 +68,10 @@ function td_theme_migration() {
 
 			// page settings
 			$update_td_homepage_loop = false;
-			$td_homepage_loop = get_post_meta($recent_post['ID'], 'td_homepage_loop');
-			$td_page = get_post_meta($recent_post['ID'], 'td_page');
-			$td_homepage_loop_filter = get_post_meta($recent_post['ID'], 'td_homepage_loop_filter');
-			$td_unique_articles = get_post_meta($recent_post['ID'], 'td_unique_articles');
+			$td_homepage_loop = td_util::get_post_meta_array($recent_post['ID'], 'td_homepage_loop');
+			$td_page = td_util::get_post_meta_array($recent_post['ID'], 'td_page');
+			$td_homepage_loop_filter = td_util::get_post_meta_array($recent_post['ID'], 'td_homepage_loop_filter');
+			$td_unique_articles = td_util::get_post_meta_array($recent_post['ID'], 'td_unique_articles');
 
 			if (!empty($td_homepage_loop_filter) and is_array($td_homepage_loop_filter) and (count($td_homepage_loop_filter) > 0)) {
 				foreach ($td_homepage_loop_filter[0] as $filter_key => $filter_value) {
@@ -99,9 +99,9 @@ function td_theme_migration() {
 
 			// post settings
 			$update_td_post_theme_settings = false;
-			$td_post_theme_settings = get_post_meta($recent_post['ID'], 'td_post_theme_settings');
-			$td_smart_list = get_post_meta($recent_post['ID'], 'td_smart_list');
-			$td_review = get_post_meta($recent_post['ID'], 'td_review');
+			$td_post_theme_settings = td_util::get_post_meta_array($recent_post['ID'], 'td_post_theme_settings');
+			$td_smart_list = td_util::get_post_meta_array($recent_post['ID'], 'td_smart_list');
+			$td_review = td_util::get_post_meta_array($recent_post['ID'], 'td_review');
 
 			if (!empty($td_review) and is_array($td_review) and (count($td_review) > 0)) {
 				foreach ($td_review[0] as $filter_key => $filter_value) {

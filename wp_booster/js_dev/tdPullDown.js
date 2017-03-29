@@ -60,7 +60,7 @@ var tdPullDown = {};
 
             // the minimum no. of elements to be shown by the horizontal list
             // - IT CAN BE SPECIFIED
-            this.minimum_elements = 2;
+            this.minimum_elements = 1;
 
 
 

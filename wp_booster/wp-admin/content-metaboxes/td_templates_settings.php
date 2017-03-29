@@ -1,6 +1,7 @@
 <?php
-include_once get_template_directory()  . '/includes/wp_booster/wp-admin/external/wpalchemy/MetaBox.php';
-
+if ( ! class_exists( 'WPAlchemy_MetaBox' ) ){
+    include_once get_template_directory()  . '/includes/wp_booster/wp-admin/external/wpalchemy/MetaBox.php';
+}
 
 
 add_action('init', 'td_register_post_metaboxes', 9999); // we need to be on init because we use get_post_types - we need the high priority to catch retarded plugins that bind late to the hook to register it's CPT
