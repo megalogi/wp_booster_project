@@ -89,10 +89,10 @@ class td_page_generator {
                                 "@id": "' . esc_url(get_home_url()) . '/",
                                 "name": "' . __td('Home', TD_THEME_NAME) . '"                                               
                             }
-                        },';
+                        }';
 
             //item 2
-            $buffy .=  '{
+            $buffy .=  ',{
                             "@type": "ListItem",
                             "position": 2,
                                 "item": {
@@ -100,11 +100,11 @@ class td_page_generator {
                                 "@id": "' . $breadcrumbs_array[0]['url'] . '",
                                 "name": "' . $breadcrumbs_array[0]['display_name'] . '"
                             }
-                        },';
+                        }';
 
             if (isset($breadcrumbs_array[1]['url'])) {
                 //item 3
-                $buffy .=  '{
+                $buffy .=  ',{
                             "@type": "ListItem",
                             "position": 3,
                                 "item": {
@@ -112,12 +112,12 @@ class td_page_generator {
                                 "@id": "' . $breadcrumbs_array[1]['url'] . '",
                                 "name": "' . $breadcrumbs_array[1]['display_name'] . '"                                
                             }
-                        },';
+                        }';
             }
 
             if (isset($breadcrumbs_array[2]['url'])) {
                 //item 4
-                $buffy .=  '{
+                $buffy .=  ',{
                             "@type": "ListItem",
                             "position": 4,
                                 "item": {
