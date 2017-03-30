@@ -161,6 +161,10 @@ add_action('wp_ajax_td_ajax_get_views',        array('td_ajax', 'on_ajax_get_vie
 add_action('wp_ajax_td_ajax_new_sidebar', array('td_ajax', 'on_ajax_new_sidebar'));        // ajax: admin panel - new sidebar #sec
 add_action('wp_ajax_td_ajax_delete_sidebar', array('td_ajax', 'on_ajax_delete_sidebar'));  // ajax: admin panel - delete sidebar #sec
 
+//ajax: translation
+add_action('wp_ajax_td_ajax_share_translation', array('td_ajax', 'on_ajax_share_translation')); // ajax: share translations
+add_action('wp_ajax_td_ajax_get_translation', array('td_ajax', 'on_ajax_get_translation')); // ajax: get translations
+
 
 
 //// @todo MUST
