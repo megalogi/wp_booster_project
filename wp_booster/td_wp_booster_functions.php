@@ -6,9 +6,6 @@
 do_action('td_wp_booster_before');  //@todo is probably not used by anyone
 
 
-if (TD_DEPLOY_MODE == 'dev') {
-	require_once('external/kint/Kint.class.php');
-}
 
 // theme utility files
 require_once('td_global.php');
