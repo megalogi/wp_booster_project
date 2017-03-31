@@ -18,7 +18,7 @@ class td_page_generator {
         //author page
         if (is_author()) {
             $part_cur_auth_obj = (get_query_var('author_name')) ? get_user_by('slug', get_query_var('author_name')) : get_userdata(get_query_var('author'));
-            $breadcrumbs_array = self::author_breadcrumbs_array($part_cur_auth_obj);
+            $breadcrumbs_array = self::author_breadcrumbs_array($part_cur_auth_obj, true);
         }
 
         //category page
@@ -36,7 +36,7 @@ class td_page_generator {
         //tag
         if (is_tag()) {
             $current_tag_name = single_tag_title( '', false );
-            $breadcrumbs_array = self::tag_breadcrumbs_array($current_tag_name);
+            $breadcrumbs_array = self::tag_breadcrumbs_array($current_tag_name, true);
         }
 
         //date archive
@@ -46,7 +46,7 @@ class td_page_generator {
 
         //home
         if (is_home()) {
-            $breadcrumbs_array = self::home_breadcrumbs_array();
+            $breadcrumbs_array = self::home_breadcrumbs_array(true);
         }
 
         //page
@@ -56,7 +56,9 @@ class td_page_generator {
 
         //attachment
         if (is_attachment()) {
-            $breadcrumbs_array = self::attachment_breadcrumbs_array($post->post_parent, $post->post_title);
+            if (!empty($post->post_parent) and !empty($post->post_title)) {
+                $breadcrumbs_array = self::attachment_breadcrumbs_array($post->post_parent, $post->post_title);
+            }
         }
 
         //search
@@ -65,8 +67,9 @@ class td_page_generator {
         }
 
 
+
         //create json-ld script
-        if (!empty($breadcrumbs_array[0]['url'])) {
+        if (isset($breadcrumbs_array[0]['url'])) {
             $buffy = '';
             $breadcrumbs_count = count($breadcrumbs_array);
 
@@ -76,24 +79,51 @@ class td_page_generator {
                             "@context": "http://schema.org",
                             "@type": "BreadcrumbList",
                             "itemListElement": [';
+
             //item 1
             $buffy .=  '{
                             "@type": "ListItem",
                             "position": 1,
                                 "item": {
+                                "@type": "WebSite",
+                                "@id": "' . esc_url(get_home_url()) . '/",
+                                "name": "' . __td('Home', TD_THEME_NAME) . '"                                               
+                            }
+                        }';
+
+            //item 2
+            $buffy .=  ',{
+                            "@type": "ListItem",
+                            "position": 2,
+                                "item": {
+                                "@type": "WebPage",
                                 "@id": "' . $breadcrumbs_array[0]['url'] . '",
                                 "name": "' . $breadcrumbs_array[0]['display_name'] . '"
                             }
                         }';
 
-            if ($breadcrumbs_count == 3 && !empty($breadcrumbs_array[1]['url'])) {
-                //item 2
+            if (isset($breadcrumbs_array[1]['url'])) {
+                //item 3
                 $buffy .=  ',{
                             "@type": "ListItem",
-                            "position": 2,
+                            "position": 3,
                                 "item": {
+                                "@type": "WebPage",
                                 "@id": "' . $breadcrumbs_array[1]['url'] . '",
                                 "name": "' . $breadcrumbs_array[1]['display_name'] . '"                                
+                            }
+                        }';
+            }
+
+            if (isset($breadcrumbs_array[2]['url'])) {
+                //item 4
+                $buffy .=  ',{
+                            "@type": "ListItem",
+                            "position": 4,
+                                "item": {
+                                "@type": "WebPage",
+                                "@id": "' . $breadcrumbs_array[2]['url'] . '",
+                                "name": "' . $breadcrumbs_array[2]['display_name'] . '"                                
                             }
                         }';
             }
@@ -121,7 +151,11 @@ class td_page_generator {
          * via @see td_page_generator::get_custom_post_type_breadcrumbs() - in this file
          */
         global $post;
-        if (isset($post) && $post->post_type != 'post') {
+        //wordpress default post types
+        $wp_post_types = array('post', 'page', 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset');
+
+        if (isset($post) && !in_array($post->post_type, $wp_post_types)) {
+            //we have a custom post type
             return self::custom_post_type_breadcrumbs_array();
         }
 
@@ -186,7 +220,7 @@ class td_page_generator {
                 //child category
                 $breadcrumbs_array [] = array (
                     'title_attribute' => $post_title,
-                    'url' => '',
+                    'url' => wp_get_canonical_url(),
                     'display_name' => td_util::excerpt($post_title, 13)
                 );
             }
@@ -209,6 +243,10 @@ class td_page_generator {
             return '';
         }
 
+        // woocommerce - skip, it has it's own breadcrumbs
+        if ($post->post_type == 'product') {
+            return '';
+        }
 
         $breadcrumbs_array = array();
 
@@ -272,7 +310,7 @@ class td_page_generator {
             //child category
             $breadcrumbs_array [] = array (
                 'title_attribute' => $post->post_title,
-                'url' => '',
+                'url' => wp_get_canonical_url(),
                 'display_name' => td_util::excerpt($post->post_title, 13)
             );
         }
@@ -281,24 +319,29 @@ class td_page_generator {
     }
 
 
-
     /**
      * generate author breadcrumbs array
      * @param $part_cur_auth_obj
+     * @param bool $skip_extra
      * @return array|string
      */
-    private static function author_breadcrumbs_array($part_cur_auth_obj) {
+    private static function author_breadcrumbs_array($part_cur_auth_obj, $skip_extra = false) {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
             return '';
         }
+
+        if ($skip_extra === false) {
+            //extra crumb
+            $breadcrumbs_array [] = array (
+                'title_attribute' => '',
+                'url' => '',
+                'display_name' => __td('Authors', TD_THEME_NAME)
+            );
+        }
+
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
-            'url' => '',
-            'display_name' => __td('Authors', TD_THEME_NAME)
-        );
-        $breadcrumbs_array [] = array (
-            'title_attribute' => '',
-            'url' => '',
+            'url' => get_author_posts_url($part_cur_auth_obj->ID),
             'display_name' => __td('Posts by', TD_THEME_NAME) . ' ' . $part_cur_auth_obj->display_name
         );
 
@@ -331,6 +374,7 @@ class td_page_generator {
         if (!empty($primary_category_obj)) {
             if (!empty($primary_category_obj->name)) {
                 $category_1_name = $primary_category_obj->name;
+                $category_1_url = get_category_link($primary_category_obj->term_id);
             } else {
                 $category_1_name = '';
             }
@@ -365,7 +409,7 @@ class td_page_generator {
             //child category
             $breadcrumbs_array [] = array (
                 'title_attribute' => '',
-                'url' => '',
+                'url' => $category_1_url,
                 'display_name' => $category_1_name
             );
 
@@ -401,7 +445,7 @@ class td_page_generator {
         // add the current taxonomy
         $breadcrumbs_array[] = array(
             'title_attribute' => '',
-            'url' => '',
+            'url' => get_term_link($current_term_obj, $current_term_obj->taxonomy),
             'display_name' => $current_term_obj->name
         );
 
@@ -415,22 +459,23 @@ class td_page_generator {
      * @param $current_tag_name
      * @return array|string
      */
-    private static function tag_breadcrumbs_array($current_tag_name) {
+    private static function tag_breadcrumbs_array($current_tag_name, $skip_extra = false) {
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
             return '';
         }
 
+        if ($skip_extra === false) {
+            $breadcrumbs_array [] = array (
+                'title_attribute' => '',
+                'url' => '',
+                'display_name' =>  __td('Tags', TD_THEME_NAME)
+            );
+
+        }
 
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
-            'url' => '',
-            'display_name' =>  __td('Tags', TD_THEME_NAME)
-        );
-
-
-        $breadcrumbs_array [] = array (
-            'title_attribute' => '',
-            'url' => '',
+            'url' => get_tag_link(get_queried_object()->term_id),
             'display_name' =>  ucfirst($current_tag_name)
         );
 
@@ -483,31 +528,37 @@ class td_page_generator {
      * generate home breadcrumbs array
      * @return array|string
      */
-    private static function home_breadcrumbs_array() {
+    private static function home_breadcrumbs_array($skip_extra = false) {
+
         if (td_util::get_option('tds_breadcrumbs_show') == 'hide') {
             return '';
         }
 
-        if (td_util::get_home_url()) {
-            $breadcrumbs_array [] = array (
-                'title_attribute' => __td('Blog', TD_THEME_NAME),
-                'url' => td_util::get_home_url(),
-                'display_name' =>  __td('Blog', TD_THEME_NAME)
-            );
-        } else {
-            $breadcrumbs_array [] = array (
-                'title_attribute' => '',
-                'url' =>'',
-                'display_name' =>  __td('Blog', TD_THEME_NAME)
-            );
+        $breadcrumbs_array = array();
+
+        if ($skip_extra === false) {
+            if (td_util::get_home_url()) {
+                $breadcrumbs_array [] = array (
+                    'title_attribute' => __td('Blog', TD_THEME_NAME),
+                    'url' => td_util::get_home_url(),
+                    'display_name' =>  __td('Blog', TD_THEME_NAME)
+                );
+            } else {
+                $breadcrumbs_array [] = array (
+                    'title_attribute' => '',
+                    'url' =>'',
+                    'display_name' =>  __td('Blog', TD_THEME_NAME)
+                );
+            }
         }
 
         //pagination
         $td_paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
         if ($td_paged > 1) {
+            global $wp;
             $breadcrumbs_array [] = array (
                 'title_attribute' => '',
-                'url' =>'',
+                'url' => home_url($wp->request),
                 'display_name' =>  __td('Page', TD_THEME_NAME) . ' ' . $td_paged
             );
         }
@@ -546,7 +597,7 @@ class td_page_generator {
 
         $breadcrumbs_array [] = array (
             'title_attribute' => '',
-            'url' =>'',
+            'url' => get_permalink($post->ID),
             'display_name' =>  $page_title
         );
 
@@ -1097,10 +1148,17 @@ class td_page_generator {
         $buffy .= '<div class="entry-crumbs">';
 
         //check for home url, the name can be changed from translations
-        $home_url = get_home_url() . '/';
-        $count = 1;
+        //$home_url = get_home_url() . '/';
+        //$count = 1;
+
+        $array_elements = count($breadcrumbs_array);
 
         foreach ($breadcrumbs_array as $key => $breadcrumb) {
+
+            if ($key == $array_elements - 1) {
+                //last element should not display the url
+                $breadcrumb['url'] = '';
+            }
 
             if (empty($breadcrumb['url'])) {
                 if ($key != 0) { //add separator only after first
