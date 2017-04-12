@@ -407,7 +407,18 @@ class td_util {
         return array( round( $h, 2 ), round( $s, 2 ), round( $l, 2 ) );
     }
 
-
+    /**
+     * checks for rgba color values
+     * @param $rgba
+     *
+     * @return bool
+     */
+    static function is_rgba ( $rgba ) {
+        if ( strpos($rgba, 'rgba') !== false ) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * calculate the contrast of a color and return. Used by 011
@@ -1025,6 +1036,23 @@ class td_util {
 
         return $td_theme_version;
     }
+
+
+    /**
+     * return post meta array
+     * if post meta doesn't contain an array return an empty array
+     * @param $post_id
+     * @param $key
+     * @return array|mixed
+     */
+    static function get_post_meta_array($post_id, $key) {
+        $post_meta = get_post_meta($post_id, $key, true);
+        if (!is_array($post_meta)) {
+            return array();
+        }
+        return $post_meta;
+    }
+
 }//end class td_util
 
 

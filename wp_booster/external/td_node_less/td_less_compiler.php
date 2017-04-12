@@ -61,7 +61,19 @@ class td_less_compiler {
 	private static function compile_and_import($source, $destination) {
 		$response = self::compile_less_file($source, $destination);
 		if ($response === true) {
-			header('Content-type: text/css');
+
+//            if (file_exists($destination)) {
+//                // if the file is in used, try 10 times with 1 seconds delay
+//                for ( $i = 0 ; $i < 10; $i++) {
+//                    if (file_exists($destination)) {
+//                        break;
+//                    }
+//                    sleep(1);
+//                }
+//            }
+
+
+            header('Content-type: text/css');
 			echo "@import url('$destination');";
 
 
@@ -100,16 +112,16 @@ class td_less_compiler {
 	 * @return bool
 	 */
 	static function compile_less_file($less_source, $destination) {
-		if (file_exists($destination)) {
-			// if the file is in used, try 10 times with 1 seconds delay
-			for ( $i = 0 ; $i < 10; $i++) {
-				$unlink_status = @unlink($destination);   // this returns false if the file is in use
-				if ($unlink_status === true) {
-					break;
-				}
-				sleep(1);
-			}
-		}
+//		if (file_exists($destination)) {
+//			// if the file is in used, try 10 times with 1 seconds delay
+//			for ( $i = 0 ; $i < 10; $i++) {
+//				$unlink_status = @unlink($destination);   // this returns false if the file is in use
+//				if ($unlink_status === true) {
+//					break;
+//				}
+//				sleep(1);
+//			}
+//		}
 
 
 		$cmd = self::$compiler_cmd . ' "' . $less_source . '" "' . $destination . '" --no-color';

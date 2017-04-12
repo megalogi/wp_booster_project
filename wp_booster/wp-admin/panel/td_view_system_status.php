@@ -845,9 +845,19 @@ require_once "td_view_header.php";
 		                               echo htmlentities($td_log_params['more_data']);
 		                               echo '</div>';
 
-	                               } else {
-	                               echo htmlentities($td_log_params['more_data']); //display small strings directly in the table
-	                               } ?>
+                                   //string < 200 characters
+                                   } elseif (is_string($td_log_params['more_data'])){
+                                       echo htmlentities($td_log_params['more_data']); //display small strings directly in the table
+
+                                   //other type of data
+                                   } else {
+                                       // details button
+                                       echo '<div><a class="td-button-system-status-details">View Details</a></div>';
+                                       // object data container
+                                       echo '<div class="td-array-viewer"><pre>';
+                                       var_dump($td_log_params['more_data']);
+                                       echo '</pre></div>';
+                                   }?>
                                </div>
                            </td>
 
@@ -1060,7 +1070,7 @@ require_once "td_view_header.php";
            $posts = get_posts($args);
 
            foreach ( $posts as $post) {
-               $post_video_playlist_meta = get_post_meta($post->ID, 'td_playlist_video');
+               $post_video_playlist_meta = td_util::get_post_meta_array($post->ID, 'td_playlist_video');
 
                if ( !empty ($post_video_playlist_meta)) {
                    $posts_video_playlist_meta_array[$post->ID]=$post_video_playlist_meta;

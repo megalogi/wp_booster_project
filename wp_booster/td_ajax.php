@@ -547,6 +547,67 @@ class td_ajax {
 			}
 		}
 	}
+
+
+
+    /**
+     * share translation - upload it on our server
+     */
+	static function on_ajax_share_translation() {
+        if (!empty($_POST['td_translate']) && is_array($_POST['td_translate'])) {
+            //don't save escape slashes into the database
+            $translation_data = stripslashes_deep($_POST);
+            //build query - necessary for multi level arrays
+            $translation_data = http_build_query($translation_data);
+
+            //api url
+            $api_url = 'http://api.tagdiv.com/user_translations/add_full_user_translation';
+
+            //curl init
+            $curl = curl_init($api_url);
+
+            //curl setup
+            //curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); //return not necessary
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+            curl_setopt($curl, CURLOPT_POST, TRUE);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $translation_data);
+
+            //curl execute
+            $api_response = curl_exec($curl);
+
+            //on error
+            if ($api_response === false) {
+                td_log::log(__FILE__, __FUNCTION__, 'Failed to send translation', $translation_data);
+            }
+        }
+    }
+
+
+    /**
+     * retrieve translation from our server
+     */
+    static function on_ajax_get_translation() {
+        if (!empty($_POST['language_code'])) {
+            //api url
+	        $api_url = 'http://api.tagdiv.com/user_translations/get_translation?callback=jsonpCallback&language_code=' . $_POST['language_code'];
+
+	        //api call
+            $json_api_response = td_remote_http::get_page($api_url, __CLASS__);
+
+            //check response
+            if ($json_api_response === false) {
+                td_log::log(__FILE__, __FUNCTION__, 'Failed to get translation', $api_url);
+            } else {
+                //remove jsonpCallback wrap
+                $json_api_response = str_replace('jsonpCallback(', '', $json_api_response);
+                $json_api_response = substr($json_api_response, 0, -1);
+                //var_dump($json_api_response);
+                die($json_api_response);
+            }
+        }
+    }
+
 }
 
 
