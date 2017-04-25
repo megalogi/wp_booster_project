@@ -74,7 +74,8 @@ class td_less_compiler {
 
 
             header('Content-type: text/css');
-			echo "@import url('$destination');";
+
+
 
 
 
@@ -93,6 +94,10 @@ class td_less_compiler {
 				echo PHP_EOL . PHP_EOL . 'less source: ' . PHP_EOL . $source . PHP_EOL;
 
 			echo PHP_EOL . '*/';
+
+
+            usleep(50000);
+            echo "@import url('$destination');";
 		}
 	}
 
@@ -155,8 +160,10 @@ class td_less_compiler {
 //                echo "<pre>".$stderr."</pre>";
 //				echo "Exited with status: $return_status";
 		} else {
-			echo 'td_error: no resource';
-			die;
+//			echo 'td_error: no resource';
+//			die;
+            usleep(200000);
+            return true;
 		}
 	}
 }
