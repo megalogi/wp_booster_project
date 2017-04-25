@@ -166,6 +166,12 @@ class td_video_playlist_render {
                 //get thumb
                 $playlist_structure_thumb = '';
                 if(!empty($video_data['thumb'])){
+
+                    //if on https & we do not have an https image set it on https
+                    if ( td_global::$http_or_https === 'https' && strpos( $video_data['thumb'], 'https://' ) === false ) {
+                        $video_data['thumb'] = str_replace( 'http://', 'https://', $video_data['thumb'] );
+                    }
+
                     $playlist_structure_thumb = '<div class="td_video_thumb"><img src="' . $video_data['thumb'] . '" alt="" /></div>';
                     //$video_data_propeties .= 'thumb:"' . $video_data['thumb'] . '",';
                 }
