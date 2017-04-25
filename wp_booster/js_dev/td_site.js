@@ -233,15 +233,15 @@ function td_resize_videos() {
 
 
     //wordpress embedded
-    jQuery(document).find(".wp-video-shortcode").each(function() {
-        var td_video = jQuery(this);
-
-        var td_video_width = td_video.width() + 3;
-        jQuery(this).parent().css('height', td_video_width * 0.56, 'important');
-        //td_video.css('height', td_video_width * 0.6, 'important')
-        td_video.css('width', '100%', 'important');
-        td_video.css('height', '100%', 'important');
-    })
+    //jQuery(document).find(".wp-video-shortcode").each(function() {
+    //    var td_video = jQuery(this);
+    //
+    //    var td_video_width = td_video.width() + 3;
+    //    jQuery(this).parent().css('height', td_video_width * 0.56, 'important');
+    //    //td_video.css('height', td_video_width * 0.6, 'important')
+    //    td_video.css('width', '100%', 'important');
+    //    td_video.css('height', '100%', 'important');
+    //})
 }
 
 
