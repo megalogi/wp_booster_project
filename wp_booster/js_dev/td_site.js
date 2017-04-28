@@ -219,17 +219,18 @@ function td_resize_videos() {
 
     });
 
+
     //facebook in content
-    jQuery(document).find('iframe[src*="facebook.com/plugins/video.php"]').each(function() {
-        var td_video = jQuery(this);
-        if ( td_video.parent().hasClass('wpb_video_wrapper') ) {
-            td_video.attr('width', '100%');
-            var td_video_width = td_video.width();
-            td_video.css('height', td_video_width * 0.5625, 'important');
-        } else {
-            td_video.css('max-width', '100%');
-        }
-    });
+    //jQuery(document).find('iframe[src*="facebook.com/plugins/video.php"]').each(function() {
+    //    var td_video = jQuery(this);
+    //    if ( td_video.parent().hasClass('wpb_video_wrapper') ) {
+    //        td_video.attr('width', '100%');
+    //        var td_video_width = td_video.width();
+    //        td_video.css('height', td_video_width * 0.5625, 'important');
+    //    } else {
+    //        td_video.css('max-width', '100%');
+    //    }
+    //});
 
 
     //wordpress embedded
