@@ -4629,6 +4629,33 @@ title one row controls
 .td-video-table .td-video-id-container {
   min-width: 100px;
 }
+/* theme activation */
+.td-activate-wrap .td-err input,
+.td-activate-wrap .td-err input:focus {
+  border-color: #ff7c7c !important;
+}
+.td-activate-wrap .td-activate-input-wrap {
+  position: relative;
+  margin-bottom: 23px;
+}
+.td-activate-wrap .td-registration-info {
+  width: 378px;
+  color: green;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border: 1px solid;
+}
+.td-activate-wrap .td-activate-err {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 13px;
+  color: #ff7c7c;
+}
+.td-activate-wrap .td-activate-info {
+  margin-top: 10px;
+}
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox
 */

@@ -608,6 +608,203 @@ class td_ajax {
         }
     }
 
+
+    /**
+     * AJAX call
+     * check if envato code is valid
+     * check if it's registered on forum.tagDiv.com
+     * return - json encoded array
+     *
+     * 'envato_check_failed' - bool
+     * 'envato_check_error_code' - string
+     * 'envato_code' - string
+     * 'envato_code_status' - string
+     * 'forum_check_failed' - bool
+     * 'used_on_forum' - bool
+     * 'theme_activated' - bool
+     */
+    static function on_ajax_check_envato_code() {
+        if (empty($_POST['envato_code'])) {
+            return;
+        }
+
+        $envato_code = $_POST['envato_code'];
+
+        //return buffer
+        $buffy = array(
+            'envato_check_failed'     => false,
+            'envato_check_error_code' => '',
+            'envato_code'             => $envato_code,
+            'envato_code_status'      => 'invalid',
+            'forum_check_failed'      => false,
+            'used_on_forum'           => false,
+            'theme_activated'         => false
+        );
+
+
+        //td_cake - check envato code
+        $td_cake_response = wp_remote_post('http://td_cake.themesafe.com/td_cake/auto.php', array (
+            'method' => 'POST',
+            'body' => array(
+                'k' => $envato_code,
+                'n' => TD_THEME_NAME,
+                'v' => TD_THEME_VERSION
+            ),
+            'timeout' => 12
+        ));
+
+        if (is_wp_error($td_cake_response)) {
+            //error http
+            $buffy['envato_check_failed'] = true;
+
+        } else {
+            if (isset($td_cake_response['response']['code']) and $td_cake_response['response']['code'] != '200') {
+                //response code != 200
+                $buffy['envato_check_failed'] = true;
+                $buffy['envato_check_status'] = $td_cake_response['response']['code'];
+            } elseif (!empty($td_cake_response['body'])) {
+                //we have a response
+                $api_response = @unserialize($td_cake_response['body']);
+
+                if (!empty($api_response['envato_is_valid']) and !empty($api_response['envato_is_valid_msg'])) {
+
+                    if ($api_response['envato_is_valid'] == 'valid' or $api_response['envato_is_valid'] == 'td_fake_valid') {
+                        //code is valid
+                        $buffy['envato_code_status'] = 'valid';
+
+                        //check forum
+                        $td_forum_response = wp_remote_post('http://192.168.0.80/tagdiv/wp-json/tagdiv/check_user/', array (
+                            'method' => 'POST',
+                            'body' => array(
+                                'envato_key' => $envato_code,
+                            ),
+                            'timeout' => 12
+                        ));
+
+                        if (is_wp_error($td_forum_response) ||                                                                   //wp error
+                            (isset($td_forum_response['response']['code']) and $td_forum_response['response']['code'] != '200')) //response code != 200
+                        {
+                            //connection failed
+                            $buffy['forum_check_failed'] = true;
+
+                        } else {
+                            if (isset($td_forum_response['query_failed']) && $td_forum_response['query_failed'] === true) {
+                                //query failed
+                                $buffy['forum_check_failed'] = true;
+
+                            } else {
+                                if (empty($td_forum_response['body'])) {
+                                    //reply body is empty
+                                    $buffy['forum_check_failed'] = true;
+
+                                } else {
+
+                                    $forum_api_response = @json_decode($td_forum_response['body'], true);
+
+                                    if (isset($forum_api_response['user_exists']) && $forum_api_response['user_exists'] === true) {
+                                        //envato code already used - activate theme
+                                        td_util::update_option('envato_key', $envato_code);
+                                        td_util::update_option('td_cake_status', '2');
+                                        $buffy['used_on_forum'] = true;
+                                        $buffy['theme_activated'] = true;
+
+                                    } else {
+                                        //envato code not used
+                                        //load registration panel
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                    } else {
+                        //code is invalid
+                    }
+
+                } else {
+                    //error accessing our activation service
+                }
+
+            } else {
+                //empty body error
+            }
+
+        }
+
+
+        die(json_encode($buffy));
+    }
+
+
+
+    static function on_ajax_register_forum_user() {
+        //required data
+        if (empty($_POST['envato_code']) ||
+            empty($_POST['username']) ||
+            empty($_POST['email']) ||
+            empty($_POST['password']) ||
+            empty($_POST['password_confirmation']))
+        {
+            return;
+        }
+
+        //return buffer
+        $buffy = array(
+            'forum_connection'       => false,
+            'user_created'           => false,
+            'username_already_used'  => false,
+            'email_already_used'     => false,
+            'email_syntax_incorrect' => false,
+            'passwords_mismatch'     => false
+        );
+
+        //user data
+        $envato_code = $_POST['envato_code'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $password_confirmation = $_POST['password_confirmation'];
+
+        //email syntax
+        if (!is_email($email)) {
+            $buffy['email_syntax_incorrect'] = true;
+            die(json_encode($buffy));
+        }
+
+        //password and password confirmation
+        if ($password != $password_confirmation) {
+            $buffy['passwords_mismatch'] = true;
+            die(json_encode($buffy));
+        }
+
+
+        //td_cake - check envato code
+        $td_cake_response = wp_remote_post('http://192.168.0.80/tagdiv/wp-json/tagdiv/register/', array (
+            'method' => 'POST',
+            'body' => array(
+                'username'              => $username,
+                'email'                 => $email,
+                'password'              => $password,
+                'password_confirmation' => $password_confirmation,
+                'envato_key'            => $envato_code,
+                'theme_name'            => TD_THEME_NAME,
+                'theme_version'         => TD_THEME_VERSION
+            ),
+            'timeout' => 12
+        ));
+
+        if (is_wp_error($td_cake_response)) {
+            //http error
+            die(json_encode($buffy));
+        }
+
+
+
+
+
+    }
+
 }
 
 
