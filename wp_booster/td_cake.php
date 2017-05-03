@@ -158,6 +158,40 @@ class td_cake {
             .td-manual-activation {
                 display: none;
             }
+
+            .td-activate-wrap input {
+                width: 400px;
+                margin-top: 5px;
+            }
+            .td-input-title,
+            .td-envato-code-info,
+            .td-activate-button {
+                margin-left: 1px;
+            }
+            .td-envato-code-info {
+                margin-top: 3px;
+
+            }
+            .td-activate-button {
+                display: inline-block;
+                cursor: pointer;
+                position: relative;
+                -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+                -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
+                background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
+                background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
+                background-color: #4db2ec;
+                color: #ffffff;
+                font-size: 15px;
+                text-decoration: none;
+                padding: 5px 15px 6px 15px;
+                line-height: 25px;
+                font-weight: bold;
+                margin-top: 20px;
+            }
         </style>
 
         <?php
@@ -305,6 +339,11 @@ class td_cake {
 
         ?>
 
+        <div class="td_displaying_saving"></div>
+        <div class="td_wrapper_saving_gifs">
+            <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
+            <img class="td_displaying_ok_gif" src="<?php echo get_template_directory_uri()?>/includes/wp_booster/wp-admin/images/panel/saved.gif">
+        </div>
 
         <div class="about-wrap td-admin-wrap">
             <h1>Activate <?php echo TD_THEME_NAME ?></h1>
@@ -317,82 +356,142 @@ class td_cake {
                 </p>
             </div>
 
+            <div class="td-activate-wrap">
+                <div class="td-activate-section td-activate-envato-code">
+
+                    <!-- Envato Code -->
+                    <div class="td-activate-input-wrap td-envato-code">
+                        <div class="td-input-title">Envato purchase code:</div>
+                        <input type="text" name="td-envato-code" value="" />
+                        <span class="td-activate-err td-envato-missing" style="display:none;">Code is required</span>
+                        <span class="td-activate-err td-envato-length" style="display:none;">Code is too short</span>
+                        <span class="td-activate-err td-envato-invalid" style="display:none;">Code is not valid</span>
+                        <span class="td-activate-err td-envato-check-error" style="display:none;">Envato API is down, please try again later or use the manual registration.</span>
+                    </div>
+
+                    <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
+                    <div class="td-activate-button td-envato-code-button">Activate</div>
+
+                    <br/><br/><br/><br/><br/>
+                    <h3>Manual activation</h3>
+                    <p>If the above activation method fails, <a href="#" class="td-manual-activation-btn">activate the theme manually</a>.<br>Also try to disable all the plugins.</p>
+
+                    <div class="td-manual-activation">
+                        <ul>
+                            <li>1. <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">Go to our manual activation page</a></li>
+                            <li>2. Paste your unique ID there and the <a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">envato purchase code</a></li>
+                            <li>3. <a href="http://forum.tagdiv.com/wp-content/uploads/2014/09/2014-09-09_1458.png" target="_blank">Get the activation code</a> and paste it in this form</li>
+                        </ul>
+
+                        <form method="post" action="admin.php?page=td_cake_panel">
+
+                            <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-validate-license") ?>"/>
+
+                            <table class="form-table">
+
+                                <tr valign="top">
+                                    <th scope="row">Your server ID:</th>
+                                    <td>
+                                        <input style="width: 400px" type="text" value="<?php echo $this->td_cake_server_id();?>" />
+                                        <br/>
+                                        <div class="td-small-bottom">Copy this id and paste it in our manual activation page</div>
+                                    </td>
+
+                                </tr>
 
 
-            <form method="post" action="admin.php?page=td_cake_panel">
+                                <tr valign="top">
+                                    <th scope="row">Envato purchase code:</th>
+                                    <td><input style="width: 400px" type="text" name="td_envato_code" value="<?php echo $td_envato_code; ?>" /></td>
+                                </tr>
 
-	            <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-validate-license") ?>"/>
+                                <tr valign="top">
+                                    <th scope="row">tagDiv activation key:</th>
+                                    <td>
+                                        <input style="width: 400px" type="text" name="td_key" value="<?php echo $td_key; ?>" />
+                                        <br/>
+                                        <div class="td-small-bottom">You will get this id from the <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">manual activation page</a></div>
+                                    </td>
 
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row">Envato purchase code:</th>
-                        <td>
-                            <input style="width: 400px" type="text" name="td_envato_code" value="<?php echo $td_envato_code; ?>" />
-                            <br/>
-                            <div class="td-small-bottom"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
-                        </td>
-                    </tr>
+                                </tr>
 
+                                <input type="hidden" name="td_active" value="manual">
+                                <input type="hidden" name="td_server_id" value="<?php echo $this->td_cake_server_id();?>">
 
+                            </table>
 
-                </table>
+                            <?php submit_button('Manual activate theme'); ?>
+                        </form>
+                    </div>
+                </div>
 
-                <input type="hidden" name="td_active" value="auto">
-                <?php submit_button('Activate theme'); ?>
+                <!-- user data -->
+                <div class="td-activate-section td-activate-registration" style="display: none;">
 
-            </form>
+                    <div class="td-registration-info">You don't have a support forum account. This last stept will automatically create one for you. </div>
 
-            <br/><br/><br/><br/><br/>
-            <h3>Manual activation</h3>
-            <p>If the above activation method fails, <a href="#" class="td-manual-activation-btn">activate the theme manually</a>.<br>Also try to disable all the plugins.</p>
+                    <!-- Username -->
+                    <div class="td-activate-input-wrap td-activate-username">
+                        <div class="td-input-title">Username:</div>
+                        <input type="text" name="td-activate-username" value="" />
+                        <span class="td-activate-err td-activate-username-missing" style="display:none;">Username is required</span>
+                        <span class="td-activate-err td-activate-username-used" style="display:none;">Current username is already used, try another one</span>
+                    </div>
 
-            <div class="td-manual-activation">
-                <ul>
-                    <li>1. <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">Go to our manual activation page</a></li>
-                    <li>2. Paste your unique ID there and the <a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">envato purchase code</a></li>
-                    <li>3. <a href="http://forum.tagdiv.com/wp-content/uploads/2014/09/2014-09-09_1458.png" target="_blank">Get the activation code</a> and paste it in this form</li>
-                </ul>
+                    <!-- Email -->
+                    <div class="td-activate-input-wrap td-activate-email">
+                        <div class="td-input-title">Email:</div>
+                        <input type="text" name="td-activate-email" value="" />
+                        <span class="td-activate-err td-activate-email-missing" style="display:none;">Email is required</span>
+                        <span class="td-activate-err td-activate-email-syntax" style="display:none;">Email syntax is incorrect</span>
+                        <span class="td-activate-err td-activate-email-used" style="display:none;">Current email is registered with another account</span>
+                    </div>
 
-                <form method="post" action="admin.php?page=td_cake_panel">
+                    <!-- Password -->
+                    <div class="td-activate-input-wrap td-activate-password">
+                        <div class="td-input-title">Password:</div>
+                        <input type="password" name="td-activate-password" value="" />
+                        <span class="td-activate-err td-activate-password-missing" style="display:none;">Password is required</span>
+                        <span class="td-activate-err td-activate-password-length" style="display:none;">Minimum password length is 6 characters</span>
+                    </div>
 
-	                <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-validate-license") ?>"/>
+                    <!-- Password Confirmation -->
+                    <div class="td-activate-input-wrap td-activate-password-confirmation">
+                        <div class="td-input-title">Password confirmation:</div>
+                        <input type="password" name="td-activate-password-confirmation" value="" />
+                        <span class="td-activate-err td-activate-password-confirmation-missing" style="display:none;">Password confirmation is required</span>
+                        <span class="td-activate-err td-activate-password-mismatch" style="display:none;">Password and password confirmation don't match</span>
+                    </div>
 
-                    <table class="form-table">
-
-                        <tr valign="top">
-                            <th scope="row">Your server ID:</th>
-                            <td>
-                                <input style="width: 400px" type="text" value="<?php echo $this->td_cake_server_id();?>" />
-                                <br/>
-                                <div class="td-small-bottom">Copy this id and paste it in our manual activation page</div>
-                            </td>
-
-                        </tr>
-
-
-                        <tr valign="top">
-                            <th scope="row">Envato purchase code:</th>
-                            <td><input style="width: 400px" type="text" name="td_envato_code" value="<?php echo $td_envato_code; ?>" /></td>
-                        </tr>
-
-                        <tr valign="top">
-                            <th scope="row">tagDiv activation key:</th>
-                            <td>
-                                <input style="width: 400px" type="text" name="td_key" value="<?php echo $td_key; ?>" />
-                                <br/>
-                                <div class="td-small-bottom">You will get this id from the <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">manual activation page</a></div>
-                            </td>
-
-                        </tr>
-
-                        <input type="hidden" name="td_active" value="manual">
-                        <input type="hidden" name="td_server_id" value="<?php echo $this->td_cake_server_id();?>">
-
-                    </table>
-
-                    <?php submit_button('Manual activate theme'); ?>
-                </form>
+                    <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
+                    <div class="td-activate-button td-registration-button">Submit</div>
+                </div>
             </div>
+
+
+
+<!--            <form method="post" action="admin.php?page=td_cake_panel">-->
+<!---->
+<!--	            <input type="hidden" name="td_magic_token" value="--><?php //echo wp_create_nonce("td-validate-license") ?><!--"/>-->
+<!---->
+<!--                <table class="form-table">-->
+<!--                    <tr valign="top">-->
+<!--                        <th scope="row">Envato purchase code:</th>-->
+<!--                        <td>-->
+<!--                            <input style="width: 400px" type="text" name="td_envato_code" value="--><?php //echo $td_envato_code; ?><!--" />-->
+<!--                            <br/>-->
+<!--                            <div class="td-small-bottom"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!---->
+<!---->
+<!---->
+<!--                </table>-->
+<!---->
+<!--                <input type="hidden" name="td_active" value="auto">-->
+<!--                --><?php //submit_button('Activate theme'); ?>
+<!---->
+<!--            </form>-->
 
         </div>
 
