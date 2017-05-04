@@ -1165,14 +1165,14 @@ class td_page_generator {
                     $buffy .= ' <i class="td-icon-right td-bread-sep td-bred-no-url-last"></i> ';
                 }
                 //no link - breadcrumb
-                $buffy .=  '<span class="td-bred-no-url-last">' . $breadcrumb['display_name'] . '</span>';
+                $buffy .=  '<span class="td-bred-no-url-last">' . esc_html( $breadcrumb['display_name'] ) . '</span>';
 
             } else {
                 if ($key != 0) { //add separator only after first
                     $buffy .= ' <i class="td-icon-right td-bread-sep"></i> ';
                 }
                 //normal links
-                $buffy .= '<span><a title="' . $breadcrumb['title_attribute'] . '" class="entry-crumb" href="' . $breadcrumb['url'] . '">' . $breadcrumb['display_name'] . '</a></span>';
+                $buffy .= '<span><a title="' . esc_attr( $breadcrumb['title_attribute'] ) . '" class="entry-crumb" href="' . esc_url( $breadcrumb['url'] ) . '">' . esc_html( $breadcrumb['display_name'] ) . '</a></span>';
             }
 
 
