@@ -4638,13 +4638,6 @@ title one row controls
   position: relative;
   margin-bottom: 23px;
 }
-.td-activate-wrap .td-registration-info {
-  width: 378px;
-  color: green;
-  margin-bottom: 15px;
-  padding: 5px 10px;
-  border: 1px solid;
-}
 .td-activate-wrap .td-activate-err {
   display: block;
   position: absolute;
@@ -4655,6 +4648,20 @@ title one row controls
 }
 .td-activate-wrap .td-activate-info {
   margin-top: 10px;
+}
+.td-activate-wrap .td-registration-info {
+  width: 378px;
+  color: green;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border: 1px solid green;
+}
+.td-activate-wrap .td-registration-err {
+  width: 378px;
+  color: #ff7c7c;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border: 1px solid #ff7c7c;
 }
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox

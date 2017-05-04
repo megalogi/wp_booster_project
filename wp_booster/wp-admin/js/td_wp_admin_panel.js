@@ -1162,11 +1162,11 @@ function td_forum_process_response(data) {
 
     //forum connection failed
     if (td_data_object.forum_connection_failed === true) {
-        jQuery('.td-envato-check-error').show();
+        jQuery('.td-forum-connection-failed').show();
         return;
     }
 
-    var forumConnectionData = td_data_object.forum_connection_data;
+    var forumConnectionData = td_data_object.forum_response_data;
 
     //user created - redirect
     if (forumConnectionData.user_created === true) {
@@ -1181,6 +1181,12 @@ function td_forum_process_response(data) {
         jQuery('.td-envato-invalid').show();
         jQuery('.td-activate-registration').hide();
         jQuery('.td-activate-envato-code').show();
+    }
+
+    if (forumConnectionData.envato_key_db_fail === true) {
+        //db error - failed to check if the envato code is used on forum
+        jQuery('.td-forum-connection-failed').show();
+        return;
     }
 
     if (forumConnectionData.username_exists === true) {

@@ -772,7 +772,7 @@ class td_ajax {
                 'email'                 => $email,
                 'password'              => $password,
                 'password_confirmation' => $password_confirmation,
-                'envato_key'            => $envato_code,
+                'envato_code'           => $envato_code,
                 'theme_name'            => TD_THEME_NAME,
                 'theme_version'         => TD_THEME_VERSION
             ),
@@ -798,7 +798,7 @@ class td_ajax {
             die(json_encode($buffy));
         }
 
-        $api_response = @json_decode($td_forum_response['body']);
+        $api_response = @json_decode($td_forum_response['body'], true);
 
         if (!isset($api_response['envato_api_key_invalid']) ||
             !isset($api_response['envato_api_failed']) ||
