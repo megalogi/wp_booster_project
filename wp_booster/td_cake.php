@@ -425,10 +425,11 @@ class td_cake {
                     </div>
                 </div>
 
-                <!-- user data -->
+                <!-- Forum Registration -->
                 <div class="td-activate-section td-activate-registration" style="display: none;">
 
                     <div class="td-registration-info">You don't have a support forum account. This last stept will automatically create one for you. </div>
+                    <div class="td-registration-err td-forum-connection-failed" style="display:none;">Forum connection failed, please try again.</div>
 
                     <!-- Username -->
                     <div class="td-activate-input-wrap td-activate-username">

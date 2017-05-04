@@ -760,6 +760,7 @@ class td_ajax {
         $buffy = array(
             'forum_connection_failed' => false,
             'forum_response_code'     => '',
+            'envato_code'             => $envato_code,
             'forum_response_data'     => array()
         );
 
@@ -804,11 +805,12 @@ class td_ajax {
             !isset($api_response['envato_key_used']) ||
             !isset($api_response['envato_key_db_fail']) ||
             !isset($api_response['user_created']) ||
-            !isset($api_response['user_exists']) ||
+            !isset($api_response['username_exists']) ||
             !isset($api_response['email_exists']) ||
             !isset($api_response['email_syntax_incorrect']) ||
-            !isset($api_response['passwords_dont_match'])
-        ) {
+            !isset($api_response['password_is_short']) ||
+            !isset($api_response['passwords_dont_match']))
+        {
             //response incomplete
             $buffy['forum_connection_failed'] = true;
             die(json_encode($buffy));
@@ -823,8 +825,16 @@ class td_ajax {
             die(json_encode($buffy));
         }
 
-        if ($api_response['user_created'] === true) {
-            //user created - activate theme
+        if ($api_response['envato_api_failed'] === true) {
+            //forum failed to check the envato code in it's database
+            $buffy['forum_connection_failed'] = true;
+            die(json_encode($buffy));
+        }
+
+        if ($api_response['user_created'] === true ||  //user created
+            $api_response['envato_key_used'] === true) //envato code already registered
+        {
+            //activate theme
             td_util::update_option('envato_key', $envato_code);
             td_util::update_option('td_cake_status', '2');
         }

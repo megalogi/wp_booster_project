@@ -1150,6 +1150,64 @@ function td_envato_code_check() {
 }
 
 
+function td_forum_process_response(data) {
+    var envatoCodeContainer = jQuery('.td-envato-code'),
+        currentCode = envatoCodeContainer.find('input').val();
+
+    var td_data_object = jQuery.parseJSON(data); //get the data object
+    //drop the result - it's from a old query
+    if ( td_data_object.envato_code !== currentCode ) {
+        return;
+    }
+
+    //forum connection failed
+    if (td_data_object.forum_connection_failed === true) {
+        jQuery('.td-envato-check-error').show();
+        return;
+    }
+
+    var forumConnectionData = td_data_object.forum_connection_data;
+
+    //user created - redirect
+    if (forumConnectionData.user_created === true) {
+        alert('You have successfuly activated the theme.');
+        window.location.replace('?page=td_theme_welcome');
+        return;
+    }
+
+    //user was not created - display errors
+    if (forumConnectionData.envato_api_key_invalid === true) {
+        //invalid envato code
+        jQuery('.td-envato-invalid').show();
+        jQuery('.td-activate-registration').hide();
+        jQuery('.td-activate-envato-code').show();
+    }
+
+    if (forumConnectionData.username_exists === true) {
+        //username already used
+        jQuery('.td-activate-username-used').show();
+    }
+
+    if (forumConnectionData.email_syntax_incorrect === true) {
+        //email syntax incorrect
+        jQuery('.td-activate-email-syntax').show();
+    } else if (forumConnectionData.email_exists === true) {
+        //email already used
+        jQuery('.td-activate-email-used').show();
+    }
+
+    if (forumConnectionData.password_is_short === true) {
+        //password length < 6 characters
+        jQuery('.td-activate-password-length').show();
+    }
+
+    if (forumConnectionData.passwords_dont_match === true) {
+        //password and password confirmation don't match
+        jQuery('.td-activate-password-mismatch').show();
+    }
+}
+
+
 /**
  * register new user on forum.tagdiv.com
  */
@@ -1250,7 +1308,7 @@ function td_register_forum_user() {
         type: "POST",
         url: td_ajax_url,
         data: {
-            action: 'td_ajax_create_forum_user',
+            action: 'td_ajax_register_forum_user',
             envato_code: envatoCode,
             username: userName,
             email: email,
@@ -1269,7 +1327,7 @@ function td_register_forum_user() {
                     jQuery('.td_displaying_ok_gif').attr('src', '');
                     jQuery('.td_wrapper_saving_gifs').css('display', 'none');
                 });
-            td_envato_process_response(data);
+            td_forum_process_response(data);
         },
         error: function( MLHttpRequest, textStatus, errorThrown ) {
             //console.log(errorThrown);

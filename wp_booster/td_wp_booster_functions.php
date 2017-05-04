@@ -164,6 +164,7 @@ add_action('wp_ajax_td_ajax_get_translation', array('td_ajax', 'on_ajax_get_tran
 
 //ajax: activation
 add_action('wp_ajax_td_ajax_check_envato_code', array('td_ajax', 'on_ajax_check_envato_code'));
+add_action('wp_ajax_td_ajax_register_forum_user', array('td_ajax', 'on_ajax_register_forum_user'));
 
 
 
