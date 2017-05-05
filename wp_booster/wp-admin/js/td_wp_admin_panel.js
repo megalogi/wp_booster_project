@@ -59,50 +59,8 @@ jQuery().ready(function() {
     //social fields validation
     td_add_event_to_validate_panel_social_fields();
 
-    //check envato code
-    jQuery('.td-envato-code-button').on('click', function(){
-        td_envato_code_check();
-    });
-
-    //theme activation - register new user on forum
-    jQuery('.td-registration-button').on('click', function(){
-        td_register_forum_user();
-    });
-
-    //theme activation - on keydown - hide envato code errors
-    jQuery('.td-envato-code input').keydown(function(event){
-        if ( ( event.which && 13 === event.which ) ||
-            ( event.keyCode && 13 === event.keyCode )) {
-            //on enter trigger click on "Activate" button
-            event.preventDefault();
-            jQuery('.td-envato-code-button').trigger('click');
-            return;
-        }
-        var envatoCodeContainer = jQuery('.td-envato-code');
-        envatoCodeContainer.removeClass('td-err');
-        envatoCodeContainer.find('.td-activate-err').hide();
-    });
-
-    //theme activation - on keydown - hide forum user registration form errors
-    jQuery('.td-activate-registration input').keydown(function(event){
-        var currentInput = jQuery(this),
-            currentInputContainer = currentInput.parent(),
-            currentInputErrors = currentInputContainer.find('.td-activate-err');
-
-        //hide errors
-        currentInputContainer.removeClass('td-err');
-        currentInputErrors.hide();
-
-        //password confirmation input - on enter trigger submit
-        if (currentInput.attr('name') == 'td-activate-password-confirmation' &&
-            ( event.which && 13 === event.which ) ||
-            ( event.keyCode && 13 === event.keyCode )) {
-            jQuery('.td-registration-button').trigger('click');
-            return;
-        }
-    });
-
-
+    //theme activation
+    td_theme_activation();
 
 });
 
@@ -1353,6 +1311,51 @@ function td_register_forum_user() {
         },
         error: function( MLHttpRequest, textStatus, errorThrown ) {
             //console.log(errorThrown);
+        }
+    });
+}
+
+function td_theme_activation() {
+    //check envato code
+    jQuery('.td-envato-code-button').on('click', function(){
+        td_envato_code_check();
+    });
+
+    //theme activation - register new user on forum
+    jQuery('.td-registration-button').on('click', function(){
+        td_register_forum_user();
+    });
+
+    //theme activation - on keydown - hide envato code errors
+    jQuery('.td-envato-code input').keydown(function(event){
+        if ( ( event.which && 13 === event.which ) ||
+            ( event.keyCode && 13 === event.keyCode )) {
+            //on enter trigger click on "Activate" button
+            event.preventDefault();
+            jQuery('.td-envato-code-button').trigger('click');
+            return;
+        }
+        var envatoCodeContainer = jQuery('.td-envato-code');
+        envatoCodeContainer.removeClass('td-err');
+        envatoCodeContainer.find('.td-activate-err').hide();
+    });
+
+    //theme activation - on keydown - hide forum user registration form errors
+    jQuery('.td-activate-registration input').keydown(function(event){
+        var currentInput = jQuery(this),
+            currentInputContainer = currentInput.parent(),
+            currentInputErrors = currentInputContainer.find('.td-activate-err');
+
+        //hide errors
+        currentInputContainer.removeClass('td-err');
+        currentInputErrors.hide();
+
+        //password confirmation input - on enter trigger submit
+        if (currentInput.attr('name') == 'td-activate-password-confirmation' &&
+            ( event.which && 13 === event.which ) ||
+            ( event.keyCode && 13 === event.keyCode )) {
+            jQuery('.td-registration-button').trigger('click');
+            return;
         }
     });
 }
