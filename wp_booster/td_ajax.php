@@ -764,9 +764,9 @@ class td_ajax {
         }
 
         //user data
-        $envato_code = $_POST['envato_code'];
-        $username = $_POST['username'];
-        $email = $_POST['email'];
+        $envato_code = trim($_POST['envato_code']);
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
         $password = $_POST['password'];
         $password_confirmation = $_POST['password_confirmation'];
 
@@ -795,12 +795,14 @@ class td_ajax {
 
         if (is_wp_error($td_forum_response)) {
             //http error
+            td_log::log(__FILE__, __FUNCTION__, 'Failed to contact the forum for user registration', $td_forum_response);
             $buffy['forum_connection_failed'] = true;
             die(json_encode($buffy));
         }
 
         if (isset($td_forum_response['response']['code']) and $td_forum_response['response']['code'] != '200') {
             //response code != 200
+            td_log::log(__FILE__, __FUNCTION__, 'Received a response code != 200 while trying to contact the forum for user registration', $td_forum_response);
             $buffy['forum_connection_failed'] = true;
             $buffy['forum_response_code'] = $td_forum_response['response']['code'];
             die(json_encode($buffy));
@@ -808,6 +810,7 @@ class td_ajax {
 
         if (empty($td_forum_response['body'])) {
             //response body is empty
+            td_log::log(__FILE__, __FUNCTION__, 'Received an empty response body while contacting the forum for user registration', $td_forum_response);
             $buffy['forum_connection_failed'] = true;
             die(json_encode($buffy));
         }
@@ -835,12 +838,14 @@ class td_ajax {
 
         if ($api_response['envato_api_failed'] === true) {
             //envato api call failed
+            td_log::log(__FILE__, __FUNCTION__, 'Received incomplete data while contacting the forum for user registration', $api_response);
             $buffy['forum_connection_failed'] = true;
             die(json_encode($buffy));
         }
 
         if ($api_response['envato_api_failed'] === true) {
             //forum failed to check the envato code in it's database
+            td_log::log(__FILE__, __FUNCTION__, 'Received database error from forum user registration endpoint', $api_response);
             $buffy['forum_connection_failed'] = true;
             die(json_encode($buffy));
         }
