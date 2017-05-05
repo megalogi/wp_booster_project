@@ -1175,6 +1175,13 @@ function td_forum_process_response(data) {
         return;
     }
 
+    //envato code already used (cannot create another account) - redirect
+    if (forumConnectionData.envato_key_used === true) {
+        alert('This envato code is already registered, you can only create one account for each code. You have successfuly activated the theme.');
+        window.location.replace('?page=td_theme_welcome');
+        return;
+    }
+
     //user was not created - display errors
     if (forumConnectionData.envato_api_key_invalid === true) {
         //invalid envato code

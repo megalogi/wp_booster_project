@@ -383,7 +383,7 @@ class td_cake {
                             <li>3. <a href="http://forum.tagdiv.com/wp-content/uploads/2014/09/2014-09-09_1458.png" target="_blank">Get the activation code</a> and paste it in this form</li>
                         </ul>
 
-                        <form method="post" action="admin.php?page=td_cake_panel">
+                        <div class="td-manual-input-wrap">
 
                             <input type="hidden" name="td_magic_token" value="<?php echo wp_create_nonce("td-validate-license") ?>"/>
 
@@ -420,8 +420,8 @@ class td_cake {
 
                             </table>
 
-                            <?php submit_button('Manual activate theme'); ?>
-                        </form>
+                            <div class="td-activate-button td-manual-activate-button">Activate</div>
+                        </div>
                     </div>
                 </div>
 
