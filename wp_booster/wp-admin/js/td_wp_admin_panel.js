@@ -1047,9 +1047,16 @@ function td_envato_process_response(data) {
 
     //code already registered on the forum
     if (td_data_object.used_on_forum === true) {
-        //theme is activated - refresh page
-        alert('Theme activated!');
-        window.location.replace('?page=td_theme_welcome');
+        //theme is activated
+        tdConfirm.showModal('Theme activation', null, null, null,
+            'Theme successfully activated. Thanks for buying our product.',
+            null, true,
+        function() {
+            //redirect
+            window.location.replace('?page=td_theme_welcome');
+        }
+        );
+
         return;
     }
 
@@ -1137,15 +1144,29 @@ function td_forum_process_response(data) {
 
     //user created - redirect
     if (forumConnectionData.user_created === true) {
-        alert('You have successfuly activated the theme.');
-        window.location.replace('?page=td_theme_welcome');
+        //theme is activated
+        tdConfirm.showModal('Theme activation', null, null, null,
+            'Theme successfully activated. A new account was created on the support forum. Thanks for buying our product.',
+            null, true,
+            function() {
+                //redirect
+                window.location.replace('?page=td_theme_welcome');
+            }
+        );
         return;
     }
 
     //envato code already used (cannot create another account) - redirect
     if (forumConnectionData.envato_key_used === true) {
-        alert('This envato code is already registered, you can only create one account for each code. You have successfuly activated the theme.');
-        window.location.replace('?page=td_theme_welcome');
+        //theme is activated
+        tdConfirm.showModal('Theme activation', null, null, null,
+            'This envato code is already registered, you can only create one account for each code. You have successfuly activated the theme.',
+            null, true,
+            function() {
+                //redirect
+                window.location.replace('?page=td_theme_welcome');
+            }
+        );
         return;
     }
 
@@ -1315,6 +1336,10 @@ function td_register_forum_user() {
     });
 }
 
+
+/**
+ * wp-admin > theme panel > activate
+ */
 function td_theme_activation() {
     //check envato code
     jQuery('.td-envato-code-button').on('click', function(){
@@ -1352,8 +1377,8 @@ function td_theme_activation() {
 
         //password confirmation input - on enter trigger submit
         if (currentInput.attr('name') == 'td-activate-password-confirmation' &&
-            ( event.which && 13 === event.which ) ||
-            ( event.keyCode && 13 === event.keyCode )) {
+            (( event.which && 13 === event.which ) ||
+            ( event.keyCode && 13 === event.keyCode ))) {
             jQuery('.td-registration-button').trigger('click');
             return;
         }

@@ -18,6 +18,7 @@ var tdConfirm;
         _$content: undefined,
         _$confirmYes: undefined,
         _$confirmNo: undefined,
+        _$confirmOk: undefined,
 
         _$infoContent: undefined,
 
@@ -36,12 +37,14 @@ var tdConfirm;
                 '<div class="td-confirm-buttons">' +
                     '<button type="button" class="td-confirm-yes">Yes</button>' +
                     '<button type="button" class="td-confirm-no">No</button>' +
+                    '<button type="button" class="td-confirm-ok" style="display: none;">OK</button>' +
                 '</div>' +
             '</div>' );
 
             tdConfirm._$infoContent = tdConfirm._$content.find( '.td-confirm-info' );
             tdConfirm._$confirmYes = tdConfirm._$content.find( 'button.td-confirm-yes' );
             tdConfirm._$confirmNo = tdConfirm._$content.find( 'button.td-confirm-no' );
+            tdConfirm._$confirmOk = tdConfirm._$content.find( 'button.td-confirm-ok' );
 
             tdConfirm._$body.append( tdConfirm._$content );
 
@@ -58,49 +61,70 @@ var tdConfirm;
          * @param htmlInfoContent - optional
          * @param callbackNo - optional
          * @param argsNo - optional
+         * @param okBox - optional
          */
-        showModal: function( caption, objectContext, callbackYes, argsYes, htmlInfoContent, url) {
+        showModal: function(caption, objectContext, callbackYes, argsYes, htmlInfoContent, url, okBox, callbackOk) {
 
             tdConfirm.init();
 
-            if ( 'undefined' === typeof url ) {
+            if ( 'undefined' === typeof url || null === url) {
                 url = '#TB_inline?inlineId=td-confirm&width=480';
             }
 
-            if ( 'undefined' === typeof objectContext ) {
+            if ( 'undefined' === typeof objectContext || null === objectContext) {
                 objectContext = window;
             }
 
-            if ( 'undefined' === typeof htmlInfoContent ) {
+            if ( 'undefined' === typeof htmlInfoContent || null === htmlInfoContent) {
                 htmlInfoContent = '';
             }
+
             tdConfirm._$infoContent.html( htmlInfoContent );
 
+            if ( 'undefined' === typeof okBox ) {
 
-            // Remove any bound callback
-            tdConfirm._$confirmYes.unbind();
+                // Remove any bound callback
+                tdConfirm._$confirmYes.unbind();
 
-            if ( 'undefined' === typeof callbackYes ) {
-                tdConfirm._$confirmYes.click( function() {
-                    tb_remove();
-                    return true;
-                });
-            } else {
-                if ( 'undefined' === typeof argsYes ) {
-                    argsYes = [];
+                if ( 'undefined' === typeof callbackYes || null === callbackYes) {
+                    tdConfirm._$confirmYes.click( function() {
+                        tb_remove();
+                        return true;
+                    });
+                } else {
+                    if ( 'undefined' === typeof argsYes || null === argsYes) {
+                        argsYes = [];
+                    }
+                    tdConfirm._$confirmYes.click( function() {
+                        callbackYes.apply( objectContext, argsYes );
+                    });
                 }
-                tdConfirm._$confirmYes.click( function() {
-                    callbackYes.apply( objectContext, argsYes );
+
+                // Remove any bound callback
+                tdConfirm._$confirmNo.unbind();
+                tdConfirm._$confirmNo.click( function() {
+                    tb_remove();
+                    return false;
                 });
+
+            } else {
+                //hide yes and no buttons
+                tdConfirm._$confirmNo.hide();
+                tdConfirm._$confirmYes.hide();
+                //display ok button
+                tdConfirm._$confirmOk.show();
+
+                if ( 'undefined' === typeof callbackOk || null === callbackOk) {
+                    tdConfirm._$confirmOk.click( function() {
+                        tb_remove();
+                        return true;
+                    });
+                } else {
+                    tdConfirm._$confirmOk.click( function() {
+                        callbackOk.apply(objectContext);
+                    });
+                }
             }
-
-
-            // Remove any bound callback
-            tdConfirm._$confirmNo.unbind();
-            tdConfirm._$confirmNo.click( function() {
-                tb_remove();
-                return false;
-            });
 
 
             tdConfirm._$body.addClass( 'td-thickbox-loading' );
