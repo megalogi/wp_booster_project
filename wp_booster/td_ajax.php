@@ -628,6 +628,12 @@ class td_ajax {
             return;
         }
 
+        //forum check url
+        $forum_check_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . 'tagdiv/wp-json/tagdiv/check_user/';
+        if (TD_DEPLOY_MODE != 'dev') {
+            $forum_check_url = 'http://forum.tagdiv.com/wp-json/tagdiv/check_user/';
+        }
+
         $envato_code = $_POST['envato_code'];
 
         //return buffer
@@ -673,7 +679,7 @@ class td_ajax {
                         $buffy['envato_code_status'] = 'valid';
 
                         //check forum
-                        $td_forum_response = wp_remote_post('http://192.168.0.80/tagdiv/wp-json/tagdiv/check_user/', array (
+                        $td_forum_response = wp_remote_post($forum_check_url, array (
                             'method' => 'POST',
                             'body' => array(
                                 'envato_key' => $envato_code,
@@ -719,15 +725,17 @@ class td_ajax {
 
 
                     } else {
-                        //code is invalid
+                        //code is invalid (do nothing because default is invalid)
                     }
 
                 } else {
                     //error accessing our activation service
+                    $buffy['envato_check_failed'] = true;
                 }
 
             } else {
                 //empty body error
+                $buffy['envato_check_failed'] = true;
             }
 
         }
@@ -739,6 +747,12 @@ class td_ajax {
 
 
     static function on_ajax_register_forum_user() {
+
+        $register_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . 'tagdiv/wp-json/tagdiv/register/';
+        if (TD_DEPLOY_MODE != 'dev') {
+            $register_url = 'http://forum.tagdiv.com/wp-json/tagdiv/register/';
+        }
+
         //required data
         if (empty($_POST['envato_code']) ||
             empty($_POST['username']) ||
@@ -765,7 +779,7 @@ class td_ajax {
         );
 
         //td_cake - check envato code
-        $td_forum_response = wp_remote_post('http://192.168.0.80/tagdiv/wp-json/tagdiv/register/', array (
+        $td_forum_response = wp_remote_post($register_url, array (
             'method' => 'POST',
             'body' => array(
                 'username'              => $username,
