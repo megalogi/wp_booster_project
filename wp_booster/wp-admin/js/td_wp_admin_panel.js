@@ -59,6 +59,9 @@ jQuery().ready(function() {
     //social fields validation
     td_add_event_to_validate_panel_social_fields();
 
+    //theme activation
+    td_theme_activation();
+
 });
 
 //function to add click events on all checkboxes
@@ -1011,4 +1014,348 @@ function td_add_event_to_validate_panel_social_fields() {
         }
     }
 
+}
+
+
+/**
+ * process ajax response for td_ajax_check_envato_code
+ * @param data
+ */
+function td_envato_process_response(data) {
+    var envatoCodeContainer = jQuery('.td-envato-code'),
+        currentCode = envatoCodeContainer.find('input').val();
+
+    var td_data_object = jQuery.parseJSON(data); //get the data object
+    //drop the result - it's from a old query
+    if ( td_data_object.envato_code !== currentCode ) {
+        return;
+    }
+
+    //envato check failed
+    if (td_data_object.envato_check_status == 'failed') {
+        envatoCodeContainer.addClass('td-err');
+        jQuery('.td-envato-check-error').show();
+        return;
+    }
+
+    //code is invalid
+    if (td_data_object.envato_code_status == 'invalid') {
+        envatoCodeContainer.addClass('td-err');
+        jQuery('.td-envato-invalid').show();
+        return;
+    }
+
+    //code already registered on the forum
+    if (td_data_object.used_on_forum === true) {
+        //theme is activated - refresh page
+        alert('Theme activated!');
+        window.location.replace('?page=td_theme_welcome');
+        return;
+    }
+
+    //code is not registered on the forum
+    jQuery('.td-activate-envato-code').hide();
+    jQuery('.td-activate-registration').show();
+}
+
+
+
+/**
+ * AJAX call
+ * check envato code
+ */
+function td_envato_code_check() {
+    //envato code
+    var envatoCodeContainer = jQuery('.td-envato-code'),
+        envatoCode = envatoCodeContainer.find('input').val();
+
+    //empty code
+    if (envatoCode.length == 0) {
+        envatoCodeContainer.addClass('td-err');
+        jQuery('.td-envato-missing').show();
+        return;
+    }
+
+    //code is too short
+    if (envatoCode.length < 6) {
+        envatoCodeContainer.addClass('td-err');
+        jQuery('.td-envato-length').show();
+        return;
+    }
+
+    //show the div over the panel
+    jQuery('.td_displaying_saving').css('display', 'block');
+    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
+    jQuery('.td_displaying_saving_gif').css('display', 'block');
+
+    //ajax call
+    jQuery.ajax({
+        type: "POST",
+        url: td_ajax_url,
+        data: {
+            action: 'td_ajax_check_envato_code',
+            envato_code: envatoCode
+        },
+        success: function( data, textStatus, XMLHttpRequest ) {
+            jQuery('.td_displaying_saving').css('display', 'none');
+            jQuery('.td_displaying_saving_gif').css('display', 'none');
+
+            // we need to add the image and remove it again because the GIF will not play from the beginning otherwise
+            jQuery('.td_displaying_ok_gif')
+                .attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/saved.gif')
+                .css('display', 'block')
+                .fadeOut(2400, function() {
+                    jQuery('.td_displaying_ok_gif').attr('src', '');
+                    jQuery('.td_wrapper_saving_gifs').css('display', 'none');
+                });
+            td_envato_process_response(data);
+        },
+        error: function( MLHttpRequest, textStatus, errorThrown ) {
+            //console.log(errorThrown);
+        }
+    });
+}
+
+
+function td_forum_process_response(data) {
+    var envatoCodeContainer = jQuery('.td-envato-code'),
+        currentCode = envatoCodeContainer.find('input').val();
+
+    var td_data_object = jQuery.parseJSON(data); //get the data object
+    //drop the result - it's from a old query
+    if ( td_data_object.envato_code !== currentCode ) {
+        return;
+    }
+
+    //forum connection failed
+    if (td_data_object.forum_connection_failed === true) {
+        jQuery('.td-forum-connection-failed').show();
+        return;
+    }
+
+    var forumConnectionData = td_data_object.forum_response_data;
+
+    //user created - redirect
+    if (forumConnectionData.user_created === true) {
+        alert('You have successfuly activated the theme.');
+        window.location.replace('?page=td_theme_welcome');
+        return;
+    }
+
+    //envato code already used (cannot create another account) - redirect
+    if (forumConnectionData.envato_key_used === true) {
+        alert('This envato code is already registered, you can only create one account for each code. You have successfuly activated the theme.');
+        window.location.replace('?page=td_theme_welcome');
+        return;
+    }
+
+    //user was not created - display errors
+    if (forumConnectionData.envato_api_key_invalid === true) {
+        //invalid envato code
+        jQuery('.td-envato-invalid').show();
+        jQuery('.td-activate-registration').hide();
+        jQuery('.td-activate-envato-code').show();
+    }
+
+    if (forumConnectionData.envato_key_db_fail === true) {
+        //db error - failed to check if the envato code is used on forum
+        jQuery('.td-forum-connection-failed').show();
+        return;
+    }
+
+    if (forumConnectionData.username_exists === true) {
+        //username already used
+        jQuery('.td-activate-username-used').show();
+    }
+
+    if (forumConnectionData.email_syntax_incorrect === true) {
+        //email syntax incorrect
+        jQuery('.td-activate-email-syntax').show();
+    } else if (forumConnectionData.email_exists === true) {
+        //email already used
+        jQuery('.td-activate-email-used').show();
+    }
+
+    if (forumConnectionData.password_is_short === true) {
+        //password length < 6 characters
+        jQuery('.td-activate-password-length').show();
+    }
+
+    if (forumConnectionData.passwords_dont_match === true) {
+        //password and password confirmation don't match
+        jQuery('.td-activate-password-mismatch').show();
+    }
+}
+
+
+/**
+ * register new user on forum.tagdiv.com
+ */
+function td_register_forum_user() {
+    //form data
+    var envatoCodeContainer = jQuery('.td-envato-code'),
+        envatoCode = envatoCodeContainer.find('input').val(),
+        userNameContainer = jQuery('.td-activate-username'),
+        userName = userNameContainer.find('input').val(),
+        emailContainer = jQuery('.td-activate-email'),
+        email = emailContainer.find('input').val(),
+        passwordContainer = jQuery('.td-activate-password'),
+        password = passwordContainer.find('input').val(),
+        passwordConfirmationContainer = jQuery('.td-activate-password-confirmation'),
+        passwordConfirmation = passwordConfirmationContainer.find('input').val(),
+        inputError = false;
+
+    //empty code
+    if (envatoCode.length == 0) {
+        envatoCodeContainer.addClass('td-err');
+        jQuery('.td-envato-missing').show();
+        //return to envato code panel
+        jQuery('.td-activate-envato-code').show();
+        jQuery('.td-activate-registration').hide();
+        return;
+    }
+
+    //code is too short
+    if (envatoCode.length < 6) {
+        envatoCodeContainer.addClass('td-err');
+        jQuery('.td-envato-length').show();
+        //return to envato code panel
+        jQuery('.td-activate-envato-code').show();
+        jQuery('.td-activate-registration').hide();
+        return;
+    }
+
+    //username
+    if (userName.length == 0) {
+        userNameContainer.addClass('td-err');
+        jQuery('.td-activate-username-missing').show();
+        inputError = true;
+    }
+
+    //email
+    if (email.length == 0) {
+        emailContainer.addClass('td-err');
+        jQuery('.td-activate-email-missing').show();
+        inputError = true;
+    } else {
+        //email syntax
+        var emailPattern = /^[^@\s]+@[^.\s]+\.[^\s]+$/;
+        if (emailPattern.test(email) === false) {
+            emailContainer.addClass('td-err');
+            jQuery('.td-activate-email-syntax').show();
+            inputError = true;
+        }
+    }
+
+    //password
+    if (password.length == 0) {
+        passwordContainer.addClass('td-err');
+        jQuery('.td-activate-password-missing').show();
+        inputError = true;
+    } else if (password.length < 6) {
+        //password length
+        passwordContainer.addClass('td-err');
+        jQuery('.td-activate-password-length').show();
+        inputError = true;
+    }
+
+    //password confirmation
+    if (passwordConfirmation.length == 0) {
+        passwordConfirmationContainer.addClass('td-err');
+        jQuery('.td-activate-password-confirmation-missing').show();
+        inputError = true;
+    } else {
+        //check if passwords match
+        if (password != passwordConfirmation) {
+            passwordConfirmationContainer.addClass('td-err');
+            jQuery('.td-activate-password-mismatch').show();
+            inputError = true;
+        }
+    }
+
+    //we have input errors
+    if (inputError === true) {
+        return;
+    }
+
+    //show the div over the panel
+    jQuery('.td_displaying_saving').css('display', 'block');
+    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
+    jQuery('.td_displaying_saving_gif').css('display', 'block');
+
+    //ajax call
+    jQuery.ajax({
+        type: "POST",
+        url: td_ajax_url,
+        data: {
+            action: 'td_ajax_register_forum_user',
+            envato_code: envatoCode,
+            username: userName,
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation
+        },
+        success: function( data, textStatus, XMLHttpRequest ) {
+            jQuery('.td_displaying_saving').css('display', 'none');
+            jQuery('.td_displaying_saving_gif').css('display', 'none');
+
+            // we need to add the image and remove it again because the GIF will not play from the beginning otherwise
+            jQuery('.td_displaying_ok_gif')
+                .attr('src', td_get_template_directory_uri + '/includes/wp_booster/wp-admin/images/panel/saved.gif')
+                .css('display', 'block')
+                .fadeOut(2400, function() {
+                    jQuery('.td_displaying_ok_gif').attr('src', '');
+                    jQuery('.td_wrapper_saving_gifs').css('display', 'none');
+                });
+            td_forum_process_response(data);
+        },
+        error: function( MLHttpRequest, textStatus, errorThrown ) {
+            //console.log(errorThrown);
+        }
+    });
+}
+
+function td_theme_activation() {
+    //check envato code
+    jQuery('.td-envato-code-button').on('click', function(){
+        td_envato_code_check();
+    });
+
+    //theme activation - register new user on forum
+    jQuery('.td-registration-button').on('click', function(){
+        td_register_forum_user();
+    });
+
+    //theme activation - on keydown - hide envato code errors
+    jQuery('.td-envato-code input').keydown(function(event){
+        if ( ( event.which && 13 === event.which ) ||
+            ( event.keyCode && 13 === event.keyCode )) {
+            //on enter trigger click on "Activate" button
+            event.preventDefault();
+            jQuery('.td-envato-code-button').trigger('click');
+            return;
+        }
+        var envatoCodeContainer = jQuery('.td-envato-code');
+        envatoCodeContainer.removeClass('td-err');
+        envatoCodeContainer.find('.td-activate-err').hide();
+    });
+
+    //theme activation - on keydown - hide forum user registration form errors
+    jQuery('.td-activate-registration input').keydown(function(event){
+        var currentInput = jQuery(this),
+            currentInputContainer = currentInput.parent(),
+            currentInputErrors = currentInputContainer.find('.td-activate-err');
+
+        //hide errors
+        currentInputContainer.removeClass('td-err');
+        currentInputErrors.hide();
+
+        //password confirmation input - on enter trigger submit
+        if (currentInput.attr('name') == 'td-activate-password-confirmation' &&
+            ( event.which && 13 === event.which ) ||
+            ( event.keyCode && 13 === event.keyCode )) {
+            jQuery('.td-registration-button').trigger('click');
+            return;
+        }
+    });
 }
