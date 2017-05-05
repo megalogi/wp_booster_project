@@ -64,14 +64,12 @@ jQuery().ready(function() {
         td_envato_code_check();
     });
 
-    //register new user on forum
+    //theme activation - register new user on forum
     jQuery('.td-registration-button').on('click', function(){
         td_register_forum_user();
     });
 
-
-
-    //on keydown - hide envato code errors
+    //theme activation - on keydown - hide envato code errors
     jQuery('.td-envato-code input').keydown(function(event){
         if ( ( event.which && 13 === event.which ) ||
             ( event.keyCode && 13 === event.keyCode )) {
@@ -85,15 +83,26 @@ jQuery().ready(function() {
         envatoCodeContainer.find('.td-activate-err').hide();
     });
 
-    //on keydown - hide registration form errors
+    //theme activation - on keydown - hide forum user registration form errors
     jQuery('.td-activate-registration input').keydown(function(event){
         var currentInput = jQuery(this),
             currentInputContainer = currentInput.parent(),
             currentInputErrors = currentInputContainer.find('.td-activate-err');
+
         //hide errors
         currentInputContainer.removeClass('td-err');
         currentInputErrors.hide();
+
+        //password confirmation input - on enter trigger submit
+        if (currentInput.attr('name') == 'td-activate-password-confirmation' &&
+            ( event.which && 13 === event.which ) ||
+            ( event.keyCode && 13 === event.keyCode )) {
+            jQuery('.td-registration-button').trigger('click');
+            return;
+        }
     });
+
+
 
 });
 
