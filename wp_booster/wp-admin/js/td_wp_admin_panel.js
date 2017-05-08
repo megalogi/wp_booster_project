@@ -1159,9 +1159,8 @@ function td_forum_process_response(data) {
     //envato code already used (cannot create another account) - redirect
     if (forumConnectionData.envato_key_used === true) {
         //theme is activated
-        tdConfirm.showModal('Theme activation', null, null, null,
+        tdConfirm.showModalOk('Theme activation',
             'This envato code is already registered, you can only create one account for each code. You have successfuly activated the theme.',
-            null, true,
             function() {
                 //redirect
                 window.location.replace('?page=td_theme_welcome');
