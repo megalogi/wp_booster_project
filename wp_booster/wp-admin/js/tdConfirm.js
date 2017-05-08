@@ -84,12 +84,12 @@ var tdConfirm;
 
             //Yes callback
             if ( 'undefined' === typeof callbackYes) {
-                tdConfirm._$confirmOk.click( function() {
+                tdConfirm._$confirmYes.click( function() {
                     tb_remove();
                     return true;
                 });
             } else {
-                tdConfirm._$confirmOk.click( function() {
+                tdConfirm._$confirmYes.click( function() {
                     callbackYes.apply(objectContext);
                 });
             }
