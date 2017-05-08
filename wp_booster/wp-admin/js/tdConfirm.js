@@ -102,6 +102,8 @@ var tdConfirm;
 
             $TBWindow.addClass( 'td-thickbox' );
 
+            $TBWindow.find('.tb-close-icon').hide();
+
             if (tdConfirm._$infoContent.height() > 400) {
                 $TBWindow.addClass( 'td-thickbox-fixed' );
             }
