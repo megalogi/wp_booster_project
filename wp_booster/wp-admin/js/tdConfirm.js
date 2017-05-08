@@ -51,7 +51,11 @@ var tdConfirm;
 
         /**
          * OK modal
-         * @param okBox - optional
+         * @param caption
+         * @param htmlInfoContent
+         * @param callbackYes
+         * @param objectContext
+         * @param url
          */
         showModalOk: function(caption, htmlInfoContent, callbackYes, objectContext, url) {
 
