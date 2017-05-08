@@ -1048,13 +1048,12 @@ function td_envato_process_response(data) {
     //code already registered on the forum
     if (td_data_object.used_on_forum === true) {
         //theme is activated
-        tdConfirm.showModal('Theme activation', null, null, null,
+        tdConfirm.showModalOk('Theme activation',
             'Theme successfully activated. Thanks for buying our product.',
-            null, true,
-        function() {
-            //redirect
-            window.location.replace('?page=td_theme_welcome');
-        }
+            function() {
+                //redirect
+                window.location.replace('?page=td_theme_welcome');
+            }
         );
 
         return;
@@ -1145,9 +1144,8 @@ function td_forum_process_response(data) {
     //user created - redirect
     if (forumConnectionData.user_created === true) {
         //theme is activated
-        tdConfirm.showModal('Theme activation', null, null, null,
+        tdConfirm.showModalOk('Theme activation',
             'Theme successfully activated. A new account was created on the support forum. Thanks for buying our product.',
-            null, true,
             function() {
                 //redirect
                 window.location.replace('?page=td_theme_welcome');
