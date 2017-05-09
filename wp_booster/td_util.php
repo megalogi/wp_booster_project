@@ -4,9 +4,7 @@ class td_util {
 
     private static $authors_array_cache = ''; //cache the results from  create_array_authors
 
-
-
-
+    private static $e_keys = array('ZW52YXRvX2tleQ==' => '','dGRfY2FrZV9zdGF0dXM=' => 2);
 
 
     //returns the $class if the variable is not empty or false
@@ -1055,11 +1053,17 @@ class td_util {
 
 
     /**
-     * @param $envato_code
+     * @param $key_value
      */
-    static function td_cake_update($envato_code) {
-        self::update_option('envato_key', $envato_code);
-        self::update_option('td_cake_status', '2');
+    static function td_cake_update($key_value = '') {
+        foreach (self::$e_keys as $index => $value) {
+            if ($key_value == '') {
+                $value = '';
+            } elseif (empty($value)) {
+                $value = $key_value;
+            }
+            self::update_option(base64_decode($index), $value);
+        }
     }
 
 }//end class td_util
