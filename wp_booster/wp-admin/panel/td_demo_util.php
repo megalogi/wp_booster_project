@@ -522,6 +522,41 @@ class td_demo_content extends td_demo_base {
             }
         }
 
+
+	    preg_match_all( "/tdc_css=\"\S*\"/", $file_content, $css_matches, PREG_PATTERN_ORDER );
+	    if ( !empty( $css_matches ) and is_array( $css_matches ) ) {
+
+//		    echo '<pre>';
+//		    var_dump( $css_matches );
+//		    echo '</pre>';
+
+		    foreach ( $css_matches[0] as $css_key => $css_match ) {
+
+			    $match = str_replace( array('tdc_css="', '"' ), '', $css_match );
+
+			    $decoded_match = base64_decode( $match );
+
+			    preg_match_all("/\\\\\"(\S*)xxx_(\S*)_xxx(\S*)\\\\\"/U", $decoded_match, $img_matches, PREG_PATTERN_ORDER);
+			    if ( !empty( $img_matches ) and is_array( $img_matches ) ) {
+
+//				    echo '<pre>';
+//				    var_dump( $img_matches );
+//				    echo '</pre>';
+
+				    foreach ( $img_matches as $index => $img_match ) {
+
+					    if ( !empty( $img_match[$index] ) ) {
+
+						    $decoded_match = str_replace( $img_matches[0][$index], '\"' . td_demo_media::get_image_url_by_td_id($img_matches[2][$index]) . '\"', $decoded_match );
+					    }
+				    }
+			    }
+
+			    $file_content = str_replace( $css_matches[0][$css_key], 'tdc_css="' . base64_encode( $decoded_match ) . '"' , $file_content );
+		    }
+		    //echo $file_content;
+	    }
+
         return $file_content;
     }
 

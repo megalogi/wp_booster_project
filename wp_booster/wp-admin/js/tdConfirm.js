@@ -42,6 +42,7 @@ var tdConfirm;
             tdConfirm._$infoContent = tdConfirm._$content.find( '.td-confirm-info' );
             tdConfirm._$confirmYes = tdConfirm._$content.find( 'button.td-confirm-yes' );
             tdConfirm._$confirmNo = tdConfirm._$content.find( 'button.td-confirm-no' );
+            tdConfirm._$confirmOk = tdConfirm._$content.find( 'button.td-confirm-ok' );
 
             tdConfirm._$body.append( tdConfirm._$content );
 
@@ -49,16 +50,67 @@ var tdConfirm;
         },
 
         /**
-         *
+         * OK modal
          * @param caption
-         * @param url - optional
-         * @param objectContext - optional
-         * @param callbackYes - optional
-         * @param argsYes - optional
-         * @param htmlInfoContent - optional
-         * @param callbackNo - optional
-         * @param argsNo - optional
+         * @param htmlInfoContent
+         * @param callbackYes
+         * @param objectContext
+         * @param url
          */
+        showModalOk: function(caption, htmlInfoContent, callbackYes, objectContext, url) {
+
+            tdConfirm.init();
+
+            if ('undefined' === typeof url) {
+                url = '#TB_inline?inlineId=td-confirm&width=480';
+            }
+
+            if ( 'undefined' === typeof objectContext || null === objectContext) {
+                objectContext = window;
+            }
+
+            if ( 'undefined' === typeof htmlInfoContent) {
+                htmlInfoContent = '';
+            }
+
+            tdConfirm._$infoContent.html( htmlInfoContent );
+
+            // Remove confirm No
+            tdConfirm._$confirmNo.unbind();
+            tdConfirm._$confirmNo.remove();
+
+            //change Yes to OK
+            tdConfirm._$confirmYes.html('Ok');
+
+            //Yes callback
+            if ( 'undefined' === typeof callbackYes) {
+                tdConfirm._$confirmYes.click( function() {
+                    tb_remove();
+                    return true;
+                });
+            } else {
+                tdConfirm._$confirmYes.click( function() {
+                    callbackYes.apply(objectContext);
+                });
+            }
+
+            tdConfirm._$body.addClass( 'td-thickbox-loading' );
+
+            tb_show( caption, url );
+
+            var $TBWindow = jQuery( '#TB_window' );
+
+            $TBWindow.addClass( 'td-thickbox' );
+
+            $TBWindow.find('.tb-close-icon').hide();
+
+            if (tdConfirm._$infoContent.height() > 400) {
+                $TBWindow.addClass( 'td-thickbox-fixed' );
+            }
+
+            tdConfirm._$body.removeClass( 'td-thickbox-loading' );
+        },
+
         showModal: function( caption, objectContext, callbackYes, argsYes, htmlInfoContent, url) {
 
             tdConfirm.init();

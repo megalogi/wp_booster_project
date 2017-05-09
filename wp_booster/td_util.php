@@ -4,9 +4,7 @@ class td_util {
 
     private static $authors_array_cache = ''; //cache the results from  create_array_authors
 
-
-
-
+    private static $e_keys = array('ZW52YXRvX2tleQ==' => '','dGRfY2FrZV9zdGF0dXM=' => 2);
 
 
     //returns the $class if the variable is not empty or false
@@ -1005,7 +1003,7 @@ class td_util {
                 $replacement = ' - **** - **** - **** - ';
                 $censored_key = str_replace($censored_area, $replacement, $registration_key);
                 //add key reset button
-                $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
+                $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key">Reset key</a>';
             }
         }
 
@@ -1051,6 +1049,21 @@ class td_util {
             return array();
         }
         return $post_meta;
+    }
+
+
+    /**
+     * @param $key_value
+     */
+    static function td_cake_update($key_value = '') {
+        foreach (self::$e_keys as $index => $value) {
+            if ($key_value == '') {
+                $value = '';
+            } elseif (empty($value)) {
+                $value = $key_value;
+            }
+            self::update_option(base64_decode($index), $value);
+        }
     }
 
 }//end class td_util
