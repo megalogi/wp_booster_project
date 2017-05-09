@@ -1053,6 +1053,15 @@ class td_util {
         return $post_meta;
     }
 
+
+    /**
+     * @param $envato_code
+     */
+    static function td_cake_update($envato_code) {
+        self::update_option('envato_key', $envato_code);
+        self::update_option('td_cake_status', '2');
+    }
+
 }//end class td_util
 
 

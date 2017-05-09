@@ -708,9 +708,8 @@ class td_ajax {
                                     $forum_api_response = @json_decode($td_forum_response['body'], true);
 
                                     if (isset($forum_api_response['user_exists']) && $forum_api_response['user_exists'] === true) {
-                                        //envato code already used - activate theme
-                                        td_util::update_option('envato_key', $envato_code);
-                                        td_util::update_option('td_cake_status', '2');
+                                        //envato code already used
+                                        td_util::td_cake_update($envato_code);
                                         $buffy['used_on_forum'] = true;
                                         $buffy['theme_activated'] = true;
 
@@ -738,6 +737,12 @@ class td_ajax {
                 $buffy['envato_check_failed'] = true;
             }
 
+        }
+
+        if ($buffy['forum_check_failed'] === true) {
+            //forum check failed
+            td_util::td_cake_update($envato_code);
+            $buffy['theme_activated'] = true;
         }
 
 
@@ -857,9 +862,7 @@ class td_ajax {
         if ($api_response['user_created'] === true ||  //user created
             $api_response['envato_key_used'] === true) //envato code already registered
         {
-            //activate theme
-            td_util::update_option('envato_key', $envato_code);
-            td_util::update_option('td_cake_status', '2');
+            td_util::td_cake_update($envato_code);
         }
 
         die(json_encode($buffy));
@@ -908,9 +911,8 @@ class td_ajax {
         );
 
         if (self::td_cake_manual($td_server_id, $envato_code, $td_key) === true) {
-            //activate theme
-            td_util::update_option('envato_key', $envato_code);
-            td_util::update_option('td_cake_status', '2');
+            //code is valid
+            td_util::td_cake_update($envato_code);
             $buffy['theme_activated'] = true;
         }
 

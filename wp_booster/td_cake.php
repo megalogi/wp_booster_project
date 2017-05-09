@@ -108,15 +108,32 @@ class td_cake {
     function td_footer_manual_activation($text) {
         //add manual activation button
         $text .= '<a href="#" class="td-manual-activation-btn">Activate the theme manually</a>';
+        //add auto activation button
+        $text .= '<a href="#" class="td-auto-activation-btn" style="display: none;">Back to automatic activation</a>';
         //button script
         $text .= '<script type="text/javascript">
+                    //manual activation
                     jQuery(\'.td-manual-activation-btn\').click(function(event){
                         event.preventDefault();
                         jQuery(\'.td-manual-activation\').css(\'display\', \'block\');
-                        //hide button
+                        //hide manual activation button
                         jQuery(this).hide();
-                        //hide auto activation
+                        //hide auto activation panel
                         jQuery(\'.td-auto-activation\').hide();
+                        //display back to automatic activation button
+                        jQuery(\'.td-auto-activation-btn\').show();
+                    });
+                        
+                    //automatic activation
+                    jQuery(\'.td-auto-activation-btn\').click(function(event){
+                        event.preventDefault();
+                        jQuery(\'.td-manual-activation\').css(\'display\', \'none\');
+                        //hide back to automatic activation button
+                        jQuery(this).hide();
+                        //show auto activation panel
+                        jQuery(\'.td-auto-activation\').show();
+                        //display manual activation button
+                        jQuery(\'.td-manual-activation-btn\').show();
                     });
                  </script>';
         echo $text;
@@ -245,8 +262,7 @@ class td_cake {
             if ($_POST['td_active'] == 'manual') {
                 if ($this->td_cake_manual($td_server_id, $td_envato_code, $td_key) === true) {
 
-                    td_util::update_option('envato_key', $td_envato_code);
-                    td_util::update_option('td_cake_status', '2');
+                    td_util::td_cake_update($td_envato_code);
                     ?>
                     <script type="text/javascript">
                         alert('Thanks for activating the theme!');
