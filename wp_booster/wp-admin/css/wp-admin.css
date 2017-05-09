@@ -3001,10 +3001,11 @@ title one row controls
   line-height: 19px;
 }
 .tdc-element-ico {
-  background: url('../../../../images/pagebuilder/tdc-icons.png');
+  background-image: url('../../../../images/pagebuilder/tdc-icons.png');
+  background-position: -5px -5px;
 }
 .tdc-ico-td_block_ad_box {
-  background-position: -5px -5px;
+  background-position: -405px -106px;
   width: 40px;
   height: 24px;
 }
@@ -3380,6 +3381,16 @@ title one row controls
 }
 .tdc-ico-td_block_big_grid_fl_10 {
   background-position: -405px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_column {
+  background-position: -405px -144px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_column_inner {
+  background-position: -405px -178px;
   width: 40px;
   height: 24px;
 }
@@ -4632,10 +4643,21 @@ title one row controls
 /* theme activation */
 .td-activate-page-wrap {
   position: relative;
-  min-height: 1200px;
+}
+.td-activate-wrap {
+  display: inline-block;
+  background-color: #fff;
+  padding: 50px 45px;
+  font-family: 'Open Sans', arial, sans-serif;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
 }
 .td-activate-wrap input {
-  font-size: 16px;
+  height: 42px;
+  padding: 0 13px;
+  font-size: 15px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .td-activate-wrap .td-err input,
 .td-activate-wrap .td-err input:focus {
@@ -4656,24 +4678,31 @@ title one row controls
 .td-activate-wrap .td-activate-info {
   margin-top: 10px;
 }
+.td-activate-wrap .td-registration-info,
+.td-activate-wrap .td-registration-err {
+  width: 366px;
+  margin-bottom: 30px;
+  padding: 13px 17px 12px;
+  font-size: 13px;
+  line-height: 17px;
+}
 .td-activate-wrap .td-registration-info {
-  width: 378px;
-  color: green;
-  margin-bottom: 15px;
-  padding: 5px 10px;
-  border: 1px solid green;
+  color: #379946;
+  border: 1px solid #379946;
 }
 .td-activate-wrap .td-registration-err {
-  width: 378px;
   color: #ff7c7c;
-  margin-bottom: 15px;
-  padding: 5px 10px;
   border: 1px solid #ff7c7c;
 }
 .td-activate-wrap .td-activate-subtitle {
   font-size: 28px;
   margin-bottom: 18px;
   line-height: 30px;
+}
+.td-activate-info,
+.td-envato-code-info {
+  font-size: 13px;
+  line-height: 17px;
 }
 /* manual activation */
 .td-manual-activation-btn,
@@ -4691,8 +4720,47 @@ title one row controls
   padding-right: 15px;
 }
 .td-input-title {
-  font-weight: 600;
+  margin-bottom: 4px;
+  font-weight: 700;
+  font-size: 13px;
   text-transform: uppercase;
+  color: #000;
+}
+.td-activate-button {
+  color: #fff;
+  line-height: 1;
+  text-decoration: none;
+  margin-top: 25px;
+  padding: 12px 20px 9px;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.td-activate-button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #40a200;
+  border-radius: 50px;
+  border: 1px solid #40a200;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  z-index: -1;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.td-activate-button:hover:before {
+  opacity: 1;
+  -webkit-box-shadow: 0 2px 8px 0 rgba(64, 162, 0, 0.6);
+  -moz-box-shadow: 0 2px 8px 0 rgba(64, 162, 0, 0.6);
+  box-shadow: 0 2px 8px 0 rgba(64, 162, 0, 0.6);
 }
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox

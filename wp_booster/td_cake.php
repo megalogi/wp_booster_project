@@ -218,30 +218,30 @@ class td_cake {
             .td-activate-button {
                 margin-left: 1px;
             }
-            .td-envato-code-info {
-                margin-top: 3px;
+            /*.td-envato-code-info {*/
+                /*margin-top: 3px;*/
 
-            }
-            .td-activate-button {
-                display: inline-block;
-                cursor: pointer;
-                position: relative;
-                -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-                -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
-                background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
-                background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
-                background-color: #4db2ec;
-                color: #ffffff;
-                font-size: 15px;
-                text-decoration: none;
-                padding: 5px 15px 6px 15px;
-                line-height: 25px;
-                font-weight: bold;
-                margin-top: 20px;
-            }
+            /*}*/
+            /*.td-activate-button {*/
+                /*display: inline-block;*/
+                /*cursor: pointer;*/
+                /*position: relative;*/
+                /*-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
+                /*-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
+                /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
+                /*border: 1px solid rgba(255, 255, 255, 0.1);*/
+                /*background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
+                /*background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
+                /*background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
+                /*background-color: #4db2ec;*/
+                /*color: #ffffff;*/
+                /*font-size: 15px;*/
+                /*text-decoration: none;*/
+                /*padding: 5px 15px 6px 15px;*/
+                /*line-height: 25px;*/
+                /*font-weight: bold;*/
+                /*margin-top: 20px;*/
+            /*}*/
         </style>
 
         <div class="td-activate-page-wrap">
@@ -280,9 +280,6 @@ class td_cake {
 
                             <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
                             <div class="td-activate-button td-envato-code-button">Activate</div>
-
-                            <br/><br/><br/><br/><br/>
-
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
