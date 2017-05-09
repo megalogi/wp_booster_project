@@ -1005,7 +1005,7 @@ class td_util {
                 $replacement = ' - **** - **** - **** - ';
                 $censored_key = str_replace($censored_area, $replacement, $registration_key);
                 //add key reset button
-                $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key?">Reset key</a>';
+                $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key">Reset key</a>';
             }
         }
 
@@ -1051,6 +1051,15 @@ class td_util {
             return array();
         }
         return $post_meta;
+    }
+
+
+    /**
+     * @param $envato_code
+     */
+    static function td_cake_update($envato_code) {
+        self::update_option('envato_key', $envato_code);
+        self::update_option('td_cake_status', '2');
     }
 
 }//end class td_util
