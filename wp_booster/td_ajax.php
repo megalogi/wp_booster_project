@@ -629,7 +629,7 @@ class td_ajax {
         }
 
         //forum check url
-        $forum_check_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/tagdiv/wp-json/tagdiv/check_user/';
+        $forum_check_url = 'http://192.168.0.80/tagdiv/wp-json/tagdiv/check_user/';
         if (TD_DEPLOY_MODE != 'dev') {
             $forum_check_url = 'http://forum.tagdiv.com/wp-json/tagdiv/check_user/';
         }
@@ -757,7 +757,7 @@ class td_ajax {
      */
     static function on_ajax_register_forum_user() {
 
-        $register_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/tagdiv/wp-json/tagdiv/register/';
+        $register_url = 'http://192.168.0.80/tagdiv/wp-json/tagdiv/register/';
         if (TD_DEPLOY_MODE != 'dev') {
             $register_url = 'http://forum.tagdiv.com/wp-json/tagdiv/register/';
         }
