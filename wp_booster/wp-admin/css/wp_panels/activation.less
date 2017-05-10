@@ -2,7 +2,6 @@
 
 .td-activate-page-wrap {
   position: relative;
-  //min-height: 1200px;
 }
 
 .td-activate-wrap {
@@ -13,10 +12,16 @@
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
 
   input {
+    width: 400px;
     height: 42px;
     padding: 0 13px;
     font-size: 15px;
     .box-shadow(none);
+
+    &:disabled,
+    &:read-only {
+      background-color: #f5f5f5;
+    }
   }
 
   .td-err input,
@@ -42,6 +47,7 @@
     margin-top: 10px;
   }
 
+  .td-manual-info,
   .td-registration-info,
   .td-registration-err {
     width: 366px;
@@ -51,9 +57,13 @@
     line-height: 17px;
   }
 
+  .td-manual-info,
+  .td-registration-info {
+    border: 1px solid #379946;
+  }
+
   .td-registration-info {
     color: #379946;
-    border: 1px solid #379946;
   }
 
   .td-registration-err {
@@ -76,21 +86,22 @@
 
 /* manual activation */
 .td-manual-activation-btn,
-.td-auto-activation-btn{
+.td-auto-activation-btn {
   margin-left: 15px;
 }
 .td-manual-info {
-  font-size: 14px;
-  border: 1px solid green;
   display: inline-block;
-  margin-bottom: 22px;
-  width: 400px;
-}
-.td-manual-info ol {
-  padding-right: 15px;
+
+  ol{
+    margin: 0 0 0 1.2em;
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 .td-input-title {
-  margin-bottom: 4px;
+  margin-bottom: 9px;
   font-weight: 700;
   font-size: 13px;
   text-transform: uppercase;

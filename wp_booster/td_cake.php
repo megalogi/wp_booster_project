@@ -208,11 +208,6 @@ class td_cake {
             .td-manual-activation {
                 display: none;
             }
-
-            .td-activate-wrap input {
-                width: 400px;
-                margin-top: 5px;
-            }
             .td-input-title,
             .td-envato-code-info,
             .td-activate-button {
