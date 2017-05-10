@@ -649,7 +649,9 @@ class td_ajax {
 
 
         //td_cake - check envato code
-        $td_cake_response = wp_remote_post('http://td_cake.themesafe.com/td_cake/auto.php', array (
+        //$td_cake_response = wp_remote_post('http://192.168.0.80/td_cake/auto.php', array (
+        //$td_cake_response = wp_remote_post('http://td_cake.themesafe.com/td_cake/auto.php', array (
+        $td_cake_response = wp_remote_post('http://tagdiv.com/td_cake/auto.php', array (
             'method' => 'POST',
             'body' => array(
                 'k' => $envato_code,
