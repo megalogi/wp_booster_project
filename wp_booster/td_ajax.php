@@ -877,13 +877,12 @@ class td_ajax {
 
 
     /**
-     * check envato code for manual activation
      * @param $s_id
      * @param $e_id
      * @param $t_id
      * @return bool
      */
-    private static function td_cake_manual($s_id, $e_id, $t_id) {
+    private static function td_validate_data($s_id, $e_id, $t_id) {
         if (md5($s_id . $e_id) == $t_id) {
             return true;
         } else {
@@ -917,7 +916,7 @@ class td_ajax {
             'theme_activated' => false
         );
 
-        if (self::td_cake_manual($td_server_id, $envato_code, $td_key) === true) {
+        if (self::td_validate_data($td_server_id, $envato_code, $td_key) === true) {
             //code is valid
             td_util::td_cake_update($envato_code);
             $buffy['theme_activated'] = true;
