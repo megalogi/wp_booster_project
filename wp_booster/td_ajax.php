@@ -634,6 +634,13 @@ class td_ajax {
             $forum_check_url = 'http://forum.tagdiv.com/wp-json/tagdiv/check_user/';
         }
 
+        //td_cake url
+        $td_cake_url = 'http://192.168.0.80/td_cake/auto.php';
+        if (TD_DEPLOY_MODE != 'dev') {
+           //$td_cake_url = 'http://td_cake.themesafe.com/td_cake/auto.php';
+           $td_cake_url = 'http://tagdiv.com/td_cake/auto.php';
+        }
+
         $envato_code = $_POST['envato_code'];
 
         //return buffer
@@ -649,7 +656,7 @@ class td_ajax {
 
 
         //td_cake - check envato code
-        $td_cake_response = wp_remote_post('http://td_cake.themesafe.com/td_cake/auto.php', array (
+        $td_cake_response = wp_remote_post($td_cake_url, array (
             'method' => 'POST',
             'body' => array(
                 'k' => $envato_code,
