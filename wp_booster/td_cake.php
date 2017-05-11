@@ -241,11 +241,6 @@ class td_cake {
 
         <div class="td-activate-page-wrap">
 
-            <div class="td_displaying_saving"></div>
-            <div class="td_wrapper_saving_gifs">
-                <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
-            </div>
-
             <?php require_once "wp-admin/panel/td_view_header.php"; ?>
 
             <div class="about-wrap td-admin-wrap">

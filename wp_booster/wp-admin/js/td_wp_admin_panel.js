@@ -1302,11 +1302,6 @@ function td_register_forum_user() {
         return;
     }
 
-    //show the div over the panel
-    jQuery('.td_displaying_saving').css('display', 'block');
-    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
-    jQuery('.td_displaying_saving_gif').css('display', 'block');
-
     //ajax call
     jQuery.ajax({
         type: "POST",
@@ -1320,8 +1315,6 @@ function td_register_forum_user() {
             password_confirmation: passwordConfirmation
         },
         success: function( data, textStatus, XMLHttpRequest ) {
-            jQuery('.td_displaying_saving').css('display', 'none');
-            jQuery('.td_displaying_saving_gif').css('display', 'none');
 
             td_forum_process_response(data);
         },
@@ -1397,11 +1390,6 @@ function td_theme_manual_activation() {
         return;
     }
 
-    //show the div over the panel
-    jQuery('.td_displaying_saving').css('display', 'block');
-    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
-    jQuery('.td_displaying_saving_gif').css('display', 'block');
-
     //ajax call
     jQuery.ajax({
         type: "POST",
@@ -1413,8 +1401,6 @@ function td_theme_manual_activation() {
             td_key: tdKey
         },
         success: function( data, textStatus, XMLHttpRequest ) {
-            jQuery('.td_displaying_saving').css('display', 'none');
-            jQuery('.td_displaying_saving_gif').css('display', 'none');
 
             td_manual_activation_response(data);
         },
