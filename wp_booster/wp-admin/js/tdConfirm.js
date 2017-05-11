@@ -42,7 +42,6 @@ var tdConfirm;
             tdConfirm._$infoContent = tdConfirm._$content.find( '.td-confirm-info' );
             tdConfirm._$confirmYes = tdConfirm._$content.find( 'button.td-confirm-yes' );
             tdConfirm._$confirmNo = tdConfirm._$content.find( 'button.td-confirm-no' );
-            tdConfirm._$confirmOk = tdConfirm._$content.find( 'button.td-confirm-ok' );
 
             tdConfirm._$body.append( tdConfirm._$content );
 
@@ -111,6 +110,16 @@ var tdConfirm;
             tdConfirm._$body.removeClass( 'td-thickbox-loading' );
         },
 
+
+        /**
+         * Yes / No modal
+         * @param caption
+         * @param objectContext
+         * @param callbackYes
+         * @param argsYes
+         * @param htmlInfoContent
+         * @param url
+         */
         showModal: function( caption, objectContext, callbackYes, argsYes, htmlInfoContent, url) {
 
             tdConfirm.init();
