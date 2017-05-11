@@ -3001,10 +3001,11 @@ title one row controls
   line-height: 19px;
 }
 .tdc-element-ico {
-  background: url('../../../../images/pagebuilder/tdc-icons.png');
+  background-image: url('../../../../images/pagebuilder/tdc-icons.png');
+  background-position: -5px -5px;
 }
 .tdc-ico-td_block_ad_box {
-  background-position: -5px -5px;
+  background-position: -405px -106px;
   width: 40px;
   height: 24px;
 }
@@ -3380,6 +3381,21 @@ title one row controls
 }
 .tdc-ico-td_block_big_grid_fl_10 {
   background-position: -405px -73px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_column {
+  background-position: -405px -144px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-vc_column_inner {
+  background-position: -405px -178px;
+  width: 40px;
+  height: 24px;
+}
+.tdc-ico-td_block_title {
+  background-position: -405px -209px;
   width: 40px;
   height: 24px;
 }
@@ -4782,6 +4798,9 @@ title one row controls
 .td-activate-button.td-activate-button-loading:before {
   background-image: url(../images/loader-small.gif);
   background-position: center right 18px;
+}
+.td-activate-button.td-activate-button-loading:disabled {
+  opacity: 0.55;
 }
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox
