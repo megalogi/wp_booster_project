@@ -366,14 +366,6 @@ class td_cake {
 
                 </div>
 
-                <script>
-                    jQuery(function ($) {
-                        $('.td-activate-button').click(function() {
-                            $(this).toggleClass('td-activate-button-loading')
-                        })
-                    })
-                </script>
-
 
 
                 <!--            <form method="post" action="admin.php?page=td_cake_panel">-->
