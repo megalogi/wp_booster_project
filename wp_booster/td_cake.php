@@ -264,7 +264,7 @@ class td_cake {
                                 <input type="text" name="td-envato-code" value="" />
                                 <span class="td-activate-err td-envato-missing" style="display:none;">Code is required</span>
                                 <span class="td-activate-err td-envato-length" style="display:none;">Code is too short</span>
-                                <span class="td-a ctivate-err td-envato-invalid" style="display:none;">Code is not valid</span>
+                                <span class="td-activate-err td-envato-invalid" style="display:none;">Code is not valid</span>
                                 <span class="td-activate-err td-envato-check-error" style="display:none;">Envato API is down, please try again later or use the manual registration.</span>
                             </div>
 
