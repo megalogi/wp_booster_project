@@ -276,7 +276,7 @@ class td_cake {
                             </div>
 
                             <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
-                            <div class="td-activate-button td-envato-code-button">Activate</div>
+                            <button class="td-activate-button td-envato-code-button">Activate</button>
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
@@ -319,7 +319,7 @@ class td_cake {
                             </div>
 
                             <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
-                            <div class="td-activate-button td-registration-button">Submit</div>
+                            <button class="td-activate-button td-registration-button">Submit</button>
                         </div>
                     </div>
 
@@ -360,7 +360,7 @@ class td_cake {
                             <span class="td-activate-err td-manual-activation-key-missing" style="display:none;">Activation key is required</span>
                         </div>
 
-                        <div class="td-activate-button td-manual-activate-button">Activate</div>
+                        <button class="td-activate-button td-manual-activate-button">Activate</button>
 
                     </div>
 

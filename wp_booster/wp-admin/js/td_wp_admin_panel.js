@@ -1087,7 +1087,9 @@ function td_envato_process_response(data) {
 function td_envato_code_check() {
     //envato code
     var envatoCodeContainer = jQuery('.td-envato-code'),
-        envatoCode = envatoCodeContainer.find('input').val();
+        envatoCodeInput = envatoCodeContainer.find('input'),
+        envatoCode = envatoCodeInput.val(),
+        submitButton = jQuery('.td-envato-code-button');
 
     //empty code
     if (envatoCode.length == 0) {
@@ -1104,7 +1106,9 @@ function td_envato_code_check() {
     }
 
     //show - loading button
-    jQuery('.td-activate-button').addClass('td-activate-button-loading');
+    submitButton.prop('disabled', true);
+    envatoCodeInput.prop('disabled', true);
+    submitButton.addClass('td-activate-button-loading');
 
     //ajax call
     jQuery.ajax({
@@ -1116,7 +1120,9 @@ function td_envato_code_check() {
         },
         success: function( data, textStatus, XMLHttpRequest ) {
             //hide - loading button
-            jQuery('.td-activate-button').removeClass('td-activate-button-loading');
+            submitButton.removeClass('td-activate-button-loading');
+            envatoCodeInput.prop('disabled', false);
+            submitButton.prop('disabled', false);
 
             td_envato_process_response(data);
         },
@@ -1225,6 +1231,8 @@ function td_register_forum_user() {
         password = passwordContainer.find('input').val(),
         passwordConfirmationContainer = jQuery('.td-activate-password-confirmation'),
         passwordConfirmation = passwordConfirmationContainer.find('input').val(),
+        submitButton = jQuery('.td-registration-button'),
+        registrationInputs = jQuery('.td-activate-registration').find('input'),
         inputError = false;
 
     //empty code
@@ -1301,7 +1309,9 @@ function td_register_forum_user() {
     }
 
     //show - loading button
-    jQuery('.td-activate-button').addClass('td-activate-button-loading');
+    submitButton.prop('disabled', true);
+    registrationInputs.prop('disabled', true);
+    submitButton.addClass('td-activate-button-loading');
 
     //ajax call
     jQuery.ajax({
@@ -1317,7 +1327,9 @@ function td_register_forum_user() {
         },
         success: function( data, textStatus, XMLHttpRequest ) {
             //hide - loading button
-            jQuery('.td-activate-button').removeClass('td-activate-button-loading');
+            submitButton.removeClass('td-activate-button-loading');
+            registrationInputs.prop('disabled', false);
+            submitButton.prop('disabled', false);
 
             td_forum_process_response(data);
         },
@@ -1365,9 +1377,12 @@ function td_theme_manual_activation() {
     //form data
     var serverId = jQuery('.td-manual-server-id input').val(),
         envatoCodeContainer = jQuery('.td-manual-envato-code'),
-        envatoCode = envatoCodeContainer.find('input').val(),
+        envatoCodeInput = envatoCodeContainer.find('input'),
+        envatoCode = envatoCodeInput.val(),
         tdKeyContainer = jQuery('.td-manual-activation-key'),
-        tdKey = tdKeyContainer.find('input').val(),
+        tdKeyInput = tdKeyContainer.find('input'),
+        tdKey = tdKeyInput.val(),
+        submitButton = jQuery('.td-manual-activate-button'),
         inputError = false;
 
     //empty server id
@@ -1393,6 +1408,12 @@ function td_theme_manual_activation() {
         return;
     }
 
+    //show - loading button
+    submitButton.prop('disabled', true);
+    envatoCodeInput.prop('disabled', true);
+    tdKeyInput.prop('disabled', true);
+    submitButton.addClass('td-activate-button-loading');
+
     //ajax call
     jQuery.ajax({
         type: "POST",
@@ -1404,6 +1425,11 @@ function td_theme_manual_activation() {
             td_key: tdKey
         },
         success: function( data, textStatus, XMLHttpRequest ) {
+            //hide - loading button
+            submitButton.removeClass('td-activate-button-loading');
+            envatoCodeInput.prop('disabled', false);
+            tdKeyInput.prop('disabled', false);
+            submitButton.prop('disabled', false);
 
             td_manual_activation_response(data);
         },
