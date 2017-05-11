@@ -629,9 +629,16 @@ class td_ajax {
         }
 
         //forum check url
-        $forum_check_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/tagdiv/wp-json/tagdiv/check_user/';
+        $forum_check_url = 'http://192.168.0.80/tagdiv/wp-json/tagdiv/check_user/';
         if (TD_DEPLOY_MODE != 'dev') {
             $forum_check_url = 'http://forum.tagdiv.com/wp-json/tagdiv/check_user/';
+        }
+
+        //td_cake url
+        $td_cake_url = 'http://192.168.0.80/td_cake/auto.php';
+        if (TD_DEPLOY_MODE != 'dev') {
+           //$td_cake_url = 'http://td_cake.themesafe.com/td_cake/auto.php';
+           $td_cake_url = 'http://tagdiv.com/td_cake/auto.php';
         }
 
         $envato_code = $_POST['envato_code'];
@@ -649,7 +656,7 @@ class td_ajax {
 
 
         //td_cake - check envato code
-        $td_cake_response = wp_remote_post('http://td_cake.themesafe.com/td_cake/auto.php', array (
+        $td_cake_response = wp_remote_post($td_cake_url, array (
             'method' => 'POST',
             'body' => array(
                 'k' => $envato_code,
@@ -757,7 +764,7 @@ class td_ajax {
      */
     static function on_ajax_register_forum_user() {
 
-        $register_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/tagdiv/wp-json/tagdiv/register/';
+        $register_url = 'http://192.168.0.80/tagdiv/wp-json/tagdiv/register/';
         if (TD_DEPLOY_MODE != 'dev') {
             $register_url = 'http://forum.tagdiv.com/wp-json/tagdiv/register/';
         }
@@ -870,13 +877,12 @@ class td_ajax {
 
 
     /**
-     * check envato code for manual activation
      * @param $s_id
      * @param $e_id
      * @param $t_id
      * @return bool
      */
-    private static function td_cake_manual($s_id, $e_id, $t_id) {
+    private static function td_validate_data($s_id, $e_id, $t_id) {
         if (md5($s_id . $e_id) == $t_id) {
             return true;
         } else {
@@ -910,7 +916,7 @@ class td_ajax {
             'theme_activated' => false
         );
 
-        if (self::td_cake_manual($td_server_id, $envato_code, $td_key) === true) {
+        if (self::td_validate_data($td_server_id, $envato_code, $td_key) === true) {
             //code is valid
             td_util::td_cake_update($envato_code);
             $buffy['theme_activated'] = true;

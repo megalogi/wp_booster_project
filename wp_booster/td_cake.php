@@ -208,63 +208,60 @@ class td_cake {
             .td-manual-activation {
                 display: none;
             }
-
-            .td-activate-wrap input {
-                width: 400px;
-                margin-top: 5px;
-            }
             .td-input-title,
             .td-envato-code-info,
             .td-activate-button {
                 margin-left: 1px;
             }
-            .td-envato-code-info {
-                margin-top: 3px;
+            /*.td-envato-code-info {*/
+                /*margin-top: 3px;*/
 
-            }
-            .td-activate-button {
-                display: inline-block;
-                cursor: pointer;
-                position: relative;
-                -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-                -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
-                background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
-                background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);
-                background-color: #4db2ec;
-                color: #ffffff;
-                font-size: 15px;
-                text-decoration: none;
-                padding: 5px 15px 6px 15px;
-                line-height: 25px;
-                font-weight: bold;
-                margin-top: 20px;
-            }
+            /*}*/
+            /*.td-activate-button {*/
+                /*display: inline-block;*/
+                /*cursor: pointer;*/
+                /*position: relative;*/
+                /*-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
+                /*-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
+                /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
+                /*border: 1px solid rgba(255, 255, 255, 0.1);*/
+                /*background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
+                /*background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
+                /*background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
+                /*background-color: #4db2ec;*/
+                /*color: #ffffff;*/
+                /*font-size: 15px;*/
+                /*text-decoration: none;*/
+                /*padding: 5px 15px 6px 15px;*/
+                /*line-height: 25px;*/
+                /*font-weight: bold;*/
+                /*margin-top: 20px;*/
+            /*}*/
         </style>
 
         <div class="td-activate-page-wrap">
 
-            <div class="td_displaying_saving"></div>
-            <div class="td_wrapper_saving_gifs">
-                <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
-            </div>
-
             <?php require_once "wp-admin/panel/td_view_header.php"; ?>
 
             <div class="about-wrap td-admin-wrap">
-                <h1>Activate <?php echo TD_THEME_NAME ?></h1>
-                <div class="about-text" style="margin-bottom: 32px;">
-                    <p>
-                        Please activate <?php echo TD_THEME_NAME ?> to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent
-                        mass piracy of our themes, this allows us to better serve our paying customers.
-                    </p>
-                </div>
+<!--                <h1>Activate --><?php //echo TD_THEME_NAME ?><!--</h1>-->
+<!--                <div class="about-text" style="margin-bottom: 32px;">-->
+<!--                    <p>-->
+<!--                        Please activate --><?php //echo TD_THEME_NAME ?><!-- to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent-->
+<!--                        mass piracy of our themes, this allows us to better serve our paying customers.-->
+<!--                    </p>-->
+<!--                </div>-->
 
                 <div class="td-activate-wrap">
                     <!-- Auto activation -->
                     <div class="td-auto-activation">
+
+                        <div class="td-activate-subtitle">Activate Newsaper</div>
+
+                        <p class="td-activate-description">
+                            Please activate <?php echo TD_THEME_NAME ?> to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent
+                            mass piracy of our themes, this allows us to better serve our paying customers.
+                        </p>
 
                         <!-- Step 1 - Envato Code -->
                         <div class="td-activate-section td-activate-envato-code">
@@ -279,10 +276,7 @@ class td_cake {
                             </div>
 
                             <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
-                            <div class="td-activate-button td-envato-code-button">Activate</div>
-
-                            <br/><br/><br/><br/><br/>
-
+                            <button class="td-activate-button td-envato-code-button">Activate</button>
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
@@ -325,7 +319,7 @@ class td_cake {
                             </div>
 
                             <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
-                            <div class="td-activate-button td-registration-button">Submit</div>
+                            <button class="td-activate-button td-registration-button">Submit</button>
                         </div>
                     </div>
 
@@ -366,7 +360,7 @@ class td_cake {
                             <span class="td-activate-err td-manual-activation-key-missing" style="display:none;">Activation key is required</span>
                         </div>
 
-                        <div class="td-activate-button td-manual-activate-button">Activate</div>
+                        <button class="td-activate-button td-manual-activate-button">Activate</button>
 
                     </div>
 
