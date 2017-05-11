@@ -1041,7 +1041,18 @@ function td_envato_process_response(data) {
     //code is invalid
     if (td_data_object.envato_code_status == 'invalid') {
         envatoCodeContainer.addClass('td-err');
-        jQuery('.td-envato-invalid').show();
+        var envatoInvalidErr = jQuery('.td-envato-invalid');
+        if (td_data_object.envato_code_err_msg != '') {
+            //long message
+            envatoInvalidErr.removeClass('td-long-msg');
+            if (td_data_object.envato_code_err_msg.length > 30) {
+                envatoInvalidErr.addClass('td-long-msg');
+            }
+
+            envatoInvalidErr.html(td_data_object.envato_code_err_msg);
+        }
+        //display error msg
+        envatoInvalidErr.show();
         return;
     }
 
@@ -1087,7 +1098,9 @@ function td_envato_process_response(data) {
 function td_envato_code_check() {
     //envato code
     var envatoCodeContainer = jQuery('.td-envato-code'),
-        envatoCode = envatoCodeContainer.find('input').val();
+        envatoCodeInput = envatoCodeContainer.find('input'),
+        envatoCode = envatoCodeInput.val(),
+        submitButton = jQuery('.td-envato-code-button');
 
     //empty code
     if (envatoCode.length == 0) {
@@ -1103,10 +1116,10 @@ function td_envato_code_check() {
         return;
     }
 
-    //show the div over the panel
-    jQuery('.td_displaying_saving').css('display', 'block');
-    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
-    jQuery('.td_displaying_saving_gif').css('display', 'block');
+    //show - loading button
+    submitButton.prop('disabled', true);
+    envatoCodeInput.prop('disabled', true);
+    submitButton.addClass('td-activate-button-loading');
 
     //ajax call
     jQuery.ajax({
@@ -1117,8 +1130,10 @@ function td_envato_code_check() {
             envato_code: envatoCode
         },
         success: function( data, textStatus, XMLHttpRequest ) {
-            jQuery('.td_displaying_saving').css('display', 'none');
-            jQuery('.td_displaying_saving_gif').css('display', 'none');
+            //hide - loading button
+            submitButton.removeClass('td-activate-button-loading');
+            envatoCodeInput.prop('disabled', false);
+            submitButton.prop('disabled', false);
 
             td_envato_process_response(data);
         },
@@ -1176,7 +1191,16 @@ function td_forum_process_response(data) {
     //user was not created - display errors
     if (forumConnectionData.envato_api_key_invalid === true) {
         //invalid envato code
-        jQuery('.td-envato-invalid').show();
+        var envatoInvalidErr = jQuery('.td-envato-invalid');
+        if (forumConnectionData.envato_code_err_msg != '') {
+            //long message
+            envatoInvalidErr.removeClass('td-long-msg');
+            if (forumConnectionData.envato_key_err_msg.length > 30) {
+                envatoInvalidErr.addClass('td-long-msg');
+            }
+            envatoInvalidErr.html(forumConnectionData.envato_key_err_msg);
+        }
+        envatoInvalidErr.show();
         jQuery('.td-activate-registration').hide();
         jQuery('.td-activate-envato-code').show();
     }
@@ -1227,6 +1251,8 @@ function td_register_forum_user() {
         password = passwordContainer.find('input').val(),
         passwordConfirmationContainer = jQuery('.td-activate-password-confirmation'),
         passwordConfirmation = passwordConfirmationContainer.find('input').val(),
+        submitButton = jQuery('.td-registration-button'),
+        registrationInputs = jQuery('.td-activate-registration').find('input'),
         inputError = false;
 
     //empty code
@@ -1302,10 +1328,10 @@ function td_register_forum_user() {
         return;
     }
 
-    //show the div over the panel
-    jQuery('.td_displaying_saving').css('display', 'block');
-    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
-    jQuery('.td_displaying_saving_gif').css('display', 'block');
+    //show - loading button
+    submitButton.prop('disabled', true);
+    registrationInputs.prop('disabled', true);
+    submitButton.addClass('td-activate-button-loading');
 
     //ajax call
     jQuery.ajax({
@@ -1320,8 +1346,10 @@ function td_register_forum_user() {
             password_confirmation: passwordConfirmation
         },
         success: function( data, textStatus, XMLHttpRequest ) {
-            jQuery('.td_displaying_saving').css('display', 'none');
-            jQuery('.td_displaying_saving_gif').css('display', 'none');
+            //hide - loading button
+            submitButton.removeClass('td-activate-button-loading');
+            registrationInputs.prop('disabled', false);
+            submitButton.prop('disabled', false);
 
             td_forum_process_response(data);
         },
@@ -1369,9 +1397,12 @@ function td_theme_manual_activation() {
     //form data
     var serverId = jQuery('.td-manual-server-id input').val(),
         envatoCodeContainer = jQuery('.td-manual-envato-code'),
-        envatoCode = envatoCodeContainer.find('input').val(),
+        envatoCodeInput = envatoCodeContainer.find('input'),
+        envatoCode = envatoCodeInput.val(),
         tdKeyContainer = jQuery('.td-manual-activation-key'),
-        tdKey = tdKeyContainer.find('input').val(),
+        tdKeyInput = tdKeyContainer.find('input'),
+        tdKey = tdKeyInput.val(),
+        submitButton = jQuery('.td-manual-activate-button'),
         inputError = false;
 
     //empty server id
@@ -1397,10 +1428,11 @@ function td_theme_manual_activation() {
         return;
     }
 
-    //show the div over the panel
-    jQuery('.td_displaying_saving').css('display', 'block');
-    jQuery('.td_wrapper_saving_gifs').css('display', 'block');
-    jQuery('.td_displaying_saving_gif').css('display', 'block');
+    //show - loading button
+    submitButton.prop('disabled', true);
+    envatoCodeInput.prop('disabled', true);
+    tdKeyInput.prop('disabled', true);
+    submitButton.addClass('td-activate-button-loading');
 
     //ajax call
     jQuery.ajax({
@@ -1413,8 +1445,11 @@ function td_theme_manual_activation() {
             td_key: tdKey
         },
         success: function( data, textStatus, XMLHttpRequest ) {
-            jQuery('.td_displaying_saving').css('display', 'none');
-            jQuery('.td_displaying_saving_gif').css('display', 'none');
+            //hide - loading button
+            submitButton.removeClass('td-activate-button-loading');
+            envatoCodeInput.prop('disabled', false);
+            tdKeyInput.prop('disabled', false);
+            submitButton.prop('disabled', false);
 
             td_manual_activation_response(data);
         },

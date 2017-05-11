@@ -616,7 +616,7 @@ class td_ajax {
      * return - json encoded array
      *
      * 'envato_check_failed' - bool
-     * 'envato_check_error_code' - string
+     * 'envato_check_error_msg' - string
      * 'envato_code' - string
      * 'envato_code_status' - string
      * 'forum_check_failed' - bool
@@ -634,6 +634,13 @@ class td_ajax {
             $forum_check_url = 'http://forum.tagdiv.com/wp-json/tagdiv/check_user/';
         }
 
+        //td_cake url
+        $td_cake_url = 'http://192.168.0.80/td_cake/auto.php';
+        if (TD_DEPLOY_MODE != 'dev') {
+           //$td_cake_url = 'http://td_cake.themesafe.com/td_cake/auto.php';
+           $td_cake_url = 'http://tagdiv.com/td_cake/auto.php';
+        }
+
         $envato_code = $_POST['envato_code'];
 
         //return buffer
@@ -642,6 +649,7 @@ class td_ajax {
             'envato_check_error_code' => '',
             'envato_code'             => $envato_code,
             'envato_code_status'      => 'invalid',
+            'envato_code_err_msg'     => '',
             'forum_check_failed'      => false,
             'used_on_forum'           => false,
             'theme_activated'         => false
@@ -649,7 +657,7 @@ class td_ajax {
 
 
         //td_cake - check envato code
-        $td_cake_response = wp_remote_post('http://td_cake.themesafe.com/td_cake/auto.php', array (
+        $td_cake_response = wp_remote_post($td_cake_url, array (
             'method' => 'POST',
             'body' => array(
                 'k' => $envato_code,
@@ -725,6 +733,7 @@ class td_ajax {
 
                     } else {
                         //code is invalid (do nothing because default is invalid)
+                        $buffy['envato_code_err_msg'] = $api_response['envato_is_valid_msg'];
                     }
 
                 } else {
@@ -839,6 +848,7 @@ class td_ajax {
         {
             //response incomplete
             $buffy['forum_connection_failed'] = true;
+            td_log::log(__FILE__, __FUNCTION__, 'Received an incomplete response while contacting the forum for user registration', $td_forum_response);
             die(json_encode($buffy));
         }
 
@@ -870,13 +880,12 @@ class td_ajax {
 
 
     /**
-     * check envato code for manual activation
      * @param $s_id
      * @param $e_id
      * @param $t_id
      * @return bool
      */
-    private static function td_cake_manual($s_id, $e_id, $t_id) {
+    private static function td_validate_data($s_id, $e_id, $t_id) {
         if (md5($s_id . $e_id) == $t_id) {
             return true;
         } else {
@@ -910,7 +919,7 @@ class td_ajax {
             'theme_activated' => false
         );
 
-        if (self::td_cake_manual($td_server_id, $envato_code, $td_key) === true) {
+        if (self::td_validate_data($td_server_id, $envato_code, $td_key) === true) {
             //code is valid
             td_util::td_cake_update($envato_code);
             $buffy['theme_activated'] = true;

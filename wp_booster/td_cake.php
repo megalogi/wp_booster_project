@@ -241,21 +241,9 @@ class td_cake {
 
         <div class="td-activate-page-wrap">
 
-            <div class="td_displaying_saving"></div>
-            <div class="td_wrapper_saving_gifs">
-                <img class="td_displaying_saving_gif" src="<?php echo get_template_directory_uri();?>/includes/wp_booster/wp-admin/images/panel/loading.gif">
-            </div>
-
             <?php require_once "wp-admin/panel/td_view_header.php"; ?>
 
             <div class="about-wrap td-admin-wrap">
-                <h1>Activate <?php echo TD_THEME_NAME ?></h1>
-                <div class="about-text" style="margin-bottom: 32px;">
-                    <p>
-                        Please activate <?php echo TD_THEME_NAME ?> to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent
-                        mass piracy of our themes, this allows us to better serve our paying customers.
-                    </p>
-                </div>
 
                 <div class="td-activate-wrap">
                     <!-- Auto activation -->
@@ -263,6 +251,13 @@ class td_cake {
 
                         <!-- Step 1 - Envato Code -->
                         <div class="td-activate-section td-activate-envato-code">
+
+                            <div class="td-activate-subtitle">Activate <?php echo TD_THEME_NAME ?></div>
+
+                            <p class="td-activate-description">
+                                Please activate <?php echo TD_THEME_NAME ?> to enjoy the full benefits of the theme. We're sorry about this extra step but we built the activation system to prevent
+                                mass piracy of our themes, this allows us to better serve our paying customers.
+                            </p>
 
                             <div class="td-activate-input-wrap td-envato-code">
                                 <div class="td-input-title">Envato purchase code:</div>
@@ -274,13 +269,17 @@ class td_cake {
                             </div>
 
                             <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
-                            <div class="td-activate-button td-envato-code-button">Activate</div>
+                            <button class="td-activate-button td-envato-code-button">Activate</button>
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
                         <div class="td-activate-section td-activate-registration" style="display: none;">
 
-                            <div class="td-registration-info">You don't have a support forum account. This last stept will automatically create one for you. </div>
+                            <div class="td-activate-subtitle">One more thing, and you're set</div>
+
+                            <p class="td-activate-description">You don't have a support forum account. This last stept will automatically create one for you.</p>
+
+<!--                            <div class="td-registration-info">You don't have a support forum account. This last stept will automatically create one for you. </div>-->
                             <div class="td-registration-err td-forum-connection-failed" style="display:none;">Forum connection failed, please try again.</div>
 
                             <!-- Username -->
@@ -317,7 +316,7 @@ class td_cake {
                             </div>
 
                             <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
-                            <div class="td-activate-button td-registration-button">Submit</div>
+                            <button class="td-activate-button td-registration-button">Submit</button>
                         </div>
                     </div>
 
@@ -358,7 +357,7 @@ class td_cake {
                             <span class="td-activate-err td-manual-activation-key-missing" style="display:none;">Activation key is required</span>
                         </div>
 
-                        <div class="td-activate-button td-manual-activate-button">Activate</div>
+                        <button class="td-activate-button td-manual-activate-button">Activate</button>
 
                     </div>
 
