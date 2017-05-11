@@ -616,7 +616,7 @@ class td_ajax {
      * return - json encoded array
      *
      * 'envato_check_failed' - bool
-     * 'envato_check_error_code' - string
+     * 'envato_check_error_msg' - string
      * 'envato_code' - string
      * 'envato_code_status' - string
      * 'forum_check_failed' - bool
@@ -649,6 +649,7 @@ class td_ajax {
             'envato_check_error_code' => '',
             'envato_code'             => $envato_code,
             'envato_code_status'      => 'invalid',
+            'envato_code_err_msg'     => '',
             'forum_check_failed'      => false,
             'used_on_forum'           => false,
             'theme_activated'         => false
@@ -732,6 +733,7 @@ class td_ajax {
 
                     } else {
                         //code is invalid (do nothing because default is invalid)
+                        $buffy['envato_code_err_msg'] = $api_response['envato_is_valid_msg'];
                     }
 
                 } else {
@@ -846,6 +848,7 @@ class td_ajax {
         {
             //response incomplete
             $buffy['forum_connection_failed'] = true;
+            td_log::log(__FILE__, __FUNCTION__, 'Received an incomplete response while contacting the forum for user registration', $td_forum_response);
             die(json_encode($buffy));
         }
 
