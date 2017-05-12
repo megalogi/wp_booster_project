@@ -4733,9 +4733,13 @@ title one row controls
   -moz-box-shadow: inset 0px -19px 0px -18px #cccccc;
   box-shadow: inset 0px -19px 0px -18px #cccccc;
 }
+.td-activate-wrap input:disabled:focus + span,
+.td-activate-wrap input:read-only:focus + span {
+  width: 0;
+}
 .td-activate-wrap .td-activate-input-bar {
   position: absolute;
-  bottom: 0;
+  top: 68px;
   left: 0;
   width: 0;
   height: 2px;

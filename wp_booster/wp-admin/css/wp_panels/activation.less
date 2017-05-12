@@ -55,13 +55,17 @@
 
       &:focus {
         .box-shadow(inset 0px -19px 0px -18px #ccc);
+
+        & + span {
+          width: 0;
+        }
       }
     }
   }
 
   .td-activate-input-bar {
     position: absolute;
-    bottom: 0;
+    top: 68px;
     left: 0;
     width: 0;
     height: 2px;
