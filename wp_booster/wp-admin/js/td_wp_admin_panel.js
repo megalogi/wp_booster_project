@@ -1044,6 +1044,7 @@ function td_envato_process_response(data) {
         var envatoInvalidErr = jQuery('.td-envato-invalid');
         if (td_data_object.envato_code_err_msg != '') {
             //long message
+            envatoInvalidErr.removeClass('td-long-msg');
             if (td_data_object.envato_code_err_msg.length > 30) {
                 envatoInvalidErr.addClass('td-long-msg');
             }
@@ -1193,7 +1194,8 @@ function td_forum_process_response(data) {
         var envatoInvalidErr = jQuery('.td-envato-invalid');
         if (forumConnectionData.envato_code_err_msg != '') {
             //long message
-            if (td_data_object.envato_code_err_msg.length > 30) {
+            envatoInvalidErr.removeClass('td-long-msg');
+            if (forumConnectionData.envato_key_err_msg.length > 30) {
                 envatoInvalidErr.addClass('td-long-msg');
             }
             envatoInvalidErr.html(forumConnectionData.envato_key_err_msg);
