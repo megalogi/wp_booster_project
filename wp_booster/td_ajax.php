@@ -857,12 +857,12 @@ class td_ajax {
 
         if ($api_response['envato_api_failed'] === true) {
             //envato api call failed
-            td_log::log(__FILE__, __FUNCTION__, 'Received incomplete data while contacting the forum for user registration', $api_response);
+            td_log::log(__FILE__, __FUNCTION__, 'Envato call failed while contacting the forum for user registration', $api_response);
             $buffy['forum_connection_failed'] = true;
             die(json_encode($buffy));
         }
 
-        if ($api_response['envato_api_failed'] === true) {
+        if ($api_response['envato_key_db_fail'] === true) {
             //forum failed to check the envato code in it's database
             td_log::log(__FILE__, __FUNCTION__, 'Received database error from forum user registration endpoint', $api_response);
             $buffy['forum_connection_failed'] = true;
