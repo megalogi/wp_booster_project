@@ -4673,7 +4673,6 @@ title one row controls
   position: relative;
 }
 .td-activate-wrap {
-  display: inline-block;
   background-color: #fff;
   max-width: 672px;
   padding: 80px;
