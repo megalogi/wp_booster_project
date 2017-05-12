@@ -153,8 +153,8 @@ td_theme_migration();
 
 function td_check_install_plugins() {
 
-	// Temporary available only for 'ionMag'
-	if (TD_THEME_NAME !== 'ionMag' || TD_DEPLOY_MODE == 'dev' || TD_DEPLOY_MODE == 'demo' ) {
+	// Temporary available only for 'ionMag' or 'Newspaper'
+	if (TD_THEME_NAME !== 'Newspaper' || TD_THEME_NAME !== 'ionMag' || TD_DEPLOY_MODE == 'dev' || TD_DEPLOY_MODE == 'demo') {
 		return;
 	}
 

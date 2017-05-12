@@ -1041,7 +1041,18 @@ function td_envato_process_response(data) {
     //code is invalid
     if (td_data_object.envato_code_status == 'invalid') {
         envatoCodeContainer.addClass('td-err');
-        jQuery('.td-envato-invalid').show();
+        var envatoInvalidErr = jQuery('.td-envato-invalid');
+        if (td_data_object.envato_code_err_msg != '') {
+            //long message
+            envatoInvalidErr.removeClass('td-long-msg');
+            if (td_data_object.envato_code_err_msg.length > 30) {
+                envatoInvalidErr.addClass('td-long-msg');
+            }
+            //replace default message
+            envatoInvalidErr.html(td_data_object.envato_code_err_msg);
+        }
+        //display error msg
+        envatoInvalidErr.show();
         return;
     }
 
@@ -1177,18 +1188,28 @@ function td_forum_process_response(data) {
         return;
     }
 
-    //user was not created - display errors
-    if (forumConnectionData.envato_api_key_invalid === true) {
-        //invalid envato code
-        jQuery('.td-envato-invalid').show();
-        jQuery('.td-activate-registration').hide();
-        jQuery('.td-activate-envato-code').show();
-    }
-
     if (forumConnectionData.envato_key_db_fail === true) {
         //db error - failed to check if the envato code is used on forum
         jQuery('.td-forum-connection-failed').show();
         return;
+    }
+
+    //user was not created - display errors
+    if (forumConnectionData.envato_api_key_invalid === true) {
+        //invalid envato code
+        var envatoInvalidErr = jQuery('.td-envato-invalid');
+        if (forumConnectionData.envato_code_err_msg != '') {
+            //long message
+            envatoInvalidErr.removeClass('td-long-msg');
+            if (forumConnectionData.envato_key_err_msg.length > 30) {
+                envatoInvalidErr.addClass('td-long-msg');
+            }
+            //replace default message
+            envatoInvalidErr.html(forumConnectionData.envato_key_err_msg);
+        }
+        envatoInvalidErr.show();
+        jQuery('.td-activate-registration').hide();
+        jQuery('.td-activate-envato-code').show();
     }
 
     if (forumConnectionData.username_exists === true) {
