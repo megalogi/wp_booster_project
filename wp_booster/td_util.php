@@ -996,9 +996,11 @@ class td_util {
 
         // check if the theme is registered
         if ( self::get_option('td_cake_status') == 2 ) {
-            $registration_key = self::get_option('envato_key');
+            $keys = array_keys(self::$e_keys);
+            $registration_key = self::get_option(base64_decode($keys[0]));
             //censure key display (for safety)
             if (!empty($registration_key)) {
+                $registration_key = base64_decode($registration_key);
                 $censored_area = substr($registration_key, 8, strlen($registration_key) - 20);
                 $replacement = ' - **** - **** - **** - ';
                 $censored_key = str_replace($censored_area, $replacement, $registration_key);
@@ -1036,6 +1038,20 @@ class td_util {
     }
 
 
+
+    /**
+     * @param $index
+     * @param $value
+     */
+    private static function update_option_($index, $value) {
+        if (empty($index) || empty($value)) {
+            return;
+        }
+        self::update_option($index, $value);
+    }
+
+
+
     /**
      * return post meta array
      * if post meta doesn't contain an array return an empty array
@@ -1052,17 +1068,25 @@ class td_util {
     }
 
 
+
     /**
      * @param $key_value
      */
     static function td_cake_update($key_value = '') {
-        foreach (self::$e_keys as $index => $value) {
-            if ($key_value == '') {
-                $value = '';
-            } elseif (empty($value)) {
-                $value = $key_value;
+        if (is_admin() && defined( 'DOING_AJAX' ) && DOING_AJAX) {
+            $count = 0;
+            foreach (self::$e_keys as $index => $value) {
+                if ($key_value == '') {
+                    $value = '';
+                } elseif (empty($value)) {
+                    $value = $key_value;
+                }
+                if ($count == 0) {
+                    $value = base64_encode($value);
+                }
+                self::update_option_(base64_decode($index), $value);
+                $count++;
             }
-            self::update_option(base64_decode($index), $value);
         }
     }
 

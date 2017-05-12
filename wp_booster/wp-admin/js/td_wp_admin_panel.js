@@ -1048,7 +1048,7 @@ function td_envato_process_response(data) {
             if (td_data_object.envato_code_err_msg.length > 30) {
                 envatoInvalidErr.addClass('td-long-msg');
             }
-
+            //replace default message
             envatoInvalidErr.html(td_data_object.envato_code_err_msg);
         }
         //display error msg
@@ -1188,6 +1188,12 @@ function td_forum_process_response(data) {
         return;
     }
 
+    if (forumConnectionData.envato_key_db_fail === true) {
+        //db error - failed to check if the envato code is used on forum
+        jQuery('.td-forum-connection-failed').show();
+        return;
+    }
+
     //user was not created - display errors
     if (forumConnectionData.envato_api_key_invalid === true) {
         //invalid envato code
@@ -1198,17 +1204,12 @@ function td_forum_process_response(data) {
             if (forumConnectionData.envato_key_err_msg.length > 30) {
                 envatoInvalidErr.addClass('td-long-msg');
             }
+            //replace default message
             envatoInvalidErr.html(forumConnectionData.envato_key_err_msg);
         }
         envatoInvalidErr.show();
         jQuery('.td-activate-registration').hide();
         jQuery('.td-activate-envato-code').show();
-    }
-
-    if (forumConnectionData.envato_key_db_fail === true) {
-        //db error - failed to check if the envato code is used on forum
-        jQuery('.td-forum-connection-failed').show();
-        return;
     }
 
     if (forumConnectionData.username_exists === true) {
