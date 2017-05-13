@@ -26,6 +26,7 @@
   input {
     width: 100%;
     height: 42px;
+    margin: 0;
     padding: 0;
     font-size: 14px;
     border: 0;
@@ -37,7 +38,7 @@
     }
 
     &:focus {
-      .box-shadow(none);
+      .box-shadow(inset 0px -19px 0px -18px #ccc);
 
       &::placeholder {
         visibility: hidden;
@@ -80,7 +81,7 @@
 
   .td-activate-input-wrap {
     position: relative;
-    margin-bottom: 27px;
+    margin-bottom: 28px;
 
     &:last-child {
       margin-bottom: 0;
@@ -112,7 +113,8 @@
   .td-registration-info,
   .td-registration-err {
     width: 100%;
-    margin-bottom: 30px;
+    margin-top: 17px;
+    margin-bottom: 39px;
     font-size: 14px;
     line-height: 24px;
     -moz-box-sizing: border-box;
@@ -170,19 +172,21 @@
   margin-left: 15px;
 }
 .td-manual-info {
-  margin: 3px 0 36px;
-  display: inline-block;
-
   ol{
     margin: 0 0 0 1.2em;
 
-    li:last-child {
-      margin-bottom: 0;
+    li {
+      line-height: 18px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
     }
   }
 }
 .td-input-title {
-  margin-bottom: 9px;
+  margin-bottom: 10px;
   font-weight: 700;
   font-size: 13px;
   text-transform: uppercase;
