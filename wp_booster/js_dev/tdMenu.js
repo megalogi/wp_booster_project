@@ -414,5 +414,3 @@ var tdMenu = {};
 })();
 
 
-//initialize menu
-tdMenu.init();
