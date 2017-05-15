@@ -414,3 +414,10 @@ var tdMenu = {};
 })();
 
 
+jQuery().ready(function() {
+
+    'use strict';
+
+    //initialize menu
+    tdMenu.init();
+});
