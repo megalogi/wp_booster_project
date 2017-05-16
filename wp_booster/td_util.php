@@ -4,8 +4,7 @@ class td_util {
 
     private static $authors_array_cache = ''; //cache the results from  create_array_authors
 
-    private static $e_keys = array('ZW52YXRvX2tleQ==' => '','dGRfY2FrZV9zdGF0dXM=' => 2);
-
+    private static $e_keys = array('dGRfMDEx' => '', 'dGRfMDExXw==' => 2);
 
     //returns the $class if the variable is not empty or false
     static function if_show($variable, $class) {
@@ -988,28 +987,27 @@ class td_util {
     }
 
     /**
-     * get the censored registration key (for display in theme System Status section)
+     * get the censored key (for display in theme System Status section)
      * @return mixed|string
      */
     static function get_registration() {
-        $censored_key = '<strong style="color: red;">Your theme is not registered!</strong><a class="td-button-system-status td-theme-activation" href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Activate now</a>';
+        $buffy = '<strong style="color: red;">Your theme is not registered!</strong><a class="td-button-system-status td-theme-activation" href="' . wp_nonce_url(admin_url('admin.php?page=td_cake_panel')) . '">Activate now</a>';
+        $ks = array_keys(self::$e_keys);
 
-        // check if the theme is registered
-        if ( self::get_option('td_cake_status') == 2 ) {
-            $keys = array_keys(self::$e_keys);
-            $registration_key = self::get_option(base64_decode($keys[0]));
+        if ( self::get_option(td_handle::get_var($ks[1])) == 2 ) {
+            $ek = self::get_option(td_handle::get_var($ks[0]));
             //censure key display (for safety)
-            if (!empty($registration_key)) {
-                $registration_key = base64_decode($registration_key);
-                $censored_area = substr($registration_key, 8, strlen($registration_key) - 20);
+            if (!empty($ek)) {
+                $ek = td_handle::get_var($ek);
+                $censored_area = substr($ek, 8, strlen($ek) - 20);
                 $replacement = ' - **** - **** - **** - ';
-                $censored_key = str_replace($censored_area, $replacement, $registration_key);
+                $buffy = str_replace($censored_area, $replacement, $ek);
                 //add key reset button
-                $censored_key .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key">Reset key</a>';
+                $buffy .= ' <a class="td-button-system-status td-action-alert td-reset-key" href="admin.php?page=td_system_status&reset_registration=1" data-action="reset the theme registration key">Reset key</a>';
             }
         }
 
-        return $censored_key;
+        return $buffy;
     }
 
 
@@ -1043,11 +1041,16 @@ class td_util {
      * @param $index
      * @param $value
      */
-    private static function update_option_($index, $value) {
+    private static function ajax_update($index, $value) {
         if (empty($index) || empty($value)) {
             return;
         }
-        self::update_option($index, $value);
+        if (!defined( 'DOING_AJAX' ) || !DOING_AJAX) {
+            return;
+        }
+        if (is_admin()) {
+            self::update_option($index, $value);
+        }
     }
 
 
@@ -1070,24 +1073,71 @@ class td_util {
 
 
     /**
-     * @param $key_value
+     * @param $value_
      */
-    static function td_cake_update($key_value = '') {
+    static function ajax_handle($value_ = '') {
         if (is_admin() && defined( 'DOING_AJAX' ) && DOING_AJAX) {
             $count = 0;
             foreach (self::$e_keys as $index => $value) {
-                if ($key_value == '') {
+                if ($value_ == '') {
                     $value = '';
                 } elseif (empty($value)) {
-                    $value = $key_value;
+                    $value = $value_;
                 }
                 if ($count == 0) {
-                    $value = base64_encode($value);
+                    $value = td_handle::set_var($value);
                 }
-                self::update_option_(base64_decode($index), $value);
+                self::ajax_update(td_handle::get_var($index), $value);
                 $count++;
             }
         }
+    }
+
+
+    static function update_option_($index, $value) {
+        if (empty($index)) {
+            return;
+        }
+        $ks = array_keys(self::$e_keys);
+        $k = td_handle::get_var($ks[1]);
+
+        if ($index == 'td_cake_status') {
+            return self::update_option($k, $value);
+        }
+        if ($index == 'td_cake_status_time') {
+            return self::update_option($k . 'tp', $value);
+        }
+        if ($index == 'td_cake_lp_status') {
+            return self::update_option($k . 'ta', $value);
+        }
+    }
+
+
+    static function get_option_($index) {
+        if (empty($index)) {
+            return;
+        }
+        $ks = array_keys(self::$e_keys);
+        $k = td_handle::get_var($ks[1]);
+
+        if ($index == 'td_cake_status') {
+            return self::get_option($k);
+        }
+        if ($index == 'td_cake_status_time') {
+            return self::get_option($k . 'tp');
+        }
+        if ($index == 'td_cake_lp_status') {
+            return self::get_option($k . 'ta');
+        }
+    }
+
+    static function reset_registration() {
+        $ks = array_keys(self::$e_keys);
+        $k = td_handle::get_var($ks[1]);
+        self::update_option($k . 'tp', 0);
+        self::update_option($k, 0);
+        self::update_option($k . 'ta', '');
+        self::update_option(td_handle::get_var($ks[0]), '');
     }
 
 }//end class td_util
@@ -1180,4 +1230,17 @@ if (!class_exists('tdx_api_panel')) {
         static function add($panel_spot_id, $params_array) {}
         static function update_panel_spot($panel_spot_id, $update_array) {}
     }
+}
+
+
+class td_handle {
+
+    public static function set_var($variable) {
+        return base64_encode($variable);
+    }
+
+    public static function get_var($variable) {
+        return base64_decode($variable);
+    }
+
 }
