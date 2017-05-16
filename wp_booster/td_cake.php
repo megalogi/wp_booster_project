@@ -262,7 +262,7 @@ class td_cake {
                                 <span class="td-activate-err td-activate-email-missing" style="display:none;">Email is required</span>
                                 <span class="td-activate-err td-activate-email-syntax" style="display:none;">Email syntax is incorrect</span>
                                 <span class="td-activate-err td-activate-email-used" style="display:none;">Current email is registered with another account</span>
-                                <span>The email is private and we will not share it with anyone.</span>
+                                <div class="td-small-bottom">The email is private and we will not share it with anyone.</div>
                             </div>
 
                             <!-- Password -->
