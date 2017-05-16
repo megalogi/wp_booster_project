@@ -27,9 +27,9 @@ class td_cake {
             return;
         }
 
-        $td_cake_status_time = td_util::get_option('td_cake_status_time');    // last time the status changed
-        $td_cake_status = td_util::get_option('td_cake_status');              // the current status time
-        $td_cake_lp_status = td_util::get_option('td_cake_lp_status');
+        $td_cake_status_time = td_util::get_option_('td_cake_status_time');    // last time the status changed
+        $td_cake_status = td_util::get_option_('td_cake_status');              // the current status time
+        $td_cake_lp_status = td_util::get_option_('td_cake_lp_status');
 
         // verify if we have a status time, if we don't have one, the theme did not changed the status ever
         if (!empty($td_cake_status_time)) {
@@ -46,15 +46,10 @@ class td_cake {
             }
 
             if ($status_time_delta > $delta_max and $td_cake_lp_status != 'lp_sent') {
-                td_util::update_option('td_cake_lp_status', 'lp_sent');
+                td_util::update_option_('td_cake_lp_status', 'lp_sent');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?cs=' . $td_cake_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
                 return;
             }
-
-//            //check envato code syntax
-//            if (!$this->syntax_check()){
-//                $td_cake_status = 0;
-//            }
 
             // the theme is registered, return
             if ($td_cake_status == 2) {
@@ -74,7 +69,7 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg_2') );
                 if ($td_cake_status != '4') {
-                    td_util::update_option('td_cake_status', '4');
+                    td_util::update_option_('td_cake_status', '4');
                 }
                 return;
             }
@@ -87,22 +82,22 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg') );
                 if ($td_cake_status != '3') {
-                    td_util::update_option('td_cake_status', '3');
+                    td_util::update_option_('td_cake_status', '3');
                 }
                 return;
             }
 
             // if some time passed and status is empty - do ping
             if ($status_time_delta > 0 and empty($td_cake_status)) {
-                td_util::update_option('td_cake_status_time', time());
-                td_util::update_option('td_cake_status', '1');
+                td_util::update_option_('td_cake_status_time', time());
+                td_util::update_option_('td_cake_status', '1');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
                 return;
             }
 
         } else {
             // update the status time first time - we do nothing
-            td_util::update_option('td_cake_status_time', time());
+            td_util::update_option_('td_cake_status_time', time());
             // add the menu
             add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
         }
@@ -156,7 +151,7 @@ class td_cake {
         if (strlen($key) == 36){
             return true;
         }
-        td_util::td_cake_update();
+        td_util::ajax_handle();
         return false;
     }
 
@@ -230,16 +225,18 @@ class td_cake {
                             </div>
 
 
-                            <button class="td-activate-button td-envato-code-button">Activate</button>
+                            <button class="td-activate-button td-envato-code-button">Activate theme</button>
                             <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Find your Envato code</a></div>
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
                         <div class="td-activate-section td-activate-registration" style="display: none;">
 
-                            <div class="td-activate-subtitle">One more thing...</div>
+                            <div class="td-activate-subtitle">Register your theme with tagDiv</div>
 
-                            <p class="td-activate-description">It seems like you don't have a forum account. This step will automatically create one for you. Join the <?php echo TD_THEME_NAME ?> community now!</p>
+                            <p class="td-activate-description">
+                                Get fast support, access to our community and to the knowledge base. Our support response time is typically less than one business day.
+                            </p>
 
                             <div class="td-registration-err td-forum-connection-failed" style="display:none;">Forum connection failed, please try again.</div>
 
@@ -254,12 +251,13 @@ class td_cake {
 
                             <!-- Email -->
                             <div class="td-activate-input-wrap td-activate-email">
-                                <div class="td-input-title">Email:</div>
+                                <div class="td-input-title">Your Email:</div>
                                 <input type="text" name="td-activate-email" value="" placeholder="Email" />
                                 <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-email-missing" style="display:none;">Email is required</span>
                                 <span class="td-activate-err td-activate-email-syntax" style="display:none;">Email syntax is incorrect</span>
                                 <span class="td-activate-err td-activate-email-used" style="display:none;">Current email is registered with another account</span>
+                                <div class="td-small-bottom">The email is private and we will not share it with anyone.</div>
                             </div>
 
                             <!-- Password -->
@@ -280,8 +278,8 @@ class td_cake {
                                 <span class="td-activate-err td-activate-password-mismatch" style="display:none;">Password and password confirmation don't match</span>
                             </div>
 
-                            <button class="td-activate-button td-registration-button">Submit</button>
-                            <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
+                            <button class="td-activate-button td-registration-button">Activate theme</button>
+                            <div class="td-activate-info"><a href="http://forum.tagdiv.com/privacy-policy-2/" target="_blank">Privacy policy</a></div>
                         </div>
                     </div>
 
