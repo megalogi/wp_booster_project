@@ -7,7 +7,9 @@
 .td-activate-wrap {
   background-color: #fff;
   max-width: 672px;
-  padding: 80px;
+  margin-top: 48px;
+  margin-left: 16px;
+  padding: 48px;
   font-family: 'Open Sans', arial, sans-serif;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08); -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -21,16 +23,67 @@
     padding: 30px 25px;
   }
 
+  .td-activate-input-wrap {
+    position: relative;
+    margin-bottom: 28px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 400px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .td-activate-input-bar {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #4db2ec;
+    .transition(width 0.4s ease)
+  }
+
   input {
     width: 100%;
     height: 42px;
-    padding: 0 13px;
-    font-size: 15px;
-    .box-shadow(none);
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    border: 0;
+    .transition(all 0.2s ease-out);
+    .box-shadow(inset 0px -19px 0px -18px #ccc);
+
+    &::placeholder {
+      color: #b4b4b4;
+    }
+
+    &:focus {
+      .box-shadow(inset 0px -19px 0px -18px #ccc);
+
+      &::placeholder {
+        visibility: hidden;
+      }
+
+      & + span {
+        width: 100%;
+      }
+    }
 
     &:disabled,
     &:read-only {
-      background-color: #f5f5f5;
+      padding-left: 12px;
+      background-color: #fafafa;
+
+      &:focus {
+        .box-shadow(inset 0px -19px 0px -18px #ccc);
+
+        & + span {
+          width: 0;
+        }
+      }
     }
   }
 
@@ -39,13 +92,11 @@
     border-color: #ff7c7c !important;
   }
 
-  .td-activate-input-wrap {
-    position: relative;
-    margin-bottom: 22px;
-
-    @media (max-width: 400px) {
-      margin-bottom: 20px;
-    }
+  .td-activate-err,
+  .td-small-bottom {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1;
   }
 
   .td-activate-err {
@@ -53,12 +104,21 @@
     position: absolute;
     top: 100%;
     left: 0;
-    font-size: 13px;
+    line-height: 1;
     color: #ff7c7c;
 
     &.td-long-msg {
       position: relative;
     }
+  }
+
+  .td-small-bottom,
+  .td-long-msg {
+    margin-bottom: -2px;
+  }
+
+  .td-small-bottom {
+    color: #686868;
   }
 
   .td-activate-info {
@@ -69,17 +129,16 @@
   .td-registration-info,
   .td-registration-err {
     width: 100%;
-    margin-bottom: 30px;
-    padding: 13px 17px 12px;
-    font-size: 13px;
-    line-height: 17px;
+    margin-top: 17px;
+    margin-bottom: 39px;
+    font-size: 14px;
+    line-height: 24px;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
 
-  .td-manual-info,
-  .td-registration-info {
-    border: 1px solid #379946;
+    a {
+      text-decoration: none;
+    }
   }
 
   .td-registration-info {
@@ -93,16 +152,16 @@
 
   .td-activate-subtitle {
     font-size: 28px;
-    margin-top: -6px;
-    margin-bottom: 18px;
+    margin-top: -11px;
+    margin-bottom: 12px;
     line-height: 30px;
   }
 
   .td-activate-description {
     width: 100%;
     font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 30px;
+    line-height: 24px;
+    margin-bottom: 36px;
 
     @media (max-width: 400px) {
       margin-bottom: 25px;
@@ -113,28 +172,41 @@
 
 .td-activate-info,
 .td-envato-code-info {
+  display: inline-block;
+  padding-left: 22px;
   font-size: 13px;
   line-height: 17px;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 /* manual activation */
+.td-manual-activation {
+  display: none;
+}
+
 .td-manual-activation-btn,
 .td-auto-activation-btn {
   margin-left: 15px;
 }
 .td-manual-info {
-  display: inline-block;
-
   ol{
     margin: 0 0 0 1.2em;
 
-    li:last-child {
-      margin-bottom: 0;
+    li {
+      line-height: 18px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
     }
   }
 }
 .td-input-title {
-  margin-bottom: 9px;
+  margin-bottom: 10px;
   font-weight: 700;
   font-size: 13px;
   text-transform: uppercase;
@@ -148,7 +220,7 @@
   color: #fff;
   line-height: 1;
   text-decoration: none;
-  margin-top: 25px;
+  margin-top: 5px;
   margin-bottom: 2px;
   padding: 12px 20px 9px;
   display: inline-block;

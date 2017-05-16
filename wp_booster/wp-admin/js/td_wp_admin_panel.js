@@ -1045,7 +1045,7 @@ function td_envato_process_response(data) {
         if (td_data_object.envato_code_err_msg != '') {
             //long message
             envatoInvalidErr.removeClass('td-long-msg');
-            if (td_data_object.envato_code_err_msg.length > 30) {
+            if (td_data_object.envato_code_err_msg.length > 100) {
                 envatoInvalidErr.addClass('td-long-msg');
             }
             //replace default message
