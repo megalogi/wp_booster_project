@@ -230,16 +230,18 @@ class td_cake {
                             </div>
 
 
-                            <button class="td-activate-button td-envato-code-button">Activate</button>
+                            <button class="td-activate-button td-envato-code-button">Activate theme</button>
                             <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Find your Envato code</a></div>
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
                         <div class="td-activate-section td-activate-registration" style="display: none;">
 
-                            <div class="td-activate-subtitle">One more thing...</div>
+                            <div class="td-activate-subtitle">Register your theme with tagDiv</div>
 
-                            <p class="td-activate-description">It seems like you don't have a forum account. This step will automatically create one for you. Join the <?php echo TD_THEME_NAME ?> community now!</p>
+                            <p class="td-activate-description">
+                                Get fast support, access to our community and to the knowledge base. Our support response time is typically less than one business day.
+                            </p>
 
                             <div class="td-registration-err td-forum-connection-failed" style="display:none;">Forum connection failed, please try again.</div>
 
@@ -254,12 +256,13 @@ class td_cake {
 
                             <!-- Email -->
                             <div class="td-activate-input-wrap td-activate-email">
-                                <div class="td-input-title">Email:</div>
+                                <div class="td-input-title">Your Email:</div>
                                 <input type="text" name="td-activate-email" value="" placeholder="Email" />
                                 <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-email-missing" style="display:none;">Email is required</span>
                                 <span class="td-activate-err td-activate-email-syntax" style="display:none;">Email syntax is incorrect</span>
                                 <span class="td-activate-err td-activate-email-used" style="display:none;">Current email is registered with another account</span>
+                                <span>The email is private and we will not share it with anyone.</span>
                             </div>
 
                             <!-- Password -->
@@ -280,8 +283,8 @@ class td_cake {
                                 <span class="td-activate-err td-activate-password-mismatch" style="display:none;">Password and password confirmation don't match</span>
                             </div>
 
-                            <button class="td-activate-button td-registration-button">Submit</button>
-                            <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
+                            <button class="td-activate-button td-registration-button">Activate theme</button>
+                            <div class="td-activate-info"><a href="http://forum.tagdiv.com/privacy-policy-2/" target="_blank">Privacy policy</a></div>
                         </div>
                     </div>
 
