@@ -545,10 +545,7 @@ require_once "td_view_header.php";
 
     //Remove the registration key
     if(!empty($_REQUEST['reset_registration']) && $_REQUEST['reset_registration'] == 1) {
-        td_util::update_option('td_cake_status_time', 0);
-        td_util::update_option('td_cake_status', 0);
-        td_util::update_option('td_cake_lp_status', '');
-        td_util::update_option('envato_key', '');
+        td_util::reset_registration();
         ?>
         <!-- redirect page -->
         <script>window.location.replace("<?php echo admin_url() . 'admin.php?page=td_system_status';?>");</script>

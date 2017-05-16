@@ -27,9 +27,9 @@ class td_cake {
             return;
         }
 
-        $td_cake_status_time = td_util::get_option('td_cake_status_time');    // last time the status changed
-        $td_cake_status = td_util::get_option('td_cake_status');              // the current status time
-        $td_cake_lp_status = td_util::get_option('td_cake_lp_status');
+        $td_cake_status_time = td_util::get_option_('td_cake_status_time');    // last time the status changed
+        $td_cake_status = td_util::get_option_('td_cake_status');              // the current status time
+        $td_cake_lp_status = td_util::get_option_('td_cake_lp_status');
 
         // verify if we have a status time, if we don't have one, the theme did not changed the status ever
         if (!empty($td_cake_status_time)) {
@@ -46,15 +46,10 @@ class td_cake {
             }
 
             if ($status_time_delta > $delta_max and $td_cake_lp_status != 'lp_sent') {
-                td_util::update_option('td_cake_lp_status', 'lp_sent');
+                td_util::update_option_('td_cake_lp_status', 'lp_sent');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?cs=' . $td_cake_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
                 return;
             }
-
-//            //check envato code syntax
-//            if (!$this->syntax_check()){
-//                $td_cake_status = 0;
-//            }
 
             // the theme is registered, return
             if ($td_cake_status == 2) {
@@ -74,7 +69,7 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg_2') );
                 if ($td_cake_status != '4') {
-                    td_util::update_option('td_cake_status', '4');
+                    td_util::update_option_('td_cake_status', '4');
                 }
                 return;
             }
@@ -87,22 +82,22 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg') );
                 if ($td_cake_status != '3') {
-                    td_util::update_option('td_cake_status', '3');
+                    td_util::update_option_('td_cake_status', '3');
                 }
                 return;
             }
 
             // if some time passed and status is empty - do ping
             if ($status_time_delta > 0 and empty($td_cake_status)) {
-                td_util::update_option('td_cake_status_time', time());
-                td_util::update_option('td_cake_status', '1');
+                td_util::update_option_('td_cake_status_time', time());
+                td_util::update_option_('td_cake_status', '1');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
                 return;
             }
 
         } else {
             // update the status time first time - we do nothing
-            td_util::update_option('td_cake_status_time', time());
+            td_util::update_option_('td_cake_status_time', time());
             // add the menu
             add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
         }
@@ -156,7 +151,7 @@ class td_cake {
         if (strlen($key) == 36){
             return true;
         }
-        td_util::td_cake_update();
+        td_util::ajax_handle();
         return false;
     }
 
