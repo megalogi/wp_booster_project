@@ -210,7 +210,7 @@
 <?php echo td_panel_generator::box_end();?>
 
 
-<?php if ('Newspaper' == TD_THEME_NAME) { ?>
+<?php if ('Newspaper' == TD_THEME_NAME || 'ionMag' == TD_THEME_NAME) { ?>
     <!-- Force full width -->
     <?php echo td_panel_generator::box_start('Force full width', false); ?>
     <!-- text -->
