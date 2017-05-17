@@ -27,9 +27,9 @@ class td_cake {
             return;
         }
 
-        $td_cake_status_time = td_util::get_option('td_cake_status_time');    // last time the status changed
-        $td_cake_status = td_util::get_option('td_cake_status');              // the current status time
-        $td_cake_lp_status = td_util::get_option('td_cake_lp_status');
+        $td_cake_status_time = td_util::get_option_('td_cake_status_time');    // last time the status changed
+        $td_cake_status = td_util::get_option_('td_cake_status');              // the current status time
+        $td_cake_lp_status = td_util::get_option_('td_cake_lp_status');
 
         // verify if we have a status time, if we don't have one, the theme did not changed the status ever
         if (!empty($td_cake_status_time)) {
@@ -46,21 +46,15 @@ class td_cake {
             }
 
             if ($status_time_delta > $delta_max and $td_cake_lp_status != 'lp_sent') {
-                td_util::update_option('td_cake_lp_status', 'lp_sent');
+                td_util::update_option_('td_cake_lp_status', 'lp_sent');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?cs=' . $td_cake_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
                 return;
             }
-
-//            //check envato code syntax
-//            if (!$this->syntax_check()){
-//                $td_cake_status = 0;
-//            }
 
             // the theme is registered, return
             if ($td_cake_status == 2) {
                 return;
             }
-
 
             // add the menu
             add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
@@ -74,7 +68,7 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg_2') );
                 if ($td_cake_status != '4') {
-                    td_util::update_option('td_cake_status', '4');
+                    td_util::update_option_('td_cake_status', '4');
                 }
                 return;
             }
@@ -87,22 +81,22 @@ class td_cake {
             if ($status_time_delta > $delta_max) {
                 add_action( 'admin_notices', array($this, 'td_cake_msg') );
                 if ($td_cake_status != '3') {
-                    td_util::update_option('td_cake_status', '3');
+                    td_util::update_option_('td_cake_status', '3');
                 }
                 return;
             }
 
             // if some time passed and status is empty - do ping
             if ($status_time_delta > 0 and empty($td_cake_status)) {
-                td_util::update_option('td_cake_status_time', time());
-                td_util::update_option('td_cake_status', '1');
+                td_util::update_option_('td_cake_status_time', time());
+                td_util::update_option_('td_cake_status', '1');
                 $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
                 return;
             }
 
         } else {
             // update the status time first time - we do nothing
-            td_util::update_option('td_cake_status_time', time());
+            td_util::update_option_('td_cake_status_time', time());
             // add the menu
             add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
         }
@@ -156,7 +150,6 @@ class td_cake {
         if (strlen($key) == 36){
             return true;
         }
-        td_util::td_cake_update();
         return false;
     }
 
@@ -196,47 +189,7 @@ class td_cake {
         <style type="text/css">
             .updated, .error {
                 display: none !important;
-
             }
-
-            .td-small-bottom {
-                font-size: 12px;
-                color:#686868;
-                margin-top: 5px;
-            }
-
-            .td-manual-activation {
-                display: none;
-            }
-            .td-input-title,
-            .td-envato-code-info,
-            .td-activate-button {
-                margin-left: 1px;
-            }
-            /*.td-envato-code-info {*/
-                /*margin-top: 3px;*/
-
-            /*}*/
-            /*.td-activate-button {*/
-                /*display: inline-block;*/
-                /*cursor: pointer;*/
-                /*position: relative;*/
-                /*-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
-                /*-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
-                /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);*/
-                /*border: 1px solid rgba(255, 255, 255, 0.1);*/
-                /*background: linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
-                /*background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
-                /*background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) -200%, #4db2ec);*/
-                /*background-color: #4db2ec;*/
-                /*color: #ffffff;*/
-                /*font-size: 15px;*/
-                /*text-decoration: none;*/
-                /*padding: 5px 15px 6px 15px;*/
-                /*line-height: 25px;*/
-                /*font-weight: bold;*/
-                /*margin-top: 20px;*/
-            /*}*/
         </style>
 
         <div class="td-activate-page-wrap">
@@ -261,48 +214,55 @@ class td_cake {
 
                             <div class="td-activate-input-wrap td-envato-code">
                                 <div class="td-input-title">Envato purchase code:</div>
-                                <input type="text" name="td-envato-code" value="" />
+                                <input type="text" name="td-envato-code" value="" placeholder="Your Envato code"/>
+                                <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-envato-missing" style="display:none;">Code is required</span>
                                 <span class="td-activate-err td-envato-length" style="display:none;">Code is too short</span>
                                 <span class="td-activate-err td-envato-invalid" style="display:none;">Code is not valid</span>
                                 <span class="td-activate-err td-envato-check-error" style="display:none;">Envato API is down, please try again later or use the manual registration.</span>
                             </div>
 
-                            <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Where to find your purchase code ?</a></div>
-                            <button class="td-activate-button td-envato-code-button">Activate</button>
+
+                            <button class="td-activate-button td-envato-code-button">Activate theme</button>
+                            <div class="td-envato-code-info"><a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Find your Envato code</a></div>
                         </div>
 
                         <!-- Step 2 - Forum Registration -->
                         <div class="td-activate-section td-activate-registration" style="display: none;">
 
-                            <div class="td-activate-subtitle">One more thing, and you're set</div>
+                            <div class="td-activate-subtitle">Register your theme with tagDiv</div>
 
-                            <p class="td-activate-description">You don't have a support forum account. This last stept will automatically create one for you.</p>
+                            <p class="td-activate-description">
+                                Get fast support, access to our community and to the knowledge base. Our support response time is typically less than one business day.
+                            </p>
 
-<!--                            <div class="td-registration-info">You don't have a support forum account. This last stept will automatically create one for you. </div>-->
                             <div class="td-registration-err td-forum-connection-failed" style="display:none;">Forum connection failed, please try again.</div>
 
                             <!-- Username -->
                             <div class="td-activate-input-wrap td-activate-username">
                                 <div class="td-input-title">Username:</div>
-                                <input type="text" name="td-activate-username" value="" />
+                                <input type="text" name="td-activate-username" value="" placeholder="Username" />
+                                <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-username-missing" style="display:none;">Username is required</span>
                                 <span class="td-activate-err td-activate-username-used" style="display:none;">Current username is already used, try another one</span>
                             </div>
 
                             <!-- Email -->
                             <div class="td-activate-input-wrap td-activate-email">
-                                <div class="td-input-title">Email:</div>
-                                <input type="text" name="td-activate-email" value="" />
+                                <div class="td-input-title">Your Email:</div>
+                                <input type="text" name="td-activate-email" value="" placeholder="Email" />
+                                <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-email-missing" style="display:none;">Email is required</span>
                                 <span class="td-activate-err td-activate-email-syntax" style="display:none;">Email syntax is incorrect</span>
                                 <span class="td-activate-err td-activate-email-used" style="display:none;">Current email is registered with another account</span>
+                                <div class="td-small-bottom">The email is private and we will not share it with anyone.</div>
                             </div>
 
                             <!-- Password -->
                             <div class="td-activate-input-wrap td-activate-password">
                                 <div class="td-input-title">Password:</div>
-                                <input type="password" name="td-activate-password" value="" />
+                                <input type="password" name="td-activate-password" value="" placeholder="Password" />
+                                <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-password-missing" style="display:none;">Password is required</span>
                                 <span class="td-activate-err td-activate-password-length" style="display:none;">Minimum password length is 6 characters</span>
                             </div>
@@ -310,13 +270,14 @@ class td_cake {
                             <!-- Password Confirmation -->
                             <div class="td-activate-input-wrap td-activate-password-confirmation">
                                 <div class="td-input-title">Password confirmation:</div>
-                                <input type="password" name="td-activate-password-confirmation" value="" />
+                                <input type="password" name="td-activate-password-confirmation" value="" placeholder="Password confirmation" />
+                                <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-password-confirmation-missing" style="display:none;">Password confirmation is required</span>
                                 <span class="td-activate-err td-activate-password-mismatch" style="display:none;">Password and password confirmation don't match</span>
                             </div>
 
-                            <div class="td-activate-info"><a href="http://forum.tagdiv.com/theme-activation/" target="_blank">The benefits of forum registration.</a></div>
-                            <button class="td-activate-button td-registration-button">Submit</button>
+                            <button class="td-activate-button td-registration-button">Activate theme</button>
+                            <div class="td-activate-info"><a href="http://forum.tagdiv.com/privacy-policy-2/" target="_blank">Privacy policy</a></div>
                         </div>
                     </div>
 
@@ -330,7 +291,7 @@ class td_cake {
                         <div class="td-manual-info">
                             <ol>
                                 <li>Go to our <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">manual activation page</a></li>
-                                <li>Paste your <em>Server ID</em> there and the <a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">envato purchase code</a></li>
+                                <li>Paste your <em>Server ID</em> there and the <a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Envato purchase code</a></li>
                                 <li>Return with the <a href="http://forum.tagdiv.com/wp-content/uploads/2014/09/2014-09-09_1458.png" target="_blank">activation key</a> and paste it in this form</li>
                             </ol>
                         </div>
@@ -339,21 +300,24 @@ class td_cake {
                         <!-- Your server ID -->
                         <div class="td-activate-input-wrap td-manual-server-id">
                             <div class="td-input-title">Your server ID:</div>
-                            <input type="text" name="td-manual-server-id" value="<?php echo $this->td_cake_server_id();?>" readonly />
+                            <input type="text" name="td-manual-server-id" value="<?php echo $this->td_cake_server_id();?>" readonly/>
+                            <span class="td-activate-input-bar"></span>
                             <div class="td-small-bottom">Copy this id and paste it in our manual activation page</div>
                         </div>
 
                         <!-- Envato code -->
                         <div class="td-activate-input-wrap td-manual-envato-code">
                             <div class="td-input-title">Envato purchase code:</div>
-                            <input type="text" name="td-manual-envato-code" value="" />
+                            <input type="text" name="td-manual-envato-code" value="" placeholder="Envato purcahse code" />
+                            <span class="td-activate-input-bar"></span>
                             <span class="td-activate-err td-manual-envato-code-missing" style="display:none;">Envato code is required</span>
                         </div>
 
                         <!-- Activation key -->
                         <div class="td-activate-input-wrap td-manual-activation-key">
                             <div class="td-input-title">tagDiv activation key:</div>
-                            <input type="text" name="td-manual-activation-key" value="" />
+                            <input type="text" name="td-manual-activation-key" value="" placeholder="Activation key" />
+                            <span class="td-activate-input-bar"></span>
                             <span class="td-activate-err td-manual-activation-key-missing" style="display:none;">Activation key is required</span>
                         </div>
 
