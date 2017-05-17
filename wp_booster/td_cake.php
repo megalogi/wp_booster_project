@@ -56,7 +56,6 @@ class td_cake {
                 return;
             }
 
-
             // add the menu
             add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
 
@@ -151,7 +150,6 @@ class td_cake {
         if (strlen($key) == 36){
             return true;
         }
-        td_util::ajax_handle();
         return false;
     }
 
