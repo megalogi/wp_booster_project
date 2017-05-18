@@ -1056,23 +1056,8 @@ function td_envato_process_response(data) {
         return;
     }
 
-    //forum check failed
-    if (td_data_object.forum_check_failed === true) {
-        //theme is activated
-        tdConfirm.showModalOk('Theme activation',
-            'Theme successfully activated. Thanks for buying our product.',
-            function() {
-                //redirect
-                window.location.replace('?page=td_theme_welcome');
-            }
-        );
-
-        return;
-    }
-
-    //code already registered on the forum
-    if (td_data_object.used_on_forum === true) {
-        //theme is activated
+    //theme activated
+    if (td_data_object.theme_activated === true) {
         tdConfirm.showModalOk('Theme activation',
             'Theme successfully activated. Thanks for buying our product.',
             function() {

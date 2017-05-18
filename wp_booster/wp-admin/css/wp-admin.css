@@ -1092,32 +1092,37 @@ a.td-tooltip {
   background: url("../images/panel/del-sidebar-opt.png") no-repeat 100% 50%;
 }
 .td-new-sidebar-input {
-  height: 60px;
   border-bottom: 1px solid #e6e6e6;
+  position: relative;
+  padding: 15px;
 }
 .td_new_sidebar_field {
   display: inline-block;
-  margin: 15px 15px 0px 15px;
-  width: 191px !important;
-  height: 30px !important;
+  margin: 0;
+  height: 32px !important;
   border: 1px solid #e6e6e6;
   font-family: 'Open Sans', arial, sans-serif;
   font-size: 12px;
   box-shadow: none !important;
+  width: 100% !important;
+  padding-left: 10px;
 }
 .td_new_sidebar_field:focus {
   border: 1px solid #e6e6e6 !important;
 }
 .td-button-add-new-sidebar {
   display: inline-block;
-  width: 55px;
+  padding: 0 15px;
   background-color: #4db2ec;
-  color: #FFFFFF;
+  color: #fff;
   text-align: center;
   cursor: pointer;
   font-family: 'Open Sans', arial, sans-serif;
   font-size: 12px;
-  line-height: 28px;
+  line-height: 32px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 .td-button-add-new-sidebar:hover {
   color: #ffffff;
@@ -4935,31 +4940,15 @@ title one row controls
 /*  ----------------------------------------------------------------------------
     style the homepage loop metabox
 */
-#td_homepage_loop_metabox,
-#td_post_theme_settings_metabox,
-#td_page_metabox {
-  border: 1px solid #D2D2D2;
-}
 #td_homepage_loop_metabox .inside,
 #td_post_theme_settings_metabox .inside,
 #td_page_metabox .inside {
   padding: 0;
   margin-top: 0;
 }
-#td_homepage_loop_metabox .ui-sortable-handle,
-#td_post_theme_settings_metabox .ui-sortable-handle,
-#td_page_metabox .ui-sortable-handle {
-  border-bottom: none;
-  background-color: #f1f1f1;
-  color: #0B1013;
-}
-#td_homepage_loop_metabox .handlediv,
-#td_post_theme_settings_metabox .handlediv,
-#td_page_metabox .handlediv {
-  color: #0B1013;
-}
 .td-meta-box-inside {
   padding: 10px 24px 10px 24px;
+  border-top: 1px solid #e8e8e8;
 }
 .td-meta-box-row {
   margin: 15px 0 15px 0;
@@ -5003,23 +4992,31 @@ title one row controls
   display: none !important;
 }
 .td-page-options-tab-wrap {
-  background-color: #f1f1f1;
-  padding: 20px 10px 0 13px;
+  background-color: #f7f7f7;
+  padding: 24px 24px 0;
+  position: relative;
 }
 /*  ----------------------------------------------------------------------------
     tabs
 */
 .td-page-options-tab {
   display: inline-block;
+  margin-bottom: -1px;
+  border: 1px solid #f7f7f7;
+  border-bottom-color: #e8e8e8;
 }
 .td-page-options-tab a {
   display: block;
-  padding: 10px;
+  padding: 10px 14px;
   text-decoration: none;
-  color: #444;
+  color: #000;
+  font-weight: 500;
+  font-size: 14px;
 }
 .td-page-options-tab-active {
-  background-color: white;
+  background-color: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-bottom-color: #fff;
 }
 /*  ----------------------------------------------------------------------------
     tab panels
