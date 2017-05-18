@@ -43,7 +43,8 @@ class td_pinterest {
 
         // stop render when no data is received
         if ($pinterest_data['user_page_json'] == '') {
-            return self::error('Render failed - no data is received, please check the ID: ' . $atts['pinterest_id']);
+            //return self::error('Render failed - no data is received, please check the ID: ' . $atts['pinterest_id']);
+	        return td_util::get_block_error('Pinterest', 'Render failed - no data is received, please check the ID: ' . $atts['pinterest_id']);
         }
 
         ob_start();
@@ -209,7 +210,8 @@ class td_pinterest {
             </div>
             <?php
         } else {
-            return self::error('Render failed - the [user_page_json]>[data] array has not been received, please check the ID: ' . $atts['pinterest_id']);
+            //return self::error('Render failed - the [user_page_json]>[data] array has not been received, please check the ID: ' . $atts['pinterest_id']);
+	        return td_util::get_block_error('Pinterest', 'Render failed - the [user_page_json]>[data] array has not been received, please check the ID: ' . $atts['pinterest_id']);
         }
 
         return ob_get_clean();
@@ -261,7 +263,8 @@ class td_pinterest {
                 // we have an error in the data retrieval process
                 $pinterest_data = td_remote_cache::get(__CLASS__, $cache_key);
                 if ($pinterest_data === false) {    // miss and io error... shit / die
-                    return self::error('pinterest data error: ' . $pinterest_get_data);
+                    //return self::error('pinterest data error: ' . $pinterest_get_data);
+	                return td_util::get_block_error('Pinterest', 'pinterest data error: ' . $pinterest_get_data);
                 }
 
                 td_remote_cache::extend(__CLASS__, $cache_key, self::$caching_time);
