@@ -141,6 +141,51 @@ class td_page_generator {
 
 
     /**
+     * get canonical url
+     * @param null $post
+     * @return bool|false|string
+     */
+    private static function td_get_canonical_url($post = null) {
+        if (function_exists('wp_get_canonical_url')) {
+            //@since 4.6.0
+            return wp_get_canonical_url($post);
+        }
+
+        $post = get_post( $post );
+
+        if ( ! $post ) {
+            return false;
+        }
+
+        if ( 'publish' !== $post->post_status ) {
+            return false;
+        }
+
+        $canonical_url = get_permalink( $post );
+
+        // If a canonical is being generated for the current page, make sure it has pagination if needed.
+        if ( $post->ID === get_queried_object_id() ) {
+            $page = get_query_var( 'page', 0 );
+            if ( $page >= 2 ) {
+                if ( '' == get_option( 'permalink_structure' ) ) {
+                    $canonical_url = add_query_arg( 'page', $page, $canonical_url );
+                } else {
+                    $canonical_url = trailingslashit( $canonical_url ) . user_trailingslashit( $page, 'single_paged' );
+                }
+            }
+
+            $cpage = get_query_var( 'cpage', 0 );
+            if ( $cpage ) {
+                $canonical_url = get_comments_pagenum_link( $cpage );
+            }
+        }
+
+        return $canonical_url;
+    }
+
+
+
+    /**
      * generate single post breadcrumbs array
      * @param $post_title
      * @return array|string
@@ -220,7 +265,7 @@ class td_page_generator {
                 //child category
                 $breadcrumbs_array [] = array (
                     'title_attribute' => $post_title,
-                    'url' => wp_get_canonical_url(),
+                    'url' => self::td_get_canonical_url(),
                     'display_name' => td_util::excerpt($post_title, 13)
                 );
             }
@@ -310,7 +355,7 @@ class td_page_generator {
             //child category
             $breadcrumbs_array [] = array (
                 'title_attribute' => $post->post_title,
-                'url' => wp_get_canonical_url(),
+                'url' => self::td_get_canonical_url(),
                 'display_name' => td_util::excerpt($post->post_title, 13)
             );
         }
