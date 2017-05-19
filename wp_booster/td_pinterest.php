@@ -175,7 +175,7 @@ class td_pinterest {
                         if(!empty($pinterest_board_feeds) && is_array($pinterest_board_feeds)) {
 
                             //sort the feeds by date
-                            usort($pinterest_board_feeds, 'self::sort_pins_by_date');
+                            usort($pinterest_board_feeds, 'td_pinterest::sort_pins_by_date' );
 
                             //reverse feeds array
                             $pinterest_board_feeds = array_reverse($pinterest_board_feeds);
@@ -331,11 +331,13 @@ class td_pinterest {
         }
 
         // get the serialized data string present in the page script
-        $pattern = '/jsInit1\'>(.*)<\/script>/sU';
-        preg_match($pattern, $data, $matches);
+        $pattern = '/jsInit1\'>(.*)<\/script>/';
 
-        if (!empty($matches[1])) {
-            return $matches[1];
+	    preg_match_all($pattern, $data, $matches);
+
+
+        if (!empty($matches[1]) && count($matches[1])) {
+            return $matches[1][0];
         } else {
             return false;
         }
