@@ -37,7 +37,8 @@ class td_instagram {
 
         // stop render when no data is received
         if ($instagram_data['user'] == '') {
-            return self::error('Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
+            //return self::error('Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
+	        return td_util::get_block_error('Instagram', 'Render failed - no data is received, please check the ID: ' . $atts['instagram_id']);
         }
 
         // debugging
@@ -222,7 +223,8 @@ class td_instagram {
                 // we have an error in the data retrieval process
                 $instragram_data = td_remote_cache::get(__CLASS__, $cache_key);
                 if ($instragram_data === false) {    // miss and io error... shit / die
-                    return self::error('Instagram data error: ' . $instagram_get_data);
+                    //return self::error('Instagram data error: ' . $instagram_get_data);
+	                return td_util::get_block_error('Instagram', 'Instagram data error: ' . $instagram_get_data);
                 }
 
                 td_remote_cache::extend(__CLASS__, $cache_key, self::$caching_time);
