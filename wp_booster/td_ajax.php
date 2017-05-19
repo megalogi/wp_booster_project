@@ -641,7 +641,7 @@ class td_ajax {
            $td_cake_url = 'http://tagdiv.com/td_cake/auto.php';
         }
 
-        $envato_code = $_POST['envato_code'];
+        $envato_code = preg_replace('/\s+/', '', $_POST['envato_code']);
 
         //return buffer
         $buffy = array(
@@ -782,7 +782,7 @@ class td_ajax {
         }
 
         //user data
-        $envato_code = trim($_POST['envato_code']);
+        $envato_code = preg_replace('/\s+/', '', $_POST['envato_code']);
         $username = trim($_POST['username']);
         $email = trim($_POST['email']);
         $password = $_POST['password'];
@@ -910,7 +910,7 @@ class td_ajax {
         }
 
         $id = trim($_POST['td_server_id']);
-        $ec = trim($_POST['envato_code']);
+        $ec = preg_replace('/\s+/', '', $_POST['envato_code']);
         $ad = trim($_POST['td_key']);
 
         //return buffer
