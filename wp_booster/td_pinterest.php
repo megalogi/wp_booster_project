@@ -14,7 +14,7 @@ class td_pinterest {
 
         // pinterest id is not set
         if (empty($atts['pinterest_id'])) {
-            return '';
+	        return td_util::get_block_error('Pinterest', 'pinterest data error: pinterest data is not set, please check the ID' );
         }
 
         // prepare the data
@@ -308,7 +308,7 @@ class td_pinterest {
             return 'pinterest data is not set, please check the ID';
         }
 
-        if ($pinterest_json['tree']['data']['type'] !== 'board') {
+        if ( isset($pinterest_json['tree']['data']['type']) && $pinterest_json['tree']['data']['type'] !== 'board') {
             return 'Invalid pinterest data for  <code>' . $atts['pinterest_id'] . '</code> please check the <em>user/board_id</em>';
         }
 
