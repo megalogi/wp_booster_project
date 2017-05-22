@@ -1463,6 +1463,12 @@ class td_block {
 	    $block_classes[] = $block_template_id;
 
 
+
+	    if ( empty( $this->td_query->posts ) ) {
+		    $block_classes[] = 'td-no-posts';
+	    }
+
+
         //remove duplicates
         $block_classes = array_unique($block_classes);
 
