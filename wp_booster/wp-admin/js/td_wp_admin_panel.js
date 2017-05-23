@@ -1025,6 +1025,10 @@ function td_envato_process_response(data) {
     var envatoCodeContainer = jQuery('.td-envato-code'),
         currentCode = envatoCodeContainer.find('input').val();
 
+    //hide errors
+    envatoCodeContainer.removeClass('td-err');
+    envatoCodeContainer.find('.td-activate-err').hide();
+
     //clear empty spaces
     currentCode = currentCode.replace(/\s+/g, '');
 
@@ -1035,7 +1039,7 @@ function td_envato_process_response(data) {
     }
 
     //envato check failed
-    if (td_data_object.envato_check_status == 'failed') {
+    if (td_data_object.envato_check_failed === true) {
         envatoCodeContainer.addClass('td-err');
         jQuery('.td-envato-check-error').show();
         return;
@@ -1134,7 +1138,12 @@ function td_envato_code_check() {
 
 function td_forum_process_response(data) {
     var envatoCodeContainer = jQuery('.td-envato-code'),
-        currentCode = envatoCodeContainer.find('input').val();
+        currentCode = envatoCodeContainer.find('input').val(),
+        inputContainers = jQuery('.td-activate-registration .td-activate-input-wrap');
+
+    //hide errors
+    inputContainers.removeClass('td-err');
+    inputContainers.find('.td-activate-err').hide();
 
     //clear empty spaces
     currentCode = currentCode.replace(/\s+/g, '');
