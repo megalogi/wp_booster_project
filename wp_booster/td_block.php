@@ -1463,6 +1463,14 @@ class td_block {
 	    $block_classes[] = $block_template_id;
 
 
+	    /**
+	     * Add 'tdc-no-posts' class that show info msg for blocks without any modules. Its style is in tagDiv composer
+	     */
+	    if ( $this->is_loop_block() && empty( $this->td_query->posts ) ) {
+		    $block_classes[] = 'tdc-no-posts';
+	    }
+
+
         //remove duplicates
         $block_classes = array_unique($block_classes);
 
