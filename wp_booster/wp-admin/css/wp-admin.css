@@ -924,6 +924,9 @@ a.td-tooltip {
   color: #555555;
   font-size: 12px;
 }
+.td-panel-dropdown::-ms-expand {
+  display: none;
+}
 .td-panel-dropdown:focus {
   box-shadow: none;
 }
