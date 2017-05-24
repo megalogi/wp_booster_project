@@ -261,7 +261,7 @@ class td_cake {
                             <!-- Password -->
                             <div class="td-activate-input-wrap td-activate-password">
                                 <div class="td-input-title">Password:</div>
-                                <input type="password" name="td-activate-password" value="" placeholder="Password" />
+                                <input type="password" name="td-activate-password" autocomplete="off" value="" placeholder="Password" />
                                 <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-password-missing" style="display:none;">Password is required</span>
                                 <span class="td-activate-err td-activate-password-length" style="display:none;">Minimum password length is 6 characters</span>
@@ -270,7 +270,7 @@ class td_cake {
                             <!-- Password Confirmation -->
                             <div class="td-activate-input-wrap td-activate-password-confirmation">
                                 <div class="td-input-title">Password confirmation:</div>
-                                <input type="password" name="td-activate-password-confirmation" value="" placeholder="Password confirmation" />
+                                <input type="password" name="td-activate-password-confirmation" autocomplete="off" value="" placeholder="Password confirmation" />
                                 <span class="td-activate-input-bar"></span>
                                 <span class="td-activate-err td-activate-password-confirmation-missing" style="display:none;">Password confirmation is required</span>
                                 <span class="td-activate-err td-activate-password-mismatch" style="display:none;">Password and password confirmation don't match</span>
