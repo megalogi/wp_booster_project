@@ -637,8 +637,7 @@ class td_ajax {
         //td_cake url
         $td_cake_url = 'http://192.168.0.80/td_cake/auto.php';
         if (TD_DEPLOY_MODE != 'dev') {
-           //$td_cake_url = 'http://td_cake.themesafe.com/td_cake/auto.php';
-           $td_cake_url = 'http://tagdiv.com/td_cake/auto.php';
+           $td_cake_url = 'http://td_cake.themesafe.com/td_cake/auto.php';
         }
 
         $envato_code = preg_replace('/\s+/', '', $_POST['envato_code']);
@@ -915,13 +914,13 @@ class td_ajax {
 
         //return buffer
         $buffy = array(
-            'envato_code' => $envato_code,
+            'envato_code' => $ec,
             'theme_activated' => false
         );
 
         if (self::td_validate_data($id, $ec, $ad) === true) {
             //code is valid
-            td_util::ajax_handle($envato_code);
+            td_util::ajax_handle($ec);
             $buffy['theme_activated'] = true;
         }
 
