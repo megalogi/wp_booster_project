@@ -313,15 +313,8 @@ class td_block {
 				// Main css settings
 				// this will fix the z-index issue on background and overlay color/gradient
 				$mainCssSettings =
-						'transform: translateZ(0) !important;' . PHP_EOL .
-	                    '-webkit-transform: translateZ(0) !important;' . PHP_EOL .
-	                    'position: relative !important;' . PHP_EOL;
-
-
-				// The previous css alter td_block_big_grid_slide
-				if ( isset( $this->in_big_grid_slide ) ) {
-					$mainCssSettings = '';
-				}
+						'position: relative;' . PHP_EOL .
+	                    'z-index: 0;' . PHP_EOL;
 
 
 
