@@ -313,7 +313,11 @@ class td_instagram {
         return '';
     }
 
-    private static function strip_instagram_user($id) {
+    /**
+     * @param $id - the instagram ID
+     * @return string - user inserted instagram ID without @
+     */
+    public static function strip_instagram_user($id) {
         $pos = strpos($id, '@');
 
         if ( $pos !== false ) {
