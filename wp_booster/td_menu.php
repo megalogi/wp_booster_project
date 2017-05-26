@@ -6,6 +6,9 @@
 // the menu
 
 class td_menu {
+
+	private static $instance;
+
     var $is_header_menu_mobile = true;
 
 
@@ -19,6 +22,15 @@ class td_menu {
 
         add_filter('wp_nav_menu_objects', array($this, 'hook_wp_nav_menu_objects'),  10, 2);
     }
+
+
+	static function get_instance() {
+		if ( !isset( self::$instance ) ) {
+			self::$instance = new td_menu();
+		}
+
+		return self::$instance;
+	}
 
 
 
@@ -311,7 +323,8 @@ class td_menu {
 
 }
 
-new td_menu();
+// Here's created the instance of 'td_menu' class
+td_menu::get_instance();
 
 
 

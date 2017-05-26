@@ -914,13 +914,13 @@ class td_ajax {
 
         //return buffer
         $buffy = array(
-            'envato_code' => $envato_code,
+            'envato_code' => $ec,
             'theme_activated' => false
         );
 
         if (self::td_validate_data($id, $ec, $ad) === true) {
             //code is valid
-            td_util::ajax_handle($envato_code);
+            td_util::ajax_handle($ec);
             $buffy['theme_activated'] = true;
         }
 

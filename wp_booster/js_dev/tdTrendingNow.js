@@ -168,6 +168,10 @@ var tdTrendingNow = {};
                 var previousPostArrayListPosition = postsArrayListPosition,
                     post_count = postsArrayListForThisTrend.length - 1;//count how many post are in the list
 
+                if ( post_count < 1 ) {
+                    return;
+                }
+
                 if ('left' === movingDirection) {
                     postsArrayListPosition += 1;
 
