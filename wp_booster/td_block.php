@@ -202,13 +202,22 @@ class td_block {
 
 
 		$tdcCss = $this->get_att('tdc_css');
+		$clearfixColumns = false;
+		$beforeCssOutput = '';
+		$afterCssOutput = '';
+
 		if (!empty($tdcCss)) {
-			$buffy .= $this->generate_css($tdcCss );
+			$buffy .= $this->generate_css($tdcCss, $clearfixColumns, $beforeCssOutput, $afterCssOutput );
 		}
 
 
 		if (!empty($buffy)) {
 			$buffy = PHP_EOL . '<style>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
+
+			if ( !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
+				$buffy .= PHP_EOL . '<div class="td-element-style"><style>' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
+			}
+
 			return $buffy;
 		}
 
@@ -280,10 +289,12 @@ class td_block {
 	 *
 	 * @param $tdcCss - the property that will be decoded and parsed
 	 * @param bool $clearfixColumns - flag used to know outside if the '.clearfix' element is added as last child in vc_row and vc_row_inner
+	 * @param string $beforeCss - css output for td-element-style::before
+	 * @param string $afterCss - css output for td-element-style::after
 	 *
 	 * @return string
 	 */
-	protected function generate_css( $tdcCss, &$clearfixColumns = false ) {
+	protected function generate_css( $tdcCss, &$clearfixColumns = false, &$beforeCssOutput = '', &$afterCssOutput = '' ) {
 
 		//
 		// Very Important! For stretched rows move the 'border' css settings on ::before, for all viewport settings
@@ -528,7 +539,8 @@ class td_block {
 							}
 						}
 
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . ' >.td-element-style::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 					}
 
 					// all ::after
@@ -558,7 +570,8 @@ class td_block {
 								$clearfixColumns = true;
 							}
 
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' >.td-element-style::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 						}
 					}
 
@@ -776,7 +789,13 @@ class td_block {
 									}
 								}
 
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								//$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+
+								$beforeCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+								$beforeCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
+								$beforeCssOutput .= '{'. PHP_EOL;
+								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class') . ' >.td-element-style::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								$beforeCssOutput .= '}'. PHP_EOL;
 							}
 
 							if (!empty($cssAfter)) {
@@ -812,7 +831,12 @@ class td_block {
 										$clearfixColumns = true;
 									}
 
-									$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$afterCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+									$afterCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
+									$afterCssOutput .= '{'. PHP_EOL;
+									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' >.td-element-style::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$afterCssOutput .= '}'. PHP_EOL;
 								}
 							}
 
