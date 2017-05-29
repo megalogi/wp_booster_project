@@ -202,13 +202,28 @@ class td_block {
 
 
 		$tdcCss = $this->get_att('tdc_css');
+		$clearfixColumns = false;
+		$cssOutput = '';
+		$beforeCssOutput = '';
+		$afterCssOutput = '';
+
 		if (!empty($tdcCss)) {
-			$buffy .= $this->generate_css($tdcCss );
+			$buffy .= $this->generate_css($tdcCss, $clearfixColumns, $cssOutput, $beforeCssOutput, $afterCssOutput );
 		}
 
 
 		if (!empty($buffy)) {
 			$buffy = PHP_EOL . '<style>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
+		}
+
+		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
+			$css = PHP_EOL . '<div class="td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
+
+			if (!empty($buffy)) {
+				$buffy .= $css;
+			} else {
+				$buffy = $css;
+			}
 			return $buffy;
 		}
 
@@ -280,10 +295,13 @@ class td_block {
 	 *
 	 * @param $tdcCss - the property that will be decoded and parsed
 	 * @param bool $clearfixColumns - flag used to know outside if the '.clearfix' element is added as last child in vc_row and vc_row_inner
+	 * @param string $cssOutput - css output for td-element-style
+	 * @param string $beforeCssOutput - css output for td-element-style::before
+	 * @param string $afterCssOutput - css output for td-element-style::after
 	 *
 	 * @return string
 	 */
-	protected function generate_css( $tdcCss, &$clearfixColumns = false ) {
+	protected function generate_css( $tdcCss, &$clearfixColumns = false, &$cssOutput = '', &$beforeCssOutput = '', &$afterCssOutput = '' ) {
 
 		//
 		// Very Important! For stretched rows move the 'border' css settings on ::before, for all viewport settings
@@ -309,12 +327,6 @@ class td_block {
 
 			if (!is_null($tdcCssArray) && is_array($tdcCssArray)) {
 				$tdcCssProcessed = '';
-
-				// Main css settings
-				// this will fix the z-index issue on background and overlay color/gradient
-				$mainCssSettings =
-						'position: relative;' . PHP_EOL .
-	                    'z-index: 0;' . PHP_EOL;
 
 
 
@@ -346,12 +358,15 @@ class td_block {
 				);
 
 				$beforeCssProps = array(
-					'background-color',
 					'background-image',
 					'background-size',
 					'background-position',
 					'background-repeat',
 					'opacity',
+				);
+
+				$elementStyleProps = array(
+					'background-color',
 				);
 
 				if ($moveBorderSettingsOnBefore) {
@@ -392,6 +407,7 @@ class td_block {
 
 				$mediaCssAll = '';
 				$cssBeforeAll = '';
+				$cssElementStyleAll = '';
 				$cssAfterAll = array();
 
 				$borderInAll = false;
@@ -436,6 +452,11 @@ class td_block {
 //							$beforeCssProps[$k1] = $v1;
 //							continue;
 //						}
+
+						if (in_array($k1, $elementStyleProps)) {
+							$cssElementStyleAll .= $k1 . ':' . $v1 . ' !important;' . PHP_EOL;
+							continue;
+						}
 
 						if (in_array($k1, $beforeCssProps)) {
 							$cssBeforeAll .= $k1 . ':' . $v1 . ' !important;' . PHP_EOL;
@@ -510,12 +531,15 @@ class td_block {
 
 					// all css
 					if ($mediaCssAll !== '') {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mainCssSettings . $mediaCssAll . '}' . PHP_EOL;
-					} else {
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mainCssSettings . '}' . PHP_EOL;
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
 					}
 
-					// all ::before
+					// all td-element-style
+					if ($cssElementStyleAll !== '') {
+						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . ' .td-element-style:nth-child(1){' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
+					}
+
+					// all td-element-style::before
 					if ($cssBeforeAll !== '') {
 
 						// Add default value for 'background-size'
@@ -528,10 +552,11 @@ class td_block {
 							}
 						}
 
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . ' .td-element-style:nth-child(1)::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 					}
 
-					// all ::after
+					// all td-element-style::after
 					if (!empty($cssAfterAll)) {
 
 						$css = '';
@@ -558,7 +583,8 @@ class td_block {
 								$clearfixColumns = true;
 							}
 
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' .td-element-style:nth-child(1)::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 						}
 					}
 
@@ -759,9 +785,7 @@ class td_block {
 							$tdcCssProcessed .= '{'. PHP_EOL;
 
 							if ($mediaCss !== '') {
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mainCssSettings . $mediaCss . '}' . PHP_EOL;
-							} else {
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mainCssSettings . '}' . PHP_EOL;
+								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
 							}
 
 							if ($cssBefore !== '') {
@@ -776,7 +800,13 @@ class td_block {
 									}
 								}
 
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								//$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+
+								$beforeCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+								$beforeCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
+								$beforeCssOutput .= '{'. PHP_EOL;
+								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class') . ' .td-element-style:nth-child(1)::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								$beforeCssOutput .= '}'. PHP_EOL;
 							}
 
 							if (!empty($cssAfter)) {
@@ -812,7 +842,12 @@ class td_block {
 										$clearfixColumns = true;
 									}
 
-									$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$afterCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+									$afterCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
+									$afterCssOutput .= '{'. PHP_EOL;
+									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' .td-element-style:nth-child(1)::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$afterCssOutput .= '}'. PHP_EOL;
 								}
 							}
 
