@@ -225,7 +225,7 @@ class td_block {
 
 		$tdcElementStyleCss = '';
 		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
-			$tdcElementStyleCss = PHP_EOL . '<span class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></span>';
+			$tdcElementStyleCss = PHP_EOL . '<div class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
 		}
 
 		if (!empty($buffy)) {
@@ -547,7 +547,7 @@ class td_block {
 
 					// all td-element-style
 					if ($cssElementStyleAll !== '') {
-						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '.td-element-style {' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
+						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '{' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
 					}
 
 					// all td-element-style::before
@@ -564,7 +564,7 @@ class td_block {
 						}
 
 						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
-						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '.td-element-style::before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 					}
 
 					// all td-element-style::after
@@ -594,7 +594,7 @@ class td_block {
 							}
 
 							//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
-							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '.td-element-style::after {' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::after {' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 						}
 					}
 
@@ -815,7 +815,7 @@ class td_block {
 								$beforeCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
 								$beforeCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
 								$beforeCssOutput .= '{'. PHP_EOL;
-								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class') . ' .td-element-style:nth-child(1)::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
+								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 								$beforeCssOutput .= '}'. PHP_EOL;
 							}
 
@@ -855,7 +855,7 @@ class td_block {
 									$afterCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
 									$afterCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
 									$afterCssOutput .= '{'. PHP_EOL;
-									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '.td-element-style::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 									$afterCssOutput .= '}'. PHP_EOL;
 								}
 							}
