@@ -318,11 +318,15 @@ class td_block {
 		// Very Important! For stretched rows move the 'border' css settings on ::before, for all viewport settings
 		//
 		$moveBorderSettingsOnBefore = false;
+		// Add 'position:relative' to rows with custom css
+		$markRowPosition = false;
+
 		if (class_exists('vc_row') && $this instanceof vc_row) {
 			$attFullWidth = $this->get_att( 'full_width' );
 			if ($attFullWidth !== '') {
 				$moveBorderSettingsOnBefore = true;
 			}
+			$markRowPosition = true;
 		}
 
 
@@ -539,15 +543,23 @@ class td_block {
 
 
 
-
 					// all css
 					if ($mediaCssAll !== '') {
+
+						if ($markRowPosition) {
+							$mediaCssAll .= 'position:relative;' . PHP_EOL;
+						}
+
 						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
 					}
 
 					// all td-element-style
 					if ($cssElementStyleAll !== '') {
 						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '{' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
+
+						if ($markRowPosition && $tdcCssProcessed === '') {
+							 $tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{position:relative}' . PHP_EOL;
+						}
 					}
 
 					// all td-element-style::before
@@ -795,6 +807,11 @@ class td_block {
 							$tdcCssProcessed .= '{'. PHP_EOL;
 
 							if ($mediaCss !== '') {
+
+								if ($markRowPosition) {
+									$mediaCss .= 'position:relative;' . PHP_EOL;
+								}
+
 								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
 							}
 
@@ -817,6 +834,10 @@ class td_block {
 								$beforeCssOutput .= '{'. PHP_EOL;
 								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 								$beforeCssOutput .= '}'. PHP_EOL;
+
+								if ($markRowPosition && $mediaCss === '') {
+									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{position:relative}' . PHP_EOL;
+								}
 							}
 
 							if (!empty($cssAfter)) {
@@ -857,6 +878,10 @@ class td_block {
 									$afterCssOutput .= '{'. PHP_EOL;
 									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 									$afterCssOutput .= '}'. PHP_EOL;
+
+									if ($markRowPosition && $mediaCss === '') {
+										$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{position:relative}' . PHP_EOL;
+									}
 								}
 							}
 
