@@ -216,13 +216,15 @@ class td_block {
 			$buffy = PHP_EOL . '<style>' . PHP_EOL . $buffy . PHP_EOL . '</style>';
 		}
 
+		$tdcElementStyleCss = '';
 		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
-			$css = PHP_EOL . '<div class="td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></div>';
+			$tdcElementStyleCss = PHP_EOL . '<span class="td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></span>';
+		}
 
-			if (!empty($buffy)) {
-				$buffy .= $css;
-			} else {
-				$buffy = $css;
+		if (!empty($buffy)) {
+
+			if (!empty($tdcElementStyleCss)) {
+				return $buffy . $tdcElementStyleCss;
 			}
 			return $buffy;
 		}
