@@ -318,15 +318,12 @@ class td_block {
 		// Very Important! For stretched rows move the 'border' css settings on ::before, for all viewport settings
 		//
 		$moveBorderSettingsOnBefore = false;
-		// Add 'position:relative' to rows with custom css
-		$markRowPosition = false;
 
 		if (class_exists('vc_row') && $this instanceof vc_row) {
 			$attFullWidth = $this->get_att( 'full_width' );
 			if ($attFullWidth !== '') {
 				$moveBorderSettingsOnBefore = true;
 			}
-			$markRowPosition = true;
 		}
 
 
@@ -542,29 +539,20 @@ class td_block {
 //					}
 
 
-
-					// all css
-					if ($mediaCssAll !== '') {
-
-						if ($markRowPosition) {
-							$mediaCssAll .= 'position:relative;' . PHP_EOL;
-						}
-
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
-					} else {
-						if ($markRowPosition) {
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{position:relative}' . PHP_EOL;
-						}
-					}
-
 					// all td-element-style
 					if ($cssElementStyleAll !== '') {
 						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '{' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
 
-						if ($markRowPosition && $tdcCssProcessed === '') {
-							 $tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{position:relative}' . PHP_EOL;
-						}
+						$mediaCssAll .= 'position:relative;';
 					}
+
+					// all css
+					if ($mediaCssAll !== '') {
+
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
+					}
+
+
 
 
 					// all td-element-style::before
@@ -582,6 +570,10 @@ class td_block {
 
 						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+
+						if ($tdcCssProcessed === '') {
+							 $tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{position:relative}' . PHP_EOL;
+						}
 					}
 
 					// all td-element-style::after
@@ -807,17 +799,13 @@ class td_block {
 						}
 
 						if ( '' !== $mediaQuery ) {
-							$tdcCssProcessed .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
-							$tdcCssProcessed .= '@media ' . $mediaQuery . PHP_EOL;
-							$tdcCssProcessed .= '{'. PHP_EOL;
+							$cssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+							$cssOutput .= '@media ' . $mediaQuery . PHP_EOL;
+							$cssOutput .= '{'. PHP_EOL;
 
 							if ($mediaCss !== '') {
 
-								if ($markRowPosition) {
-									$mediaCss .= 'position:relative;' . PHP_EOL;
-								}
-
-								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+								$cssOutput .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
 							}
 
 							if ($cssBefore !== '') {
@@ -840,7 +828,7 @@ class td_block {
 								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 								$beforeCssOutput .= '}'. PHP_EOL;
 
-								if ($markRowPosition && $mediaCss === '') {
+								if ($mediaCss === '') {
 									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{position:relative}' . PHP_EOL;
 								}
 							}
@@ -884,13 +872,13 @@ class td_block {
 									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 									$afterCssOutput .= '}'. PHP_EOL;
 
-									if ($markRowPosition && $mediaCss === '') {
+									if ($mediaCss === '') {
 										$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{position:relative}' . PHP_EOL;
 									}
 								}
 							}
 
-							$tdcCssProcessed .= '}'. PHP_EOL;
+							$cssOutput .= '}'. PHP_EOL;
 						}
 					}
 				}
