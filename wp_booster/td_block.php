@@ -77,6 +77,7 @@ class td_block {
 
 			    'tdc_css' => '', //custom css - used by TagDiv Composer
 			    'tdc_css_class' => '', // unique css class - used by TagDiv Composer to add inline css ('class' could not be used because it's not unique)
+			    'tdc_css_class_style' => '', // unique css class - used by get_css to add inline css on td-element-style ('class' could not be used because it's not unique)
 
 			    // live filters
 			    // $atts['live_filter'] is set by the 'user'. cur_post_same_tags | cur_post_same_author | cur_post_same_categories
@@ -112,6 +113,12 @@ class td_block {
 
 	    // Set the 'tdc_css_class' parameter
 	    $this->atts['tdc_css_class'] = $unique_block_class;
+
+	    /** The _rand_style class is used by td-element-style to add style */
+	    $unique_block_class_style = $this->block_uid . '_rand_style';
+	    $this->atts['tdc_css_class_style'] = $unique_block_class_style;
+
+
 
 
 
@@ -218,7 +225,7 @@ class td_block {
 
 		$tdcElementStyleCss = '';
 		if ( !empty($cssOutput) || !empty($beforeCssOutput) || !empty($afterCssOutput) ) {
-			$tdcElementStyleCss = PHP_EOL . '<span class="td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></span>';
+			$tdcElementStyleCss = PHP_EOL . '<span class="' . $this->get_att( 'tdc_css_class_style' ) . ' td-element-style"><style>' . $cssOutput . ' ' . $beforeCssOutput . ' ' . $afterCssOutput . '</style></span>';
 		}
 
 		if (!empty($buffy)) {
@@ -227,6 +234,8 @@ class td_block {
 				return $buffy . $tdcElementStyleCss;
 			}
 			return $buffy;
+		} else if (!empty($tdcElementStyleCss)) {
+			return $tdcElementStyleCss;
 		}
 
 		return '';
@@ -538,7 +547,7 @@ class td_block {
 
 					// all td-element-style
 					if ($cssElementStyleAll !== '') {
-						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . ' .td-element-style:nth-child(1){' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
+						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '.td-element-style {' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
 					}
 
 					// all td-element-style::before
@@ -555,14 +564,13 @@ class td_block {
 						}
 
 						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
-						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . ' .td-element-style:nth-child(1)::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
+						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '.td-element-style::before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 					}
 
 					// all td-element-style::after
 					if (!empty($cssAfterAll)) {
 
 						$css = '';
-						$childElement = '';
 
 
 						if (array_key_exists('color-1-overlay', $cssAfterAll) && array_key_exists('color-2-overlay', $cssAfterAll)) {
@@ -586,7 +594,7 @@ class td_block {
 							}
 
 							//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
-							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' .td-element-style:nth-child(1)::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '.td-element-style::after {' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 						}
 					}
 
@@ -814,7 +822,6 @@ class td_block {
 							if (!empty($cssAfter)) {
 
 								$css = '';
-								$childElement = '';
 
 
 								if (array_key_exists('color-1-overlay', $cssAfter) && array_key_exists('color-2-overlay', $cssAfter)) {
@@ -848,7 +855,7 @@ class td_block {
 									$afterCssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
 									$afterCssOutput .= '@media ' . $mediaQuery . PHP_EOL;
 									$afterCssOutput .= '{'. PHP_EOL;
-									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . ' .td-element-style:nth-child(1)::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
+									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '.td-element-style::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 									$afterCssOutput .= '}'. PHP_EOL;
 								}
 							}
