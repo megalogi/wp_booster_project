@@ -531,28 +531,14 @@ class td_block {
 
 
 
-//					// Set background css for 'all'
-//					$backgroundCss = $this->getBackground($beforeCssProps);
-//
-//					if ($backgroundCss !== '') {
-//						$mediaCssAll .= $backgroundCss;
-//					}
-
+					$positionElement = false;
 
 					// all td-element-style
 					if ($cssElementStyleAll !== '') {
 						$cssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '{' . PHP_EOL . $cssElementStyleAll . '}' . PHP_EOL;
 
-						$mediaCssAll .= 'position:relative;';
+						$positionElement = true;
 					}
-
-					// all css
-					if ($mediaCssAll !== '') {
-
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
-					}
-
-
 
 
 					// all td-element-style::before
@@ -571,7 +557,7 @@ class td_block {
 						//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 						$beforeCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::before {' . PHP_EOL . $cssBeforeSettings . $cssBeforeAll . '}' . PHP_EOL;
 
-						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{position:relative}' . PHP_EOL;
+						$positionElement = true;
 					}
 
 					// all td-element-style::after
@@ -603,8 +589,17 @@ class td_block {
 							//$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . $childElement . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 							$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::after {' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 
-							$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{position:relative}' . PHP_EOL;
+							$positionElement = true;
 						}
+					}
+
+					if ($positionElement) {
+						$mediaCssAll .= 'position:relative;' . PHP_EOL;
+					}
+
+					// all css
+					if ($mediaCssAll !== '') {
+						$tdcCssProcessed .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class' ) . '{' . PHP_EOL . $mediaCssAll . '}' . PHP_EOL;
 					}
 
 					unset($tdcCssArray['all']);
