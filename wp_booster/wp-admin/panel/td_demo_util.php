@@ -343,6 +343,57 @@ class td_demo_misc extends td_demo_base {
             td_util::update_option('tds_footer_retina_logo_upload', td_demo_media::get_image_url_by_td_id($logo_params['retina']));
         }
     }
+
+
+    /**
+     * resets themes uploaded images for demo export
+     */
+    static function clear_uploads_for_demo_export() {
+
+        //header logos
+        td_util::update_option('tds_logo_upload', '');
+        td_util::update_option('tds_logo_upload_r', '');
+
+        //favicon
+        td_util::update_option('tds_favicon_upload', '');
+
+        //mobile logos
+        td_util::update_option('tds_logo_menu_upload', '');
+        td_util::update_option('tds_logo_menu_upload_r', '');
+
+        //ios bookmarklets
+        td_util::update_option('tds_ios_icon_76', '');
+        td_util::update_option('tds_ios_icon_114', '');
+        td_util::update_option('tds_ios_icon_120', '');
+        td_util::update_option('tds_ios_icon_144', '');
+        td_util::update_option('tds_ios_icon_152', '');
+
+        //backgrounds
+        td_util::update_option('tds_site_background_image', '');
+        td_util::update_option('tds_mobile_background_image', '');
+        td_util::update_option('tds_login_background_image', '');
+        td_util::update_option('tds_footer_background_image', '');
+
+        //footer logos
+        td_util::update_option('tds_footer_logo_upload', '');
+        td_util::update_option('tds_footer_retina_logo_upload', '');
+
+        //categories bg img
+        $td_options = &td_options::get_all_by_ref();
+        $categories = get_categories( array(
+                'hide_empty' => 0
+            ));
+
+        foreach ( $categories as $category ) {
+            if ( isset ($td_options['category_options'][$category->cat_ID]['tdc_image']) ) {
+                $td_options['category_options'][$category->cat_ID]['tdc_image'] = '';
+            }
+        }
+
+        //recompile user css
+        td_options::update('tds_user_compile_css', td_css_generator());
+
+    }
 }
 
 
