@@ -4927,14 +4927,14 @@ title one row controls
   -moz-box-shadow: 0 2px 8px 0 rgba(64, 162, 0, 0.6);
   box-shadow: 0 2px 8px 0 rgba(64, 162, 0, 0.6);
 }
-.td-activate-button.td- activate-button-loading {
+.td-activate-button.td-activate-button-loading {
   padding-right: 50px;
 }
-.td-activate-button.td- activate-button-loading:before {
+.td-activate-button.td-activate-button-loading:before {
   background-image: url(../images/loader-small.gif);
   background-position: center right 18px;
 }
-.td-activate-button.td- activate-button-loading:disabled {
+.td-activate-button.td-activate-button-loading:disabled {
   opacity: 0.55;
 }
 /*  ----------------------------------------------------------------------------
