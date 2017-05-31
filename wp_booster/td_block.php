@@ -803,11 +803,11 @@ class td_block {
 
 							if ($mediaCss !== '') {
 
-								$cssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
-								$cssOutput .= '@media ' . $mediaQuery . PHP_EOL;
-								$cssOutput .= '{'. PHP_EOL;
-								$cssOutput .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
-								$cssOutput .= '}'. PHP_EOL;
+								$tdcCssProcessed .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+								$tdcCssProcessed .= '@media ' . $mediaQuery . PHP_EOL;
+								$tdcCssProcessed .= '{'. PHP_EOL;
+								$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+								$tdcCssProcessed .= '}'. PHP_EOL;
 							}
 
 							if ($cssBefore !== '') {
