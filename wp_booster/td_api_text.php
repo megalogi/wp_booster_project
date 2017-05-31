@@ -24,7 +24,7 @@ class td_api_text {
 
 		// fast start notification on welcome page
 		// *overwritten in 012 for tagDiv composer
-		'welcome_fast_start' => 'Install visual composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a>',
+		'welcome_fast_start' => 'Install Visual Composer plugin and also install the social counter plugin if you want to add the counters on your sidebar - from our <a href="admin.php?page=td_theme_plugins">plugins panel</a>',
 
 		// welcome and support panels
 		'welcome_support_forum' => '',

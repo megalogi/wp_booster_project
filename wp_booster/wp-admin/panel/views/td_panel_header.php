@@ -183,7 +183,7 @@
                         <ul>
                             <li>If it\'s enabled the Sign In / Register link shows up in the top menu</li>
                             <li>If it\'s enabled but the top menu is disabled the modal will still appear for users who want to post a comment(if posting a comment is set to require login/registration)</li>
-                            <li>If it\'s disabled the login/registration will be done via the wordpress default interface</li>
+                            <li>If it\'s disabled the login/registration will be done via the WordPress default interface</li>
                         </ul>
                 ', 'right')?>
             </p>

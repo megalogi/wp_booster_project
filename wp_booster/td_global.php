@@ -348,6 +348,11 @@ class td_global {
 		    'show_only_on_page_slugs' => ''
 	    ),
 
+	    'td_detect' => array(
+		    'url' => '/includes/wp_booster/js_dev/tdDetect.js',
+		    'show_only_on_page_slugs' => ''
+	    ),
+
 		// ace code editor
 	    'td_ace' => array (
 		    'url' => '/includes/wp_booster/wp-admin/external/ace/ace.js',

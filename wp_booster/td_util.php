@@ -605,7 +605,9 @@ class td_util {
 		$block_template_ids = array();
 
 		foreach (td_api_block_template::get_all() as $block_template_id => $block_template_settings) {
-			$block_template_ids[$block_template_settings['text']] = $block_template_id;
+            if (isset($block_template_settings['text'])) {
+                $block_template_ids[$block_template_settings['text']] = $block_template_id;
+            }
 		}
 
 		return array_merge( array( '- Global Header -' => ''), $block_template_ids );
