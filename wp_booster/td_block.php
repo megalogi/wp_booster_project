@@ -799,13 +799,15 @@ class td_block {
 						}
 
 						if ( '' !== $mediaQuery ) {
-							$cssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
-							$cssOutput .= '@media ' . $mediaQuery . PHP_EOL;
-							$cssOutput .= '{'. PHP_EOL;
+
 
 							if ($mediaCss !== '') {
 
+								$cssOutput .= PHP_EOL . '/* ' . $key . ' */' . PHP_EOL;
+								$cssOutput .= '@media ' . $mediaQuery . PHP_EOL;
+								$cssOutput .= '{'. PHP_EOL;
 								$cssOutput .= '.' . $this->get_att('tdc_css_class') . '{' . PHP_EOL . $mediaCss . '}' . PHP_EOL;
+								$cssOutput .= '}'. PHP_EOL;
 							}
 
 							if ($cssBefore !== '') {
@@ -828,7 +830,7 @@ class td_block {
 								$beforeCssOutput .= '.' . $this->get_att('tdc_css_class_style') . '::before{' . PHP_EOL . $cssBeforeSettings . $cssBefore . '}' . PHP_EOL;
 								$beforeCssOutput .= '}'. PHP_EOL;
 
-								if ($mediaCss === '') {
+								if ($tdcCssProcessed === '') {
 									$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{position:relative}' . PHP_EOL;
 								}
 							}
@@ -872,13 +874,11 @@ class td_block {
 									$afterCssOutput .= PHP_EOL . '.' . $this->get_att( 'tdc_css_class_style' ) . '::after{' . PHP_EOL . $cssAfterSettings . $css . '}' . PHP_EOL;
 									$afterCssOutput .= '}'. PHP_EOL;
 
-									if ($mediaCss === '') {
+									if ($tdcCssProcessed === '') {
 										$tdcCssProcessed .= '.' . $this->get_att('tdc_css_class') . '{position:relative}' . PHP_EOL;
 									}
 								}
 							}
-
-							$cssOutput .= '}'. PHP_EOL;
 						}
 					}
 				}
