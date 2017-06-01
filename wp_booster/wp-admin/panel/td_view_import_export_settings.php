@@ -30,9 +30,16 @@ if(!empty($_REQUEST['action_import']) && $_REQUEST['action_import'] == 'import_t
 
 
     if (!empty($_POST['td_update_theme_options']['tds_update_theme_options'])) {
-        if (update_option(TD_THEME_OPTIONS_NAME, @unserialize(@base64_decode($_POST['td_update_theme_options']['tds_update_theme_options'])))) {
-            $show_update_msg = 1;
+        $theme_settings = @unserialize(@base64_decode($_POST['td_update_theme_options']['tds_update_theme_options']));
+        if (is_array($theme_settings)) {
+            if (update_option(TD_THEME_OPTIONS_NAME, $theme_settings)) {
+                $show_update_msg = 1;
+            }
+        } else {
+            //imported data is invalid
+            $show_update_msg = 3;
         }
+
     }
 }
 
@@ -237,4 +244,5 @@ if(!empty($_REQUEST['action_reset']) && $_REQUEST['action_reset'] == 'reset_them
 </div>
 <?php if($show_update_msg == 1){?><script type="text/javascript">alert('Import is done!');</script><?php }?>
 <?php if($show_update_msg == 2){?><script type="text/javascript">alert('Theme settings reset completed!');</script><?php }?>
+<?php if($show_update_msg == 3){?><script type="text/javascript">alert('Imported data is invalid. Failed to update the theme settings!');</script><?php }?>
 <br><br><br><br><br><br><br>
