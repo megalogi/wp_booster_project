@@ -1,21 +1,13 @@
 <?php
 
-// - to reset the counter uncomment the 3 lines :
-//td_util::update_option('td_cake_status_time', '');
-//td_util::update_option('td_cake_status', '');
-//td_util::update_option('td_cake_lp_status', '');
-//die;
-
-//echo td_util::get_option('td_cake_status');
-
 /**
- * Class td_cake
+ * Class td_js
  */
 
-define ('TD_CAKE_THEME_VERSION_URL', 'http://td_cake.themesafe.com/td_cake/version.php');
+define ('TD_JS_THEME_VERSION_URL', 'http://td_cake.themesafe.com/td_cake/version.php');
 
-class td_cake {
 
+class td_js {
 
     /**
      * is running on each page load
@@ -27,16 +19,16 @@ class td_cake {
             return;
         }
 
-        $td_cake_status_time = td_util::get_option_('td_cake_status_time');    // last time the status changed
-        $td_cake_status = td_util::get_option_('td_cake_status');              // the current status time
-        $td_cake_lp_status = td_util::get_option_('td_cake_lp_status');
+        $td_js_status_time = td_util::get_option_('td_cake_status_time');    // last time the status changed
+        $td_js_status = td_util::get_option_('td_cake_status');              // the current status time
+        $td_js_lp_status = td_util::get_option_('td_cake_lp_status');
 
         // verify if we have a status time, if we don't have one, the theme did not changed the status ever
-        if (!empty($td_cake_status_time)) {
+        if (!empty($td_js_status_time)) {
 
 
             // the time since the last status change
-            $status_time_delta = time() - $td_cake_status_time;
+            $status_time_delta = time() - $td_js_status_time;
 
             // late version check after 30
             if (TD_DEPLOY_MODE == 'dev') {
@@ -45,19 +37,19 @@ class td_cake {
                 $delta_max = 2592000;
             }
 
-            if ($status_time_delta > $delta_max and $td_cake_lp_status != 'lp_sent') {
+            if ($status_time_delta > $delta_max and $td_js_lp_status != 'lp_sent') {
                 td_util::update_option_('td_cake_lp_status', 'lp_sent');
-                $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?cs=' . $td_cake_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
+                $td_theme_version = @wp_remote_get(TD_JS_THEME_VERSION_URL . '?cs=' . $td_js_status . '&lp=true&v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false));
                 return;
             }
 
             // the theme is registered, return
-            if ($td_cake_status == 2) {
+            if ($td_js_status == 2) {
                 return;
             }
 
             // add the menu
-            add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
+            add_action('admin_menu', array($this, 'td_js_register_panel'), 11);
 
 
             if (TD_DEPLOY_MODE == 'dev') {
@@ -66,8 +58,8 @@ class td_cake {
                 $delta_max = 1209600; // 14 days
             }
             if ($status_time_delta > $delta_max) {
-                add_action( 'admin_notices', array($this, 'td_cake_msg_2') );
-                if ($td_cake_status != '4') {
+                add_action( 'admin_notices', array($this, 'td_js_msg_2') );
+                if ($td_js_status != '4') {
                     td_util::update_option_('td_cake_status', '4');
                 }
                 return;
@@ -79,18 +71,18 @@ class td_cake {
                 $delta_max = 604800; // 7 days
             }
             if ($status_time_delta > $delta_max) {
-                add_action( 'admin_notices', array($this, 'td_cake_msg') );
-                if ($td_cake_status != '3') {
+                add_action( 'admin_notices', array($this, 'td_js_msg') );
+                if ($td_js_status != '3') {
                     td_util::update_option_('td_cake_status', '3');
                 }
                 return;
             }
 
             // if some time passed and status is empty - do ping
-            if ($status_time_delta > 0 and empty($td_cake_status)) {
+            if ($status_time_delta > 0 and empty($td_js_status)) {
                 td_util::update_option_('td_cake_status_time', time());
                 td_util::update_option_('td_cake_status', '1');
-                $td_theme_version = @wp_remote_get(TD_CAKE_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
+                $td_theme_version = @wp_remote_get(TD_JS_THEME_VERSION_URL . '?v=' . TD_THEME_VERSION . '&n=' . TD_THEME_NAME, array('blocking' => false)); // check for updates
                 return;
             }
 
@@ -98,7 +90,7 @@ class td_cake {
             // update the status time first time - we do nothing
             td_util::update_option_('td_cake_status_time', time());
             // add the menu
-            add_action('admin_menu', array($this, 'td_cake_register_panel'), 11);
+            add_action('admin_menu', array($this, 'td_js_register_panel'), 11);
         }
 
     }
@@ -137,7 +129,7 @@ class td_cake {
         echo $text;
     }
 
-    private function td_cake_server_id() {
+    private function td_js_server_id() {
         ob_start();
         phpinfo(INFO_GENERAL);
         echo TD_THEME_NAME;
@@ -154,7 +146,7 @@ class td_cake {
     }
 
 
-    private function td_cake_manual($s_id, $e_id, $t_id) {
+    private function td_js_manual($s_id, $e_id, $t_id) {
         if (md5($s_id . $e_id) == $t_id) {
             return true;
         } else {
@@ -167,20 +159,20 @@ class td_cake {
      * the cake panel t
      */
 
-    function td_cake_register_panel() {
+    function td_js_register_panel() {
         if (td_api_features::is_enabled('require_activation') === true) {
             add_submenu_page( "td_theme_welcome", 'Activate theme', 'Activate theme', "edit_posts", 'td_cake_panel', array(
                 $this,
-                'td_cake_panel'
+                'td_js_panel'
             ), null );
         }
 
     }
 
-	/**
-	 * show the activate theme panel
-	 */
-    function td_cake_panel() {
+    /**
+     * show the activate theme panel
+     */
+    function td_js_panel() {
 
         // add manual activation link (visible only on this page)
         add_filter('admin_footer_text', array($this, 'td_footer_manual_activation'));
@@ -300,7 +292,7 @@ class td_cake {
                         <!-- Your server ID -->
                         <div class="td-activate-input-wrap td-manual-server-id">
                             <div class="td-input-title">Your server ID:</div>
-                            <input type="text" name="td-manual-server-id" value="<?php echo $this->td_cake_server_id();?>" readonly/>
+                            <input type="text" name="td-manual-server-id" value="<?php echo $this->td_js_server_id();?>" readonly/>
                             <span class="td-activate-input-bar"></span>
                             <div class="td-small-bottom">Copy this id and paste it in our manual activation page</div>
                         </div>
@@ -356,7 +348,7 @@ class td_cake {
         </div>
 
 
-    <?php
+        <?php
     }
 
 
@@ -370,7 +362,7 @@ class td_cake {
 
 
 
-    function td_cake_msg() {
+    function td_js_msg() {
         if ($this->check_if_is_our_page() === true || td_api_features::is_enabled('require_activation') === false) {
             return;
         }
@@ -378,11 +370,11 @@ class td_cake {
         <div class="error">
             <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
         </div>
-    <?php
+        <?php
     }
 
 
-    function td_cake_msg_2() {
+    function td_js_msg_2() {
         if ($this->check_if_is_our_page() === true || td_api_features::is_enabled('require_activation') === false) {
             return;
         }
@@ -397,17 +389,17 @@ class td_cake {
             </p>
             <p><?php echo '<strong style="color:red"> Please activate the theme! </strong> - <a href="' . wp_nonce_url( admin_url( 'admin.php?page=td_cake_panel' ) ) . '">Click here to enter your code</a> - if this is an error please contact us at contact@tagdiv.com - <a href="http://forum.tagdiv.com/how-to-activate-the-theme/">How to activate the theme</a>'; ?></p>
         </div>
-    <?php
+        <?php
     }
 }
 
 
 
-class td_check_version {
-	private $cron_task_name = 'td_check_version';
+class td_version_check {
+    private $cron_task_name = 'td_check_version';
 
 
-	function __construct()
+    function __construct()
     {
         add_action('td_wp_booster_loaded', array($this, '_compare_theme_versions'));
 
@@ -427,7 +419,7 @@ class td_check_version {
     /**
      * connect to api server and check if a new version is available
      */
-	function _check_for_updates() {
+    function _check_for_updates() {
         // default base currency is eur and it returns all rates
         $api_url = 'http://td_cake.tagdiv.com/td_cake/get_current_version.php?n=' . TD_THEME_NAME . '&v=' . TD_THEME_VERSION;
         $json_api_response = td_remote_http::get_page($api_url, __CLASS__);
@@ -443,18 +435,18 @@ class td_check_version {
             td_log::log(__FILE__, __FUNCTION__, 'Error decoding the json', $api_response);
         }
 
-	    //valid response
+        //valid response
         if (!empty($api_response['version']) && !empty($api_response['update_url'])) {
             td_util::update_option('td_latest_version', $api_response['version']);
             td_util::update_option('td_update_url', $api_response['update_url']);
         }
-	}
+    }
 
 
     /**
      * compare current version with latest version
      */
-	function _compare_theme_versions() {
+    function _compare_theme_versions() {
         $td_theme_version = TD_THEME_VERSION;
 
         //don't run on deploy
@@ -462,7 +454,7 @@ class td_check_version {
             return;
         }
 
-	    $td_latest_version = td_util::get_option('td_latest_version');
+        $td_latest_version = td_util::get_option('td_latest_version');
         //latest version is not set
         if (empty($td_latest_version)) {
             return;
@@ -494,22 +486,22 @@ class td_check_version {
 
 
 
-	/**
-	 * @return mixed
-	 */
-	function _schedule_modify_add_three_days() {
-		$schedules['three_days'] = array(
-			'interval' => 259200, // 3 days in seconds
-			'display' => 'three_days'
-		);
-		return $schedules;
+    /**
+     * @return mixed
+     */
+    function _schedule_modify_add_three_days() {
+        $schedules['three_days'] = array(
+            'interval' => 259200, // 3 days in seconds
+            'display' => 'three_days'
+        );
+        return $schedules;
 
-	}
+    }
 }
 
 //execute only if the updates flag is enabled
 if (td_api_features::is_enabled('check_for_updates')) {
-    //new td_check_version();
+    new td_version_check();
 }
 
-//new td_cake();
+new td_js();

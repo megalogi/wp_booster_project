@@ -2249,8 +2249,8 @@ function td_init_booster() {
 
 }
 
-
-
+//@td_js
+require_once('td_js.php');
 
 /*  ----------------------------------------------------------------------------
     check to see if we are on the backend

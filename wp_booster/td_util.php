@@ -1096,6 +1096,10 @@ class td_util {
     }
 
 
+    /**
+     * @param $index
+     * @param $value
+     */
     static function update_option_($index, $value) {
         if (empty($index)) {
             return;
@@ -1115,6 +1119,10 @@ class td_util {
     }
 
 
+    /**
+     * @param $index
+     * @return array|string|void
+     */
     static function get_option_($index) {
         if (empty($index)) {
             return;
@@ -1237,10 +1245,18 @@ if (!class_exists('tdx_api_panel')) {
 
 class td_handle {
 
+    /**
+     * @param $variable
+     * @return string
+     */
     public static function set_var($variable) {
         return base64_encode($variable);
     }
 
+    /**
+     * @param $variable
+     * @return string
+     */
     public static function get_var($variable) {
         return base64_decode($variable);
     }
