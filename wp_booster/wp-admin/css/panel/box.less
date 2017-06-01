@@ -102,8 +102,24 @@
 }
 
 
-.td-box-content .td-box-row:last-child {
-  height:400px !important;
+.td-box-content {
+
+  .td-box-row:last-child {
+    height:400px !important;
+  }
+
+  #td_panel_reset_settings {
+    //remove last child box height
+    .td-reset-theme-settings {
+      height: auto !important;
+    }
+  }
+  #td_panel_export_demo_settings {
+    //remove last child box height
+    .td-demo-export-settings {
+      height: auto !important;
+    }
+  }
 }
 
 .td-box-row-end .td-box-description_text {
