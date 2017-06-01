@@ -1601,6 +1601,12 @@ title one row controls
 .td-box-content .td-box-row:last-child {
   height: 400px !important;
 }
+.td-box-content #td_panel_reset_settings .td-reset-theme-settings {
+  height: auto !important;
+}
+.td-box-content #td_panel_export_demo_settings .td-demo-export-settings {
+  height: auto !important;
+}
 .td-box-row-end .td-box-description_text {
   padding-bottom: 15px;
 }
