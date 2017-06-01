@@ -127,7 +127,7 @@ if(!empty($_REQUEST['action_export_demo']) && $_REQUEST['action_export_demo'] ==
 	                </li>
 	            </ul>
 	        </div>
-	        <div id="td-col-right" class="td-panel-content" style="min-height: 900px">
+	        <div id="td-col-right" class="td-panel-content">
 
             <div id="td-panel-welcome" class="td-panel-active td-panel">
 
