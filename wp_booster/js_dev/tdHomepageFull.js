@@ -31,6 +31,37 @@ var tdHomepageFull = {};
                 return;
             }
 
+            switch ( item.theme_name ) {
+                case 'Newsmag': tdHomepageFull._addNewsmagItem( item );
+                    break;
+                default:
+                    tdHomepageFull._addItem( item );
+                    break;
+            }
+        },
+
+
+        deleteItem: function( blockUid ) {
+
+            for (var i = 0; i < tdHomepageFull.items.length; i++) {
+
+                var currentItem = tdHomepageFull.items[ i ];
+
+                if ( currentItem.blockUid === blockUid ) {
+
+                    switch ( currentItem.theme_name ) {
+                        case 'Newsmag': tdHomepageFull._deleteNewsmagItem( currentItem, i );
+                            break;
+                        default:
+                            tdHomepageFull._deleteItem( currentItem, i );
+                            break;
+                    }
+                }
+            }
+            return false;
+        },
+
+        _addItem: function( item ) {
             // The block template script
             item.$tmplBlock = jQuery( '#' + item.blockUid + '_tmpl' );
 
@@ -46,10 +77,10 @@ var tdHomepageFull = {};
             jQuery( 'body' ).prepend( td_homepage_full_bg_image_wrapper );
 
             // run the backstracher
-            var td_backstr_item = new tdBackstr.item();
-            td_backstr_item.wrapper_image_jquery_obj = td_homepage_full_bg_image_wrapper;
-            td_backstr_item.image_jquery_obj = td_homepage_full_bg_image;
-            tdBackstr.add_item( td_backstr_item );
+            var tdBackstrItem = new tdBackstr.item();
+            tdBackstrItem.wrapper_image_jquery_obj = td_homepage_full_bg_image_wrapper;
+            tdBackstrItem.image_jquery_obj = td_homepage_full_bg_image;
+            tdBackstr.add_item( tdBackstrItem );
 
 
             // The DOM article reference (article has already been inserted)
@@ -59,46 +90,103 @@ var tdHomepageFull = {};
             item.$bgImageWrapper = td_homepage_full_bg_image_wrapper;
 
             // The backstretch item
-            item.backstrItem = td_backstr_item;
+            item.backstrItem = tdBackstrItem;
+
+            tdHomepageFull.items.push( item );
+        },
+
+        _addNewsmagItem: function( item ) {
+
+            /// The block template script
+            item.$tmplBlock = jQuery( '#' + item.blockUid + '_tmpl' );
+
+            jQuery('body').addClass('single_template_6'); // add single_template_6 to space the content
+            jQuery('#td-outer-wrap').prepend( item.$tmplBlock.html());
+
+            //'jQuery(\'body\').prepend(\'<div class="td-full-screen-header-image-wrap"><div id="td-full-screen-header-image" class="td-image-gradient"></div></div>\');' . "\r\n" .
+
+            var td_homepage_full_bg_image_wrapper1 = jQuery('<div class="td-full-screen-header-image-wrap"></div>');
+            var td_homepage_full_bg_image_wrapper2 = jQuery('<div id="td-full-screen-header-image" class="td-image-gradient"></div>');
+            var td_homepage_full_bg_image = jQuery('<img class="td-backstretch" src="' + item.postFeaturedImage + '"/>');
+
+            td_homepage_full_bg_image_wrapper1.append(td_homepage_full_bg_image_wrapper2);
+            td_homepage_full_bg_image_wrapper2.append(td_homepage_full_bg_image);
+
+            // add to body
+            jQuery('#td-outer-wrap').prepend(td_homepage_full_bg_image_wrapper1);
+
+            // The background image
+            item.$bgImageWrapper = td_homepage_full_bg_image_wrapper1;
+
+            // run the backstracher
+            var tdBackstrItem = new tdBackstr.item();
+            tdBackstrItem.wrapper_image_jquery_obj = td_homepage_full_bg_image_wrapper1;
+            tdBackstrItem.image_jquery_obj = td_homepage_full_bg_image;
+
+            tdBackstr.add_item(tdBackstrItem);
+
+            // The backstretch item
+            item.backstrItem = tdBackstrItem;
+
+            jQuery('.td-read-down a').click(function(event){
+                event.preventDefault();
+                tdUtil.scrollToPosition(jQuery('.td-full-screen-header-image-wrap').height(), 1200);
+            });
 
             tdHomepageFull.items.push( item );
         },
 
 
-        deleteItem: function( blockUid ) {
+        _deleteItem: function( item, index ) {
 
-            for (var i = 0; i < tdHomepageFull.items.length; i++) {
+            // Remove the block template script
+            item.$tmplBlock.remove();
 
-                var currentItem = tdHomepageFull.items[ i ];
+            // Remove the article
+            item.$article.remove();
 
-                if ( currentItem.blockUid === blockUid ) {
+            // Remove the background image
+            item.$bgImageWrapper.remove();
 
-                    // Remove the block template script
-                    currentItem.$tmplBlock.remove();
+            tdHomepageFull.items.splice(index, 1); // remove the item from the "array"
 
-                    // Remove the article
-                    currentItem.$article.remove();
+            if ( tdBackstr.deleteItem( item.blockUid ) ) {
 
-                    // Remove the backgroun image
-                    currentItem.$bgImageWrapper.remove();
-
-                    tdHomepageFull.items.splice(i, 1); // remove the item from the "array"
-
-                    if ( tdBackstr.deleteItem( blockUid ) ) {
-
-                        item.backstrItem = undefined;
-                    }
-
-                    var existingClassName = document.body.className;
-
-                    existingClassName = existingClassName.replace(/td-boxed-layout/g, '');
-                    existingClassName = existingClassName.replace(/single_template_8/g, '');
-                    existingClassName = existingClassName.replace(/homepage-post/g, '');
-
-                    document.body.className = existingClassName;
-                }
+                item.backstrItem = undefined;
             }
-            return false;
+
+            var existingClassName = document.body.className;
+
+            existingClassName = existingClassName.replace(/td-boxed-layout/g, '');
+            existingClassName = existingClassName.replace(/single_template_8/g, '');
+            existingClassName = existingClassName.replace(/homepage-post/g, '');
+
+            document.body.className = existingClassName;
+        },
+
+        _deleteNewsmagItem: function(item, index) {
+
+            // Remove the block template script
+            item.$tmplBlock.remove();
+
+            // Remove the article
+            //item.$article.remove();
+
+            // Remove the background image
+            item.$bgImageWrapper.remove();
+
+            tdHomepageFull.items.splice(index, 1); // remove the item from the "array"
+
+            if ( tdBackstr.deleteItem( item.blockUid ) ) {
+
+                item.backstrItem = undefined;
+            }
+
+            var existingClassName = document.body.className;
+
+            existingClassName = existingClassName.replace(/single_template_6/g, '');
+
+            document.body.className = existingClassName;
         }
     };
 
