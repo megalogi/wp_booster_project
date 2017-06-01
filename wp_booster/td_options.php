@@ -14,7 +14,7 @@ class td_options {
 	/**
 	 * @var null keep a local copy of all the settings
 	 */
-	static $td_options = array();
+	static $td_options = NULL;
 
 
 	/**
@@ -137,7 +137,7 @@ class td_options {
 	 */
 	static private function read_from_db() {
 		if (is_null(self::$td_options)) {
-			self::$td_options = get_option(TD_THEME_OPTIONS_NAME, array());
+			self::$td_options = get_option(TD_THEME_OPTIONS_NAME);
 		}
 	}
 
