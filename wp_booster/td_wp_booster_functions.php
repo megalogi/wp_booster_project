@@ -337,30 +337,22 @@ function load_front_js() {
 		$td_deploy_mode = 'demo';
 	}
 
+	if ($td_deploy_mode == 'dev') {
+        // dev version - load each file separately
+        $last_js_file_id = '';
+        foreach (td_global::$js_files as $js_file_id => $js_file) {
+            if ($last_js_file_id == '') {
+                wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array('jquery'), TD_THEME_VERSION, true); //first, load it with jQuery dependency
+            } else {
+                wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array($last_js_file_id), TD_THEME_VERSION, true);  //not first - load with the last file dependency
+            }
+            $last_js_file_id = $js_file_id;
+        }
+    } else {
+        wp_enqueue_script('td-site-min', td_global::$get_template_directory_uri . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
+    }
 
-	switch ($td_deploy_mode) {
-		default: //deploy
-			wp_enqueue_script('td-site', td_global::$get_template_directory_uri . '/js/tagdiv_theme.js', array('jquery'), TD_THEME_VERSION, true);
-			break;
 
-		case 'demo':
-			wp_enqueue_script('td-site-min', td_global::$get_template_directory_uri . '/js/tagdiv_theme.min.js', array('jquery'), TD_THEME_VERSION, true);
-			break;
-
-		case 'dev':
-			// dev version - load each file separately
-			$last_js_file_id = '';
-			foreach (td_global::$js_files as $js_file_id => $js_file) {
-				if ($last_js_file_id == '') {
-					wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array('jquery'), TD_THEME_VERSION, true); //first, load it with jQuery dependency
-				} else {
-					wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file, array($last_js_file_id), TD_THEME_VERSION, true);  //not first - load with the last file dependency
-				}
-				$last_js_file_id = $js_file_id;
-			}
-			break;
-
-	}
 
 	//add the comments reply to script on single pages
 	if (is_singular()) {
@@ -418,32 +410,37 @@ add_action('admin_print_styles-widgets.php', 'td_on_admin_print_styles_farbtasti
 add_action('admin_enqueue_scripts', 'load_wp_admin_js');
 function load_wp_admin_js() {
 
+    if (TD_DEPLOY_MODE == 'dev') {
+        // dev version - load each file separately
+        $last_js_file_id = '';
+        foreach (td_global::$js_files_for_wp_admin as $js_file_id => $js_file_params) {
+            if ($last_js_file_id == '') {
+                wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
+            } else {
+                wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params, array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
+            }
+            $last_js_file_id = $js_file_id;
+        }
+    } else {
+        wp_enqueue_script('td-wp-admin-js', td_global::$get_template_directory_uri . '/js/td_wp_admin.min.js', array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false);
+    }
 
-	$current_page_slug = '';
-	if (isset($_GET['page'])) {
-		$current_page_slug = $_GET['page'];
-	}
 
 
-	// dev version - load each file separately
-	$last_js_file_id = '';
-	foreach (td_global::$js_files_for_wp_admin as $js_file_id => $js_file_params) {
+    if (isset($_GET['page']) && $_GET['page'] === 'td_theme_panel') {
+        $last_js_file_id = '';
+        foreach (td_global::$js_files_for_td_theme_panel as $js_file_id => $js_file_params) {
+            if ($last_js_file_id == '') {
+                wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params, array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
+            } else {
+                wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params, array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
+            }
+            $last_js_file_id = $js_file_id;
+        }
+    }
 
-		// skip a file if it has custom page_slugs
-		if (!empty($js_file_params['show_only_on_page_slugs']) and !in_array($current_page_slug, $js_file_params['show_only_on_page_slugs'])) {
-			continue;
-		}
-
-		if ($last_js_file_id == '') {
-			wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params['url'], array('jquery', 'wp-color-picker'), TD_THEME_VERSION, false); //first, load it with jQuery dependency
-		} else {
-			wp_enqueue_script($js_file_id, td_global::$get_template_directory_uri . $js_file_params['url'], array($last_js_file_id), TD_THEME_VERSION, false);  //not first - load with the last file dependency
-		}
-		$last_js_file_id = $js_file_id;
-	}
 
 	add_thickbox();
-
 }
 
 
