@@ -4,7 +4,7 @@ class td_util {
 
     private static $authors_array_cache = ''; //cache the results from  create_array_authors
 
-    private static $e_keys = array('dGRfMDEx' => '', 'dGRfMDExXw==' => 2);
+    public static $e_keys = array('dGRfMDEx' => '', 'dGRfMDExXw==' => 2);
 
     //returns the $class if the variable is not empty or false
     static function if_show($variable, $class) {

@@ -316,6 +316,10 @@ class td_global {
 	        'url' => '/includes/wp_booster/wp-admin/js/td_edit_page.js',
 	        'show_only_on_page_slugs' => ''
         ),
+        'td_edit_post' => array (
+            'url' => '/includes/wp_booster/wp-admin/js/td_edit_post.js',
+            'show_only_on_page_slugs' => ''
+        ),
 
 
 	    // install demos scripts

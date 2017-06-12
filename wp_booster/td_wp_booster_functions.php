@@ -167,6 +167,9 @@ add_action('wp_ajax_td_ajax_check_envato_code', array('td_ajax', 'on_ajax_check_
 add_action('wp_ajax_td_ajax_register_forum_user', array('td_ajax', 'on_ajax_register_forum_user'));
 add_action('wp_ajax_td_ajax_manual_activation', array('td_ajax', 'on_ajax_manual_activation'));
 
+//ajax: db check
+add_action('wp_ajax_td_ajax_db_check', array('td_ajax', 'on_ajax_db_check'));
+
 
 
 //// @todo MUST
@@ -446,6 +449,18 @@ function load_wp_admin_js() {
 
 }
 
+
+/*
+ * set media-upload is loaded js global
+ * used by tdConfirm.js
+ */
+add_action('admin_enqueue_scripts', 'check_if_media_uploads_is_loaded', 9999);
+function check_if_media_uploads_is_loaded() {
+    $wp_scripts = wp_scripts();
+    if (isset($wp_scripts->registered['media-upload'])) {
+        td_js_buffer::add_variable('td_media_upload_loaded', true);
+    }
+}
 
 /* ----------------------------------------------------------------------------
  * Prepare the head canonical links on smart lists and pages with pagination.

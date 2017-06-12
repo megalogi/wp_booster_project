@@ -78,7 +78,7 @@ var tdConfirm;
             tdConfirm._$confirmNo.unbind();
             tdConfirm._$confirmNo.remove();
 
-            //change Yes to OK
+            // Change Yes to OK
             tdConfirm._$confirmYes.html('Ok');
 
             //Yes callback
@@ -89,7 +89,9 @@ var tdConfirm;
                 });
             } else {
                 tdConfirm._$confirmYes.click( function() {
+                    tdConfirm._$confirmYes.off('click');
                     callbackYes.apply(objectContext);
+                    return true;
                 });
             }
 
@@ -97,11 +99,28 @@ var tdConfirm;
 
             tb_show( caption, url );
 
+            // Remove close on overlay container click
+            jQuery("#TB_overlay").off('click');
+
             var $TBWindow = jQuery( '#TB_window' );
 
-            $TBWindow.addClass( 'td-thickbox' );
+            // Remove close button
+            $TBWindow.find('#TB_closeWindowButton').remove();
 
-            $TBWindow.find('.tb-close-icon').hide();
+            //fix for post/page edit areas
+            if ('undefined' !== typeof td_media_upload_loaded && td_media_upload_loaded === true) {
+                var isIE6 = typeof document.body.style.maxHeight === "undefined";
+                $TBWindow.css({marginLeft: '-' + parseInt((TB_WIDTH / 2),10) + 'px', width: TB_WIDTH + 'px'});
+                if ( ! isIE6 ) { // take away IE6
+                    $TBWindow.css({marginTop: + parseInt((TB_HEIGHT / 2),10) + 'px'});
+                }
+
+                //display on top of other modals
+                $TBWindow.css('z-index', '170001');
+                jQuery("#TB_overlay").css('z-index', '170000');
+            }
+
+            $TBWindow.addClass( 'td-thickbox' );
 
             if (tdConfirm._$infoContent.height() > 400) {
                 $TBWindow.addClass( 'td-thickbox-fixed' );
