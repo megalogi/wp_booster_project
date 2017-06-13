@@ -15,7 +15,7 @@ var tdConfirm;
 
         _isInitialized: false,
 
-        mediaUploadLoaded: false,
+        mediaUploadLoaded: false, //set in td_wp_booster_functions.php
 
         _$content: undefined,
         _$confirmYes: undefined,
