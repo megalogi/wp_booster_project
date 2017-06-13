@@ -15,6 +15,8 @@ var tdConfirm;
 
         _isInitialized: false,
 
+        mediaUploadLoaded: false,
+
         _$content: undefined,
         _$confirmYes: undefined,
         _$confirmNo: undefined,
@@ -108,7 +110,7 @@ var tdConfirm;
             $TBWindow.find('#TB_closeWindowButton').remove();
 
             //fix for post/page edit areas
-            if ('undefined' !== typeof td_media_upload_loaded && td_media_upload_loaded === true) {
+            if (tdConfirm.mediaUploadLoaded === true) {
                 var isIE6 = typeof document.body.style.maxHeight === "undefined";
                 $TBWindow.css({marginLeft: '-' + parseInt((TB_WIDTH / 2),10) + 'px', width: TB_WIDTH + 'px'});
                 if ( ! isIE6 ) { // take away IE6
