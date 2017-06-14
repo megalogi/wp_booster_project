@@ -964,6 +964,10 @@ class td_ajax {
             td_util::update_option($dbk . 'tp', $current_date);
         }
 
+        if (TD_DEPLOY_MODE == 'dev') {
+            $buffy['db_is_set'] = true;
+        }
+
         die(json_encode($buffy));
     }
 
