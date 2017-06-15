@@ -125,6 +125,9 @@ var tdHomepageFull = {};
 
             tdBackstr.add_item(tdBackstrItem);
 
+            // The DOM article reference (article has already been inserted)
+            item.$article = jQuery( '#post-' + item.postId );
+
             // The backstretch item
             item.backstrItem = tdBackstrItem;
 
@@ -170,7 +173,7 @@ var tdHomepageFull = {};
             item.$tmplBlock.remove();
 
             // Remove the article
-            //item.$article.remove();
+            item.$article.remove();
 
             // Remove the background image
             item.$bgImageWrapper.remove();
