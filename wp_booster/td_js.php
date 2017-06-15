@@ -284,7 +284,7 @@ class td_js {
                             <ol>
                                 <li>Go to our <a href="http://tagdiv.com/td_cake/manual.php" target="_blank">manual activation page</a></li>
                                 <li>Paste your <em>Server ID</em> there and the <a href="http://forum.tagdiv.com/how-to-find-your-envato-purchase-code/" target="_blank">Envato purchase code</a></li>
-                                <li>Return with the <a href="http://forum.tagdiv.com/wp-content/uploads/2014/09/2014-09-09_1458.png" target="_blank">activation key</a> and paste it in this form</li>
+                                <li>Return with the <a href="http://forum.tagdiv.com/wp-content/uploads/2017/06/activation_key.png" target="_blank">activation key</a> and paste it in this form</li>
                             </ol>
                         </div>
 

@@ -451,11 +451,14 @@ function load_wp_admin_js() {
  * set media-upload is loaded js global
  * used by tdConfirm.js
  */
-add_action('admin_enqueue_scripts', 'check_if_media_uploads_is_loaded', 9999);
+add_action('admin_print_footer_scripts', 'check_if_media_uploads_is_loaded', 9999);
 function check_if_media_uploads_is_loaded() {
     $wp_scripts = wp_scripts();
-    if (isset($wp_scripts->registered['media-upload'])) {
-        td_js_buffer::add_variable('td_media_upload_loaded', true);
+    $media_upload = $wp_scripts->query('media-upload', 'done');
+    if ($media_upload === true) {
+        //td_js_buffer::add_to_wp_admin_footer('var td_media_upload_loaded = true;');
+        //echo '<script>var td_media_upload_loaded = true;</script>';
+        echo '<script>tdConfirm.mediaUploadLoaded = true;</script>';
     }
 }
 

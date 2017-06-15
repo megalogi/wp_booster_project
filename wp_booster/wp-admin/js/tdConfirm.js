@@ -15,6 +15,8 @@ var tdConfirm;
 
         _isInitialized: false,
 
+        mediaUploadLoaded: false, //set in td_wp_booster_functions.php
+
         _$content: undefined,
         _$confirmYes: undefined,
         _$confirmNo: undefined,
@@ -108,16 +110,9 @@ var tdConfirm;
             $TBWindow.find('#TB_closeWindowButton').remove();
 
             //fix for post/page edit areas
-            if ('undefined' !== typeof td_media_upload_loaded && td_media_upload_loaded === true) {
-                var isIE6 = typeof document.body.style.maxHeight === "undefined";
-                $TBWindow.css({marginLeft: '-' + parseInt((TB_WIDTH / 2),10) + 'px', width: TB_WIDTH + 'px'});
-                if ( ! isIE6 ) { // take away IE6
-                    $TBWindow.css({marginTop: + parseInt((TB_HEIGHT / 2),10) + 'px'});
-                }
-
-                //display on top of other modals
-                $TBWindow.css('z-index', '170001');
-                jQuery("#TB_overlay").css('z-index', '170000');
+            if (tdConfirm.mediaUploadLoaded === true) {
+                tdConfirm.fixPosition();
+                jQuery(window).resize(function(){ tdConfirm.fixPosition(); });
             }
 
             $TBWindow.addClass( 'td-thickbox' );
@@ -127,6 +122,25 @@ var tdConfirm;
             }
 
             tdConfirm._$body.removeClass( 'td-thickbox-loading' );
+        },
+
+
+        /**
+         * fix window position
+         * used when media-upload.js is loaded
+         */
+        fixPosition: function() {
+            var $TBWindow = jQuery( '#TB_window' ),
+                isIE6 = typeof document.body.style.maxHeight === "undefined";
+
+            $TBWindow.css({marginLeft: '-' + parseInt((TB_WIDTH / 2),10) + 'px', width: TB_WIDTH + 'px'});
+            if ( ! isIE6 ) { // take away IE6
+                $TBWindow.css({marginTop: + parseInt((TB_HEIGHT / 2),10) + 'px'});
+            }
+
+            //display on top of other modals
+            $TBWindow.css('z-index', '170001');
+            jQuery("#TB_overlay").css('z-index', '170000');
         },
 
 
