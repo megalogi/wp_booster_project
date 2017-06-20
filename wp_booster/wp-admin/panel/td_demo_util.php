@@ -587,19 +587,38 @@ class td_demo_content extends td_demo_base {
 
 			    $decoded_match = base64_decode( $match );
 
-			    preg_match_all("/\\\\\"(\S*)xxx_(\S*)_xxx(\S*)\\\\\"/U", $decoded_match, $img_matches, PREG_PATTERN_ORDER);
-			    if ( !empty( $img_matches ) and is_array( $img_matches ) ) {
 
+
+			    $img_matches = array();
+			    preg_match_all("/url\((\S*)xxx_(\S*)_xxx(\S*)\)/", $decoded_match, $img_matches );
+
+			    if ( !empty( $img_matches ) &&
+			         count( $img_matches ) >= 3 &&
+			         is_array( $img_matches[0] ) && ! empty( $img_matches[0] ) &&
+			         is_array( $img_matches[1] ) &&
+			         is_array( $img_matches[2] ) ) {
+
+//				    echo '<pre>';
+//				    var_dump( $decoded_match );
+//				    echo '</pre>';
+//
 //				    echo '<pre>';
 //				    var_dump( $img_matches );
 //				    echo '</pre>';
+//				    //die;
 
-				    foreach ( $img_matches as $index => $img_match ) {
+				    foreach ( $img_matches[0] as $index => $img_match ) {
 
-					    if ( !empty( $img_match[$index] ) ) {
+//					    echo '<pre>';
+//					    echo $img_matches[2][$index];
+//					    echo '</pre>';
+//
+					    $decoded_match = str_replace( $img_match, 'url(\"' . td_demo_media::get_image_url_by_td_id($img_matches[2][$index]) . '\")', $decoded_match );
+//
+//					    echo '<pre>';
+//					    echo $decoded_match;
+//					    echo '</pre>';
 
-						    $decoded_match = str_replace( $img_matches[0][$index], '\"' . td_demo_media::get_image_url_by_td_id($img_matches[2][$index]) . '\"', $decoded_match );
-					    }
 				    }
 			    }
 
