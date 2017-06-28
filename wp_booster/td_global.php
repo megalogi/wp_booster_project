@@ -241,6 +241,7 @@ class td_global {
 
 
     static $is_woocommerce_installed = false; // at the end of this file we check if woo commerce is installed
+	static $is_bbpress_installed = false; // at the end of this file we check if bbpress is installed
 
 
     /**
@@ -549,6 +550,10 @@ if (is_plugin_active('woocommerce/woocommerce.php')) {
     td_global::$is_woocommerce_installed = true;
 }
 
+require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+if (is_plugin_active('bbpress/bbpress.php')) {
+	td_global::$is_bbpress_installed = true;
+}
 
 /**
  * td_global::$get_template_directory must be used instead of get_template_directory()

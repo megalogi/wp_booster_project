@@ -197,6 +197,7 @@ add_theme_support('post-formats', array('video'));
 add_theme_support('automatic-feed-links');
 add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption'));
 add_theme_support('woocommerce');
+add_theme_support('bbpress');
 
 
 /*
@@ -223,8 +224,12 @@ function load_front_css() {
 		wp_enqueue_style('td-theme', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=style.css_v2',  '', TD_THEME_VERSION, 'all' );
 
 		// load WooCommerce LESS only when needed
-		if (td_global::$is_woocommerce_installed === true && TD_THEME_NAME !== 'ionMag') {
+		if (td_global::$is_woocommerce_installed === true ) {
 			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=woocommerce', '', TD_THEME_VERSION, 'all');
+		}
+		// load Bbpress LESS only when needed
+		if (td_global::$is_bbpress_installed === true ) {
+			wp_enqueue_style('td-theme-bbpress', td_global::$get_template_directory_uri . '/td_less_style.css.php?part=bbpress', '', TD_THEME_VERSION, 'all');
 		}
 
 		if ($demo_id !== false and td_global::$demo_list[$demo_id]['uses_custom_style_css'] === true) {
@@ -234,8 +239,13 @@ function load_front_css() {
 		wp_enqueue_style('td-theme', get_stylesheet_uri(), '', TD_THEME_VERSION, 'all' );
 
 		// load the WooCommerce CSS only when needed
-		if (td_global::$is_woocommerce_installed === true && TD_THEME_NAME !== 'ionMag') {
+		if (td_global::$is_woocommerce_installed === true ) {
 			wp_enqueue_style('td-theme-woo', td_global::$get_template_directory_uri . '/style-woocommerce.css',  '', TD_THEME_VERSION, 'all' );
+		}
+
+		// load the Bbpress CSS only when needed
+		if (td_global::$is_bbpress_installed === true ) {
+			wp_enqueue_style('td-theme-bbpress', td_global::$get_template_directory_uri . '/style-bbpress.css',  '', TD_THEME_VERSION, 'all' );
 		}
 
 		// If we have a DEMO installed - load the demo CSS
