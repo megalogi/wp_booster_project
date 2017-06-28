@@ -294,6 +294,14 @@ class td_demo_misc extends td_demo_base {
     }
 
 
+    static function update_background_header($td_image_id) {
+        if ($td_image_id == '') {
+            td_util::update_option('tds_header_background_image', '');
+        }
+        td_util::update_option('tds_header_background_image', td_demo_media::get_image_url_by_td_id($td_image_id));
+    }
+
+
     static function update_background_footer($td_image_id) {
         if ($td_image_id == '') {
             td_util::update_option('tds_footer_background_image', '');
@@ -370,6 +378,7 @@ class td_demo_misc extends td_demo_base {
 
         //backgrounds
         td_util::update_option('tds_site_background_image', '');
+        td_util::update_option('tds_header_background_image', '');
         td_util::update_option('tds_mobile_background_image', '');
         td_util::update_option('tds_login_background_image', '');
         td_util::update_option('tds_footer_background_image', '');
