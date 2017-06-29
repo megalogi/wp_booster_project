@@ -410,6 +410,28 @@
 		</div>
 	</div>
 
+    <div class="td-box-section-separator"></div>
+
+    <?php if ('ionMag' == TD_THEME_NAME) { ?>
+        <!-- Social networks: enable disable -->
+        <div class="td-box-row">
+            <div class="td-box-description">
+                <span class="td-box-title">Show social icons</span>
+                <p>Enable / Disable social networks in main menu</p>
+            </div>
+            <div class="td-box-control-full">
+                <?php
+                echo td_panel_generator::checkbox(array(
+                    'ds' => 'td_option',
+                    'option_id' => 'td_social_networks_menu_show',
+                    'true_value' => 'show',
+                    'false_value' => ''
+                ));
+                ?>
+            </div>
+        </div>
+    <?php } ?>
+
 <?php echo td_panel_generator::box_end();?>
 
 
