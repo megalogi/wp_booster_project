@@ -45,7 +45,11 @@ class td_api_text {
 
 		// existing content documentation url
 		// *overwritten in 012
-		'panel_existing_content_url' => '<a href="http://forum.tagdiv.com/existing-content/" target="_blank">read more</a>'
+		'panel_existing_content_url' => '<a href="http://forum.tagdiv.com/existing-content/" target="_blank">read more</a>',
+
+		// excerpt settings panel theme modules and blocks docs link *overwritten in 012
+		'panel_excerpt_modules_blocks_docs_url' => '<a href="http://forum.tagdiv.com/theme-blocks-modules/" target="_blank">here</a>'
+
 	);
 
 
