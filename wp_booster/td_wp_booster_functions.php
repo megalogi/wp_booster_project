@@ -1667,6 +1667,13 @@ function td_gallery_shortcode($output = '', $atts, $content = false) {
 						$thumbnail_type = 'td_1021x580';
 						$thumbnail_width = '1021';
 						break;
+
+					case 'ionMag' :
+						$td_temp_image_url = wp_get_attachment_image_src($image_id, 'td_980x580');       //980x580 images - for big slide
+						//change image type and width - used to retrieve retina image
+						$thumbnail_type = 'td_980x580';
+						$thumbnail_width = '980';
+						break;
 				}
 			} else {
 				$td_temp_image_url = wp_get_attachment_image_src($image_id, 'td_0x420');       //0x420 image sizes - for big slide
