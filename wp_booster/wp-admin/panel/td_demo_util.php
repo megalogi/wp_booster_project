@@ -599,7 +599,7 @@ class td_demo_content extends td_demo_base {
 
 
 			    $img_matches = array();
-			    preg_match_all("/url\((\S*)xxx_(\S*)_xxx(\S*)\)/", $decoded_match, $img_matches );
+			    preg_match_all("/url\((\S*)xxx_(\S*)_xxx(\S*)\)/U", $decoded_match, $img_matches );
 
 			    if ( !empty( $img_matches ) &&
 			         count( $img_matches ) >= 3 &&
